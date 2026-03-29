@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Color Scheme Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Manrope', sans-serif; font-weight: 300; padding: 32px; background: #fafafa; }
+
+    .page-title { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 500; color: #999; text-align: center; margin-bottom: 32px; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 1400px; margin: 0 auto; }
+
+    .option {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid #e5e5e5; transition: box-shadow 0.3s;
+    }
+    .option:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+
+    /* Header label */
+    .opt-label {
+      font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 24px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* Nav preview */
+    .prev-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 24px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600;
+    }
+    .prev-nav-links { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 400; display: flex; gap: 16px; }
+
+    /* Hero */
+    .prev-hero { padding: 28px 24px; }
+    .prev-hero h2 { font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 500; line-height: 1.4; margin-bottom: 12px; }
+    .prev-hero p { font-size: 12px; line-height: 1.6; margin-bottom: 16px; }
+
+    /* Section */
+    .prev-section { padding: 20px 24px; border-radius: 12px; margin: 0 12px 12px; }
+    .prev-section h3 { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+
+    /* Card */
+    .prev-card { border-radius: 10px; overflow: hidden; margin-top: 12px; }
+    .prev-card-img { height: 64px; }
+    .prev-card-body { padding: 12px; }
+    .prev-card-body h4 { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+    .prev-card-body p { font-size: 11px; line-height: 1.5; }
+    .prev-card-link { font-size: 11px; margin-top: 6px; display: inline-block; }
+
+    /* CTA */
+    .prev-cta { margin: 12px; padding: 20px 24px; border-radius: 12px; }
+    .prev-cta h3 { font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .prev-cta p { font-size: 11px; margin-bottom: 12px; }
+    .prev-cta-btn { display: inline-block; padding: 6px 18px; border-radius: 100px; font-size: 11px; font-family: 'Manrope', sans-serif; }
+
+    /* Footer */
+    .prev-footer { padding: 16px 24px; font-size: 11px; }
+
+    /* Swatches */
+    .swatches { display: flex; gap: 6px; padding: 12px 24px; flex-wrap: wrap; }
+    .swatch { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
+    .swatch-label { font-size: 9px; color: #999; margin-top: 2px; text-align: center; }
+
+    /* ── Option A: Powder Blue (soft, airy, pastel) ── */
+    .opt-a .opt-label { background: #fff; color: #2a2a2a; }
+    .opt-a .prev-nav { background: #fff; color: #2a2a2a; }
+    .opt-a .prev-nav-links { color: #888; }
+    .opt-a .prev-hero { background: #fff; color: #2a2a2a; }
+    .opt-a .prev-hero p { color: #666; }
+    .opt-a .prev-section { background: #f0f6fa; }
+    .opt-a .prev-section h3 { color: #2a2a2a; }
+    .opt-a .prev-card { background: #fff; border: 1px solid #d8e8f2; }
+    .opt-a .prev-card-img { background: linear-gradient(135deg, #e1f0fa, #90caf9); }
+    .opt-a .prev-card-body h4 { color: #2a2a2a; }
+    .opt-a .prev-card-body p { color: #777; }
+    .opt-a .prev-card-link { color: #5a9ec9; }
+    .opt-a .prev-cta { background: #2a2a2a; color: #fff; }
+    .opt-a .prev-cta p { color: #bbb; }
+    .opt-a .prev-cta-btn { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+    .opt-a .prev-footer { background: #2a2a2a; color: #aaa; }
+
+    /* ── Option B: Periwinkle (blue-violet, whimsical) ── */
+    .opt-b .opt-label { background: #fff; color: #2a2a2a; }
+    .opt-b .prev-nav { background: #fff; color: #2a2a2a; }
+    .opt-b .prev-nav-links { color: #888; }
+    .opt-b .prev-hero { background: #fff; color: #2a2a2a; }
+    .opt-b .prev-hero p { color: #666; }
+    .opt-b .prev-section { background: #f1f1f9; }
+    .opt-b .prev-section h3 { color: #2a2a2a; }
+    .opt-b .prev-card { background: #fff; border: 1px solid #dddaf0; }
+    .opt-b .prev-card-img { background: linear-gradient(135deg, #e8e6f8, #b3b5e6); }
+    .opt-b .prev-card-body h4 { color: #2a2a2a; }
+    .opt-b .prev-card-body p { color: #777; }
+    .opt-b .prev-card-link { color: #7b7fc4; }
+    .opt-b .prev-cta { background: #2a2a2a; color: #fff; }
+    .opt-b .prev-cta p { color: #bbb; }
+    .opt-b .prev-cta-btn { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+    .opt-b .prev-footer { background: #2a2a2a; color: #aaa; }
+
+    /* ── Option C: Slate Blue (muted, sophisticated, Japandi) ── */
+    .opt-c .opt-label { background: #fff; color: #2a2a2a; }
+    .opt-c .prev-nav { background: #fff; color: #2a2a2a; }
+    .opt-c .prev-nav-links { color: #888; }
+    .opt-c .prev-hero { background: #fff; color: #2a2a2a; }
+    .opt-c .prev-hero p { color: #666; }
+    .opt-c .prev-section { background: #f0f2f5; }
+    .opt-c .prev-section h3 { color: #2a2a2a; }
+    .opt-c .prev-card { background: #fff; border: 1px solid #d4dce6; }
+    .opt-c .prev-card-img { background: linear-gradient(135deg, #dce4ee, #a3b8d0); }
+    .opt-c .prev-card-body h4 { color: #2a2a2a; }
+    .opt-c .prev-card-body p { color: #777; }
+    .opt-c .prev-card-link { color: #6b89aa; }
+    .opt-c .prev-cta { background: #2a2a2a; color: #fff; }
+    .opt-c .prev-cta p { color: #bbb; }
+    .opt-c .prev-cta-btn { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+    .opt-c .prev-footer { background: #2a2a2a; color: #aaa; }
+  </style>
+</head>
+<body>
+  <p class="page-title">Blue palettes — all keep white + black as the base. Which vibe?</p>
+
+  <div class="grid">
+
+    <!-- Option A: Powder Blue -->
+    <div class="option opt-a">
+      <div class="opt-label">A &mdash; Powder Blue</div>
+      <div class="swatches">
+        <div><div class="swatch" style="background:#fff"></div><div class="swatch-label">bg</div></div>
+        <div><div class="swatch" style="background:#f0f6fa"></div><div class="swatch-label">section</div></div>
+        <div><div class="swatch" style="background:#90caf9"></div><div class="swatch-label">accent</div></div>
+        <div><div class="swatch" style="background:#5a9ec9"></div><div class="swatch-label">link</div></div>
+        <div><div class="swatch" style="background:#2a2a2a"></div><div class="swatch-label">text</div></div>
+      </div>
+      <div class="prev-nav">
+        Ruby Qian
+        <div class="prev-nav-links"><span>Projects</span> <span>Fun</span> <span>About</span></div>
+      </div>
+      <div class="prev-hero">
+        <h2>Hallo! I'm Ruby Qian, a product designer in NYC.</h2>
+        <p>I am inspired by intuitive and creative designs.</p>
+      </div>
+      <div class="prev-section">
+        <h3>Projects</h3>
+        <div class="prev-card">
+          <div class="prev-card-img"></div>
+          <div class="prev-card-body">
+            <h4>Yammii Online Order Revamp</h4>
+            <p>Simplifying mobile order flow.</p>
+            <span class="prev-card-link">See the project &rarr;</span>
+          </div>
+        </div>
+      </div>
+      <div class="prev-cta">
+        <h3>Connect with me!</h3>
+        <p>Let's talk projects &amp; design.</p>
+        <span class="prev-cta-btn">Email</span>
+      </div>
+      <div class="prev-footer">Soft &middot; airy &middot; pastel &middot; cotton candy sky</div>
+    </div>
+
+    <!-- Option B: Periwinkle -->
+    <div class="option opt-b">
+      <div class="opt-label">B &mdash; Periwinkle</div>
+      <div class="swatches">
+        <div><div class="swatch" style="background:#fff"></div><div class="swatch-label">bg</div></div>
+        <div><div class="swatch" style="background:#f1f1f9"></div><div class="swatch-label">section</div></div>
+        <div><div class="swatch" style="background:#b3b5e6"></div><div class="swatch-label">accent</div></div>
+        <div><div class="swatch" style="background:#7b7fc4"></div><div class="swatch-label">link</div></div>
+        <div><div class="swatch" style="background:#2a2a2a"></div><div class="swatch-label">text</div></div>
+      </div>
+      <div class="prev-nav">
+        Ruby Qian
+        <div class="prev-nav-links"><span>Projects</span> <span>Fun</span> <span>About</span></div>
+      </div>
+      <div class="prev-hero">
+        <h2>Hallo! I'm Ruby Qian, a product designer in NYC.</h2>
+        <p>I am inspired by intuitive and creative designs.</p>
+      </div>
+      <div class="prev-section">
+        <h3>Projects</h3>
+        <div class="prev-card">
+          <div class="prev-card-img"></div>
+          <div class="prev-card-body">
+            <h4>Yammii Online Order Revamp</h4>
+            <p>Simplifying mobile order flow.</p>
+            <span class="prev-card-link">See the project &rarr;</span>
+          </div>
+        </div>
+      </div>
+      <div class="prev-cta">
+        <h3>Connect with me!</h3>
+        <p>Let's talk projects &amp; design.</p>
+        <span class="prev-cta-btn">Email</span>
+      </div>
+      <div class="prev-footer">Whimsical &middot; blue-violet &middot; dreamy &middot; unique</div>
+    </div>
+
+    <!-- Option C: Slate Blue -->
+    <div class="option opt-c">
+      <div class="opt-label">C &mdash; Slate Blue</div>
+      <div class="swatches">
+        <div><div class="swatch" style="background:#fff"></div><div class="swatch-label">bg</div></div>
+        <div><div class="swatch" style="background:#f0f2f5"></div><div class="swatch-label">section</div></div>
+        <div><div class="swatch" style="background:#a3b8d0"></div><div class="swatch-label">accent</div></div>
+        <div><div class="swatch" style="background:#6b89aa"></div><div class="swatch-label">link</div></div>
+        <div><div class="swatch" style="background:#2a2a2a"></div><div class="swatch-label">text</div></div>
+      </div>
+      <div class="prev-nav">
+        Ruby Qian
+        <div class="prev-nav-links"><span>Projects</span> <span>Fun</span> <span>About</span></div>
+      </div>
+      <div class="prev-hero">
+        <h2>Hallo! I'm Ruby Qian, a product designer in NYC.</h2>
+        <p>I am inspired by intuitive and creative designs.</p>
+      </div>
+      <div class="prev-section">
+        <h3>Projects</h3>
+        <div class="prev-card">
+          <div class="prev-card-img"></div>
+          <div class="prev-card-body">
+            <h4>Yammii Online Order Revamp</h4>
+            <p>Simplifying mobile order flow.</p>
+            <span class="prev-card-link">See the project &rarr;</span>
+          </div>
+        </div>
+      </div>
+      <div class="prev-cta">
+        <h3>Connect with me!</h3>
+        <p>Let's talk projects &amp; design.</p>
+        <span class="prev-cta-btn">Email</span>
+      </div>
+      <div class="prev-footer">Muted &middot; sophisticated &middot; Japandi &middot; steel-toned</div>
+    </div>
+
+  </div>
+</body>
+</html>

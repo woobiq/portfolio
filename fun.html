@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun — Ruby Qian Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
+        Ruby Qian
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav__links">
+        <li><a href="projects.html" class="nav__link">Projects</a></li>
+        <li><a href="fun.html" class="nav__link nav__link--active">Fun</a></li>
+        <li><a href="about.html" class="nav__link">About me</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Fun Header -->
+  <section class="fun-header">
+    <div class="container">
+      <h1 class="fun-header__title">Fun (✿╹◡╹)</h1>
+      <p class="fun-header__subtitle">Dabbling in creative projects on the side!</p>
+    </div>
+  </section>
+
+  <!-- Logos Section -->
+  <section class="fun-section">
+    <div class="container">
+      <h2 class="fun-section__title">Logos</h2>
+      <p class="fun-section__desc">Designed for myself, friends, and projects.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item gallery-item--framed" data-caption="Ruby Logo Color Explorations">
+          <img src="images/fun/logo-gems.jpg" alt="Ruby logo color explorations">
+          <span class="gallery-caption">Ruby Logo Color Explorations</span>
+        </div>
+        <div class="gallery-item" data-caption="Ruby Final Logo">
+          <img src="images/fun/logo-ruby.png" alt="Ruby final logo">
+          <span class="gallery-caption">Ruby Final Logo</span>
+        </div>
+        <div class="gallery-item gallery-item--framed" data-caption="Hannah Logo Color Explorations">
+          <img src="images/fun/logo-fish-colors.jpg" alt="Hannah logo color explorations">
+          <span class="gallery-caption">Hannah Logo Color Explorations</span>
+        </div>
+        <div class="gallery-item gallery-item--sm" data-caption="Hannah Final Logo">
+          <img src="images/fun/logo-hannah.png" alt="Hannah final logo">
+          <span class="gallery-caption">Hannah Final Logo</span>
+        </div>
+        <div class="gallery-break"></div>
+        <div class="gallery-item gallery-item--framed" data-caption="Hokson Logo Explorations">
+          <img src="images/fun/logo-hokson-explorations.jpg" alt="Hokson logo explorations">
+          <span class="gallery-caption">Hokson Logo Explorations</span>
+        </div>
+        <div class="gallery-item" data-caption="Hokson Final Logo">
+          <img src="images/fun/logo-hokson.jpg" alt="Hokson final logo">
+          <span class="gallery-caption">Hokson Final Logo</span>
+        </div>
+        <div class="gallery-item" data-caption="Reborn Coffee Wine Infused Logo">
+          <img src="images/fun/logo-wine.png" alt="Reborn Coffee Wine Infused logo">
+          <span class="gallery-caption">Reborn Coffee Wine Infused Logo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Digital Art / Doodles Section -->
+  <section class="fun-section">
+    <div class="container">
+      <h2 class="fun-section__title">Digital Art / Doodles</h2>
+      <p class="fun-section__desc">Sketched in Procreate on my iPad — inspired by parts of daily life and other artists, with bits of my own creativity and style.</p>
+      <div class="gallery-grid gallery-grid--doodles">
+        <div class="gallery-item doodle-d">
+          <img src="images/fun/doodle-5-27.avif" alt="Digital doodle — May 27, 2025">
+        </div>
+        <div class="doodle-right">
+          <div class="doodle-right__row">
+            <div class="gallery-item doodle-e gallery-item--framed">
+              <img src="images/fun/doodles-collection-1.jpg" alt="Doodle collection 1 through 12">
+            </div>
+            <div class="gallery-item doodle-f">
+              <img src="images/fun/doodle-4-22.avif" alt="Digital doodle — April 22, 2025">
+            </div>
+            <div class="gallery-item doodle-c">
+              <img src="images/fun/doodle-5-6.avif" alt="Digital doodle — May 6, 2025">
+            </div>
+          </div>
+          <div class="doodle-right__row">
+            <div class="gallery-item doodle-a">
+              <img src="images/fun/doodle-4-25.avif" alt="Digital doodle — April 25, 2025">
+            </div>
+            <div class="gallery-item doodle-b">
+              <img src="images/fun/doodle-3-16.avif" alt="Digital doodle — March 16, 2025">
+            </div>
+            <div class="gallery-item doodle-g">
+              <img src="images/fun/doodles-collection-2.jpg" alt="Doodle collection 13 through 24">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Short Animations Section -->
+  <section class="fun-section">
+    <div class="container">
+      <h2 class="fun-section__title">Short Animations</h2>
+      <p class="fun-section__desc">Drawn in Procreate on my iPad, showcasing various moments in life.</p>
+      <div class="gallery-grid--animations">
+        <div class="animation-row animation-row--1">
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/ruby-2020.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/flower-gif.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/panda-teaspoon-boba.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="animation-row animation-row--2">
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/orange.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/balloon.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="gallery-item gallery-item--animation">
+            <video autoplay loop muted playsinline>
+              <source src="images/fun/ruby-graduation.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <span class="footer__logo">Ruby Qian</span>
+          <ul class="footer__links">
+            <li><a href="projects.html" class="footer__link">Projects</a></li>
+            <li><a href="fun.html" class="footer__link">Fun</a></li>
+            <li><a href="about.html" class="footer__link">About me</a></li>
+          </ul>
+        </div>
+        <div class="footer__socials">
+          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__divider"></div>
+      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__arrow lightbox__arrow--left" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="lightbox__content">
+      <img src="" alt="">
+      <p class="lightbox__caption"></p>
+    </div>
+    <button class="lightbox__arrow lightbox__arrow--right" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <script src="reveal.js"></script>
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const lightboxCaption = lightbox.querySelector('.lightbox__caption');
+    const items = Array.from(document.querySelectorAll('.gallery-item'));
+    let currentIndex = 0;
+
+    function showItem(index) {
+      const item = items[index];
+      const img = item.querySelector('img');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightboxImg.classList.toggle('lightbox-img--png', img.src.endsWith('.png'));
+      lightboxCaption.textContent = item.dataset.caption || '';
+      currentIndex = index;
+    }
+
+    function navigate(dir) {
+      showItem((currentIndex + dir + items.length) % items.length);
+    }
+
+    items.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        showItem(i);
+        lightbox.classList.add('lightbox--open');
+      });
+    });
+
+    lightbox.querySelector('.lightbox__arrow--left').addEventListener('click', (e) => {
+      e.stopPropagation();
+      navigate(-1);
+    });
+
+    lightbox.querySelector('.lightbox__arrow--right').addEventListener('click', (e) => {
+      e.stopPropagation();
+      navigate(1);
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (!e.target.closest('.lightbox__content') && !e.target.closest('.lightbox__arrow')) {
+        lightbox.classList.remove('lightbox--open');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('lightbox--open')) return;
+      if (e.key === 'Escape') lightbox.classList.remove('lightbox--open');
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    });
+  </script>
+</body>
+</html>

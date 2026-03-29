@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Ruby Qian Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
+        Ruby Qian
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav__links">
+        <li><a href="projects.html" class="nav__link">Projects</a></li>
+        <li><a href="fun.html" class="nav__link">Fun</a></li>
+        <li><a href="about.html" class="nav__link nav__link--active">About me</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- About Content -->
+  <section class="about-content container">
+    <div class="about__left">
+      <img src="images/headshot.avif" alt="Ruby Qian" class="about__photo">
+      <div class="about__contact">
+        <h2 class="about__contact-heading">Let's get in touch!</h2>
+        <div class="contact-section__icons">
+          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="contact-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="contact-icon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:rubyqian1201@gmail.com" class="contact-icon" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="about__text">
+      <h1 class="about__heading">Hallo~ I am Ruby!</h1>
+      <p>I am a product designer based in New York City, originally from Bay Area, California. I graduated from NYU Stern School of Business with a major in Marketing and Management and a minor in <a href="https://steinhardt.nyu.edu/degree/minor-digital-art-and-design" target="_blank" class="about__link--purple">Digital Art &amp; Design</a>.</p>
+      <p>My career began in <a href="https://www.ibm.com/us-en" target="_blank" class="about__link--blue">IBM</a> Consulting Field Marketing, where I managed various projects, built my team's internal webpage, and became the go-to person for creating visually compelling slides. Along the way, I discovered my passion for UI/UX — crafting designs that balance aesthetics with usability.</p>
+      <p>I've since built skills in Figma, Adobe Creative Suite, and design thinking. Adaptive, creative, and eager to grow, I'm excited to contribute designs that leave people saying "That just makes sense."</p>
+      <p>In my free time, I like to dance, <a href="fun.html" class="about__link--pink">doodle on my iPad</a>, and explore NYC coffee shops!</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <span class="footer__logo">Ruby Qian</span>
+          <ul class="footer__links">
+            <li><a href="projects.html" class="footer__link">Projects</a></li>
+            <li><a href="fun.html" class="footer__link">Fun</a></li>
+            <li><a href="about.html" class="footer__link">About me</a></li>
+          </ul>
+        </div>
+        <div class="footer__socials">
+          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__divider"></div>
+      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+    </div>
+  </footer>
+
+  <script src="reveal.js"></script>
+</body>
+</html>

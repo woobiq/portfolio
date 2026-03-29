@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yammii Online Order Revamp — Ruby Qian Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="case-study-page case-study-page--yammii">
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
+        Ruby Qian
+      </a>
+      <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav__links">
+        <li><a href="projects.html" class="nav__link nav__link--active">Projects</a></li>
+        <li><a href="fun.html" class="nav__link">Fun</a></li>
+        <li><a href="about.html" class="nav__link">About me</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar Nav (outside animated containers so position:fixed works) -->
+  <aside class="case-study-sidebar">
+    <nav class="case-study-nav">
+      <a href="#introduction" class="case-study-nav__link">Introduction</a>
+      <a href="#stage-1" class="case-study-nav__link">Stage 1: Research</a>
+      <a href="#stage-2" class="case-study-nav__link">Stage 2: Ideation</a>
+      <a href="#stage-3" class="case-study-nav__link">Stage 3: Hi-Fi Design</a>
+      <a href="#outcome" class="case-study-nav__link">The Outcome</a>
+      <a href="#reflection" class="case-study-nav__link">Reflection</a>
+    </nav>
+  </aside>
+
+  <!-- Case Study Hero -->
+  <div class="container">
+    <section class="case-study-hero">
+      <h1 class="case-study-hero__title">Redesign Project: Yammii Online Order Revamp</h1>
+      <p class="case-study-hero__subtitle">Simplifying and modernizing Yammii's mobile order flow to create a more visually engaging and faster experience.</p>
+    </section>
+
+    <!-- Meta -->
+    <div class="case-study-meta-group">
+      <div class="case-study-meta">
+        <div class="case-study-meta__item">
+          <span class="case-study-meta__label">Role</span>
+          <span class="case-study-meta__value">Product Designer</span>
+        </div>
+        <div class="case-study-meta__item">
+          <span class="case-study-meta__label">Category</span>
+          <span class="case-study-meta__value">Food &amp; Beverage</span>
+        </div>
+        <div class="case-study-meta__item">
+          <span class="case-study-meta__label">Duration</span>
+          <span class="case-study-meta__value">3 weeks</span>
+        </div>
+      </div>
+      <div class="case-study-meta__item">
+        <span class="case-study-meta__label">About</span>
+        <span class="case-study-meta__value">Yammii is a cloud-based, restaurant technology platform that provides all-in-one POS, QR code ordering, and restaurant management tools. The company focuses on helping food and beverage businesses streamline operations through integrated digital systems.</span>
+      </div>
+    </div>
+
+    <!-- Case Study Body -->
+    <div class="case-study-layout">
+
+      <!-- Case Study Body -->
+      <article class="case-study-body">
+
+        <img src="images/yammii/mockup-yammii.png" alt="Yammii mobile order redesign mockup" class="case-study-image case-study-thumbnail">
+
+        <h2 id="introduction">Introduction</h2>
+        <p>In this project, I redesigned <strong>Yammii's mobile ordering flow</strong> for restaurant pickup and delivery. The existing experience worked functionally but lacked ease of use — it felt dense, unintuitive, and visually inconsistent. My goal was to design a <strong>more intuitive and visually appealing mobile flow</strong> that allows customers to browse, customize, and place orders smoothly.</p>
+
+        <h3>Project Scope:</h3>
+        <img src="images/yammii/yammii-intro.png" alt="Problem, Opportunity, and Constraints overview for Yammii redesign" class="case-study-image case-study-image--scope">
+        <div class="case-study-note">
+          <strong>Note:</strong> As this was an independent redesign project within a startup context, my role focused on identifying usability issues and proposing scalable design solutions rather than implementing or testing them directly.
+        </div>
+
+        <!-- Stage 1 -->
+        <span class="stage-label" id="stage-1">Stage 1</span>
+        <h2>Research &amp; Usability Audit</h2>
+        <p>Since Yammii is an early-stage startup with limited resources for user testing, I conducted a <strong>heuristic evaluation</strong>, utilizing <strong>Nielson's 10 Heuristics</strong>, of the existing mobile order flow. My goal was to identify usability issues and inefficiencies. Additionally, I did <strong>competitive benchmarking</strong> of similar flows from competitors (such as Doordash and Uber Eats).</p>
+
+        <h3>Examples of Current UI:</h3>
+        <img src="images/yammii/current-ui.png" alt="Current Yammii UI screenshots" class="case-study-image">
+
+        <h3>Key Findings:</h3>
+        <img src="images/yammii/key-findings.png" alt="Key findings table showing heuristic evaluation results" class="case-study-image case-study-image--findings">
+        <p>These findings guided my redesign priorities and design goals:</p>
+        <ul>
+          <li><strong>Simplify</strong> the mobile ordering flow by reducing unnecessary steps.</li>
+          <li><strong>Modernize</strong> the visual interface while maintaining Yammii's branding and design system.</li>
+          <li><strong>Enhance visual hierarchy</strong> to make actions clear and intuitive.</li>
+          <li><strong>Add navigation logic</strong> to reduce friction in the user experience.</li>
+        </ul>
+
+        <!-- Stage 2 -->
+        <span class="stage-label" id="stage-2">Stage 2</span>
+        <h2>Ideation &amp; Wireframing</h2>
+        <p>I began by <strong>user flow mapping</strong> and creating <strong>low-fidelity wireframes</strong>. I ensured every design decision connected back to simplifying the ordering flow, refreshing the UI, and improving navigation logic.</p>
+
+        <h3>User Flow Map:</h3>
+        <img src="images/yammii/user-flow.png" alt="User flow map showing old and proposed new UI flow" class="case-study-image">
+
+        <h3>Lo-Fi Wireframe:</h3>
+        <img src="images/yammii/lofi-wireframe.avif" alt="Lo-fi wireframes" class="case-study-image">
+
+        <!-- Stage 3 -->
+        <span class="stage-label" id="stage-3">Stage 3</span>
+        <h2>Hi-Fi Design</h2>
+        <p>After finalizing the low-fidelity design, I went into <strong>Figma</strong> to create and test <strong>high-fidelity wireframes</strong>. The final design delivers a cleaner, more intuitive mobile ordering experience by simplifying the flow, clarifying visual hierarchy, and modernizing the interface.</p>
+
+        <h3>Hi-Fi Wireframe:</h3>
+        <img src="images/yammii/hifi-wireframe.png" alt="Hi-fi wireframes" class="case-study-image">
+
+        <h3>Key Features and Improvements:</h3>
+        <div class="case-study-features">
+          <div class="case-study-feature">
+            <strong>Streamlined Flow</strong>
+            <p>Reduced order steps from 6 to 5, resulting with a faster checkout experience.</p>
+          </div>
+          <div class="case-study-feature">
+            <strong>Navigation Fluidity</strong>
+            <p>Added options to "View Order" and "Start a New Order" after completing an order and fixed unresponsive buttons.</p>
+          </div>
+          <div class="case-study-feature">
+            <strong>Modernized UI System</strong>
+            <p>Updated icon set, UI layout, and component hierarchy to improve readability and consistency.</p>
+          </div>
+        </div>
+
+        <h2 id="outcome">The Outcome</h2>
+        <p>Below is the <strong>video prototype and mockup images</strong> of the redesigned mobile order flow.</p>
+        <div class="case-study-outcome">
+          <video class="case-study-outcome__video" autoplay loop muted playsinline>
+            <source src="images/yammii/prototype-video.mp4" type="video/mp4">
+          </video>
+          <div class="case-study-outcome__images">
+            <img src="images/yammii/mockup-2screens.png" alt="Yammii redesigned pickup and menu screens">
+            <img src="images/yammii/mockup-cart.png" alt="Yammii redesigned cart screen">
+          </div>
+        </div>
+
+        <h2 id="reflection">Reflection</h2>
+
+        <div class="case-study-reflections">
+          <div class="case-study-reflection">
+            <h3>Learnings</h3>
+            <p>This project was my first time redesigning a <strong>production-level mobile UI</strong> for a real company. I strengthened my ability to work systematically in <strong>Figma</strong> — building reusable components, establishing consistent spacing and typography scales, and designing with scalability in mind. Working without direct user feedback pushed me to rely on <strong>usability heuristics, competitive analysis, and structured design reasoning</strong>.</p>
+          </div>
+          <div class="case-study-reflection">
+            <h3>Challenges</h3>
+            <p>A major challenge was the <strong>lack of access to real users</strong> for usability testing. I had to be <strong>intentional about documenting design decisions and tradeoffs</strong>. Working with an existing product also introduced constraints around what could realistically be changed versus what needed to remain familiar for returning users.</p>
+          </div>
+          <div class="case-study-reflection">
+            <h3>If I had more time</h3>
+            <p>I would <strong>extend the redesign to the desktop experience</strong> for cross-platform consistency, prioritize <strong>lightweight usability testing</strong> to validate the flow, and refine edge cases, <strong>accessibility considerations</strong>, and interaction details such as motion and microinteractions.</p>
+          </div>
+          <div class="case-study-reflection">
+            <h3>Takeaway</h3>
+            <p><strong>Strong UX design isn't about perfect conditions</strong> — it's about making thoughtful, evidence-based decisions within real-world constraints. This redesign provides a clear direction for how Yammii's mobile ordering could <strong>scale more effectively</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Other Projects -->
+        <div class="other-projects">
+          <h3 class="other-projects__heading">Other projects</h3>
+          <div class="other-projects__grid">
+            <a href="googlemaps.html" class="other-projects__card">
+              <img src="images/googlemaps/mockup-googlemaps.png" alt="AI Assistant for Google Maps" class="other-projects__image">
+              <div class="other-projects__body">
+                <h4 class="other-projects__title">AI Assistant for Google Maps</h4>
+                <p class="other-projects__desc">Designing an AI assistant for place discovery to help reduce decision fatigue.</p>
+              </div>
+            </a>
+            <a href="hemi.html" class="other-projects__card">
+              <img src="images/hemi/hemi_skygarden.png" alt="Hemi sky garden view" class="other-projects__image">
+              <div class="other-projects__body">
+                <h4 class="other-projects__title">Hemi — A Personal Reflection Journal</h4>
+                <p class="other-projects__desc">A muji-inspired digital journal, from sketch to deployed web app.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </article>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <span class="footer__logo">Ruby Qian</span>
+          <ul class="footer__links">
+            <li><a href="projects.html" class="footer__link">Projects</a></li>
+            <li><a href="fun.html" class="footer__link">Fun</a></li>
+            <li><a href="about.html" class="footer__link">About me</a></li>
+          </ul>
+        </div>
+        <div class="footer__socials">
+          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__divider"></div>
+      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+    </div>
+  </footer>
+
+  <script src="reveal.js"></script>
+  <script>
+    (function() {
+      const links = document.querySelectorAll('.case-study-nav__link');
+      const sections = Array.from(links).map(link => {
+        const id = link.getAttribute('href').slice(1);
+        return document.getElementById(id);
+      }).filter(Boolean);
+
+      // Click handler: reveal target elements and scroll smoothly
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const id = this.getAttribute('href').slice(1);
+          const target = document.getElementById(id);
+          if (!target) return;
+          // Force-reveal hidden elements near the target
+          let el = target;
+          for (let i = 0; i < 6 && el; i++) {
+            el.classList.add('reveal--visible');
+            el = el.nextElementSibling;
+          }
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Highlight active sidebar link on scroll
+      function updateActive() {
+        let current = sections[0];
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top <= 120) current = section;
+        }
+        links.forEach(link => {
+          const id = link.getAttribute('href').slice(1);
+          link.classList.toggle('case-study-nav__link--active', id === current.id);
+        });
+      }
+
+      window.addEventListener('scroll', updateActive, { passive: true });
+      updateActive();
+    })();
+  </script>
+</body>
+</html>
