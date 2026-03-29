@@ -1822,6 +1822,12 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ── Responsive ── */
+@media (max-width: 1280px) {
+  .case-study-sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 1024px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1939,10 +1945,6 @@ h1, h2, h3, h4, h5 {
   }
 
   /* Case study */
-  .case-study-sidebar {
-    display: none;
-  }
-
   .case-study-meta {
     flex-direction: column;
     gap: 10px;
@@ -1992,6 +1994,13 @@ h1, h2, h3, h4, h5 {
   .case-study-intro-img {
     width: 100%;
     max-width: 300px;
+  }
+
+  .case-study-image.case-study-image--scope {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
