@@ -54,6 +54,9 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('reveal--visible');
+            // Trigger autoplay on videos that became visible (mobile browsers block autoplay on hidden elements)
+            var videos = entry.target.querySelectorAll('video[autoplay]');
+            videos.forEach(function (v) { v.play().catch(function () {}); });
             observer.unobserve(entry.target);
           }
         });

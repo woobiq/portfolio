@@ -1536,11 +1536,17 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Case study tables */
+.case-study-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 24px 0;
+}
+
 .case-study-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 24px 0;
   border: 1px solid #1a1a1a;
   border-radius: 10px;
   overflow: hidden;
