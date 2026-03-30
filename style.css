@@ -1537,14 +1537,11 @@ h1, h2, h3, h4, h5 {
 
 /* Case study tables */
 .case-study-table-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   margin: 24px 0;
 }
 
 .case-study-table {
   width: 100%;
-  min-width: 600px;
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid #1a1a1a;
@@ -2075,6 +2072,20 @@ h1, h2, h3, h4, h5 {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  /* Case study — tables */
+  .case-study-table {
+    font-size: 13px;
+  }
+
+  .case-study-table th {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .case-study-table td {
+    padding: 10px 12px;
   }
 
   /* Case study — flow rows (Google Maps) */
