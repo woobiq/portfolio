@@ -1118,6 +1118,11 @@ h1, h2, h3, h4, h5 {
 }
 
 .hemi-page .case-study-feature-title {
+  color: #1a1a1a;
+}
+
+.hemi-page .case-study-feature-title::before {
+  content: '✦ ';
   color: #4a7faa;
 }
 
@@ -2064,22 +2069,44 @@ h1, h2, h3, h4, h5 {
 
 .video-player__progress {
   flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+}
+
+.video-player__progress::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 4px;
   background: #444;
   border-radius: 2px;
-  cursor: pointer;
-  outline: none;
 }
 
-.video-player__progress::-webkit-slider-thumb {
-  -webkit-appearance: none;
+.video-player__progress-filled {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  width: 0%;
+  pointer-events: none;
+}
+
+.video-player__progress-filled::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: #fff;
-  cursor: pointer;
 }
 
 .video-player__volume {
