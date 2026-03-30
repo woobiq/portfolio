@@ -21,6 +21,10 @@
     '.other-projects',
   ];
 
+  function hasAutoplayVideo(el) {
+    return el.querySelector('video[autoplay]') || el.matches('video[autoplay]');
+  }
+
   function init() {
     const elements = document.querySelectorAll(selectors.join(', '));
 
@@ -37,8 +41,8 @@
       // Don't double-reveal elements already visible from page animation
       if (el.closest('.hero')) return;
 
-      // Don't hide elements with autoplay videos — mobile browsers block autoplay on hidden elements
-      if (el.querySelector('video[autoplay]')) return;
+      // Don't hide elements or ancestors containing autoplay videos
+      if (hasAutoplayVideo(el)) return;
 
       el.classList.add('reveal');
 
@@ -57,13 +61,6 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('reveal--visible');
-            // Trigger autoplay on videos after reveal transition completes (mobile browsers block autoplay on hidden elements)
-            var el = entry.target;
-            var delay = parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay') || '0') * 1000 + 700;
-            setTimeout(function () {
-              var videos = el.querySelectorAll('video[autoplay]');
-              videos.forEach(function (v) { v.play().catch(function () {}); });
-            }, delay);
             observer.unobserve(entry.target);
           }
         });
@@ -87,4 +84,22 @@
   } else {
     init();
   }
+
+  // ── Smooth page transitions ──
+  // Fade out before navigating to internal links
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+
+    var href = link.getAttribute('href');
+    // Skip external links, anchors, and special links
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || link.target === '_blank') return;
+
+    e.preventDefault();
+    document.body.classList.add('page-exit');
+
+    setTimeout(function () {
+      window.location.href = href;
+    }, 250);
+  });
 })();

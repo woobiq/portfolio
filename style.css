@@ -49,6 +49,17 @@
   }
 }
 
+/* Smooth exit when navigating to another page */
+body {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+body.page-exit {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
 /* ── Reset & Base ── */
 *,
 *::before,
@@ -278,6 +289,25 @@ h1, h2, h3, h4, h5 {
   font-size: 15px;
   max-width: 560px;
   font-weight: 300;
+}
+
+/* ── Interactive feedback ── */
+.nav__link:active,
+.footer__link:active,
+.footer__social:active {
+  opacity: 0.6;
+  transition: opacity 0.1s ease;
+}
+
+.project-card:active,
+.other-projects__card:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
 }
 
 /* ── Project Cards ── */
