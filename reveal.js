@@ -54,9 +54,13 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('reveal--visible');
-            // Trigger autoplay on videos that became visible (mobile browsers block autoplay on hidden elements)
-            var videos = entry.target.querySelectorAll('video[autoplay]');
-            videos.forEach(function (v) { v.play().catch(function () {}); });
+            // Trigger autoplay on videos after reveal transition completes (mobile browsers block autoplay on hidden elements)
+            var el = entry.target;
+            var delay = parseFloat(getComputedStyle(el).getPropertyValue('--reveal-delay') || '0') * 1000 + 700;
+            setTimeout(function () {
+              var videos = el.querySelectorAll('video[autoplay]');
+              videos.forEach(function (v) { v.play().catch(function () {}); });
+            }, delay);
             observer.unobserve(entry.target);
           }
         });
