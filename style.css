@@ -2077,15 +2077,19 @@ h1, h2, h3, h4, h5 {
   /* Case study — tables */
   .case-study-table {
     font-size: 13px;
+    table-layout: fixed;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
-  .case-study-table th {
+  .case-study-table th,
+  .case-study-table td {
     padding: 10px 12px;
     font-size: 12px;
   }
 
-  .case-study-table td {
-    padding: 10px 12px;
+  .case-study-table-wrap {
+    overflow-x: hidden;
   }
 
   /* Case study — flow rows (Google Maps) */
