@@ -330,16 +330,22 @@
       video.addEventListener('play', updatePlayBtn);
       video.addEventListener('pause', updatePlayBtn);
 
+      var isSeeking = false;
+
       video.addEventListener('timeupdate', function() {
-        if (video.duration) {
+        if (video.duration && !isSeeking) {
           progress.value = (video.currentTime / video.duration) * 100;
           timeDisplay.textContent = formatTime(video.currentTime) + ' / ' + formatTime(video.duration);
         }
       });
 
+      progress.addEventListener('mousedown', function() { isSeeking = true; });
+      progress.addEventListener('touchstart', function() { isSeeking = true; });
       progress.addEventListener('input', function() {
         video.currentTime = (this.value / 100) * video.duration;
       });
+      progress.addEventListener('mouseup', function() { isSeeking = false; });
+      progress.addEventListener('touchend', function() { isSeeking = false; });
 
       volume.addEventListener('input', function() {
         video.volume = this.value;
