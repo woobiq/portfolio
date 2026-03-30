@@ -58,6 +58,11 @@
   box-sizing: border-box;
 }
 
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -2072,7 +2077,12 @@ h1, h2, h3, h4, h5 {
     gap: 20px;
   }
 
+  .case-study-flow-row__text {
+    order: 1;
+  }
+
   .case-study-flow-row__video {
+    order: 2;
     width: 200px;
     margin: 0 auto;
   }
