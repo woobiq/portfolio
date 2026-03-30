@@ -1968,12 +1968,18 @@ h1, h2, h3, h4, h5 {
     gap: 12px;
   }
 
+  .gallery-item--animation {
+    height: auto;
+  }
+
   .gallery-item--animation video {
-    height: 120px;
+    height: auto;
+    width: 100%;
   }
 
   .animation-row--2 .gallery-item--animation video {
-    height: 110px;
+    height: auto;
+    width: 100%;
   }
 
   /* Lightbox */
@@ -2139,12 +2145,14 @@ h1, h2, h3, h4, h5 {
     height: 150px;
   }
 
-  .gallery-item--animation video {
-    height: 90px;
+  .gallery-item--animation {
+    height: auto;
   }
 
+  .gallery-item--animation video,
   .animation-row--2 .gallery-item--animation video {
-    height: 80px;
+    height: auto;
+    width: 100%;
   }
 
   .doodle-right__row .gallery-item,

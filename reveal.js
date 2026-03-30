@@ -37,6 +37,9 @@
       // Don't double-reveal elements already visible from page animation
       if (el.closest('.hero')) return;
 
+      // Don't hide elements with autoplay videos — mobile browsers block autoplay on hidden elements
+      if (el.querySelector('video[autoplay]')) return;
+
       el.classList.add('reveal');
 
       // Stagger gallery items and cards within their parent
