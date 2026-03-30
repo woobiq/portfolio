@@ -95,11 +95,16 @@
     // Skip external links, anchors, and special links
     if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || link.target === '_blank') return;
 
+    // Close mobile menu immediately if open
+    var openMenu = document.querySelector('.nav__links--open');
+    if (openMenu) openMenu.classList.remove('nav__links--open');
+
     e.preventDefault();
     document.body.classList.add('page-exit');
 
+    // Shorter delay for snappier feel
     setTimeout(function () {
       window.location.href = href;
-    }, 250);
+    }, 180);
   });
 })();

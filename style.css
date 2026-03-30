@@ -2000,14 +2000,12 @@ h1, h2, h3, h4, h5 {
 
   .gallery-item--animation {
     height: auto;
+    flex-shrink: 1;
+    flex: 1 1 calc(33% - 8px);
+    min-width: 0;
   }
 
   .gallery-item--animation video {
-    height: auto;
-    width: 100%;
-  }
-
-  .animation-row--2 .gallery-item--animation video {
     height: auto;
     width: 100%;
   }
@@ -2177,10 +2175,10 @@ h1, h2, h3, h4, h5 {
 
   .gallery-item--animation {
     height: auto;
+    flex: 1 1 calc(50% - 6px);
   }
 
-  .gallery-item--animation video,
-  .animation-row--2 .gallery-item--animation video {
+  .gallery-item--animation video {
     height: auto;
     width: 100%;
   }
