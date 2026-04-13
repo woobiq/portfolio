@@ -85,6 +85,17 @@
     init();
   }
 
+  // ── Fix back-button blank page ──
+  // When restoring from bfcache, remove exit state and show all reveals
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      document.body.classList.remove('page-exit');
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('reveal--visible');
+      });
+    }
+  });
+
   // ── Smooth page transitions ──
   // Fade out before navigating to internal links
   document.addEventListener('click', function (e) {
