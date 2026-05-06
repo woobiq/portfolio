@@ -3089,7 +3089,8 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   .case-shell__spacer { display: none; }
   .case-body { padding: 40px 60px 60px; }
   .case-hero { padding: 40px 40px 32px; gap: 32px; }
-  .case-more-projects { padding: 56px 40px 64px; }
+  /* Drop the desktop-only 60px side margin so cards fill the case-card width. */
+  .case-more-projects { padding: 56px 40px 64px; margin: 24px 0 0; }
 }
 @media (max-width: 800px) {
   .case-hero { grid-template-columns: 1fr; gap: 24px; padding: 36px 32px 28px; }
