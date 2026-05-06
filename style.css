@@ -3427,13 +3427,34 @@ body.page-about {
 
 @media (max-width: 800px) {
   .hobby-section { padding: 24px 16px 40px; }
-  .hobby-strip-wrap { padding: 60px 0; }
-  .hobby-polaroid { width: 130px; margin: 0 -10px; }
+  .hobby-strip-wrap { padding: 50px 0 60px; }
+
+  /* Phones can't fit all 6 polaroids in one row; wrap to 2 rows of 3 with
+     a constrained max-width so the wrap point is predictable. */
+  .hobby-strip {
+    flex-wrap: wrap;
+    max-width: 360px;
+    margin: 0 auto;
+    row-gap: 16px;
+  }
+  .hobby-polaroid {
+    width: 130px;
+    margin: 0 -5px;
+  }
+  .hobby-polaroid__face { padding: 12px 12px 20px; }
   .hobby-polaroid__photo { font-size: 42px; }
-  .hobby-polaroid__caption { font-size: 14px; margin-top: 18px; }
-  .hobby-accent--tl1, .hobby-accent--br1 { font-size: 24px; }
-  .hobby-accent--tl2, .hobby-accent--br2 { font-size: 16px; }
-  .hobby-accent--tl3, .hobby-accent--br3 { font-size: 12px; }
+  .hobby-polaroid__caption {
+    font-size: 13px;
+    margin-top: 16px;
+  }
+  .hobby-polaroid__back-text {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .hobby-accent--tl1, .hobby-accent--br1 { font-size: 22px; }
+  .hobby-accent--tl2, .hobby-accent--br2 { font-size: 14px; }
+  .hobby-accent--tl3, .hobby-accent--br3 { font-size: 11px; }
 }
 
 /* ── Page Header (for Projects, Fun pages) ── */
