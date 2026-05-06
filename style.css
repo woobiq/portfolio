@@ -3081,12 +3081,53 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   .solution-metrics, .feature-row, .reflections-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
-  .case-shell { padding: 0 16px; margin: 100px auto 40px; }
+  .case-shell { padding: 0 16px; margin: 80px auto 40px; }
   .case-card { border-radius: 24px; }
   .case-hero { padding: 28px 24px 24px; }
   .case-body { padding: 28px 24px 48px; }
   .case-more-projects { padding: 48px 24px 56px; }
   .case-more-projects__grid { grid-template-columns: 1fr; }
+
+  /* TOC: horizontal scroll-snap rail, full-bleed past the shell padding so
+     the first/last items sit flush with the screen edge. */
+  .case-toc {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    gap: 6px;
+    margin: 0 -16px 12px;
+    padding: 0 16px 4px;
+    width: calc(100% + 32px);
+  }
+  .case-toc::-webkit-scrollbar { display: none; }
+  .case-toc__header { flex: none; padding: 0 6px 0 0; white-space: nowrap; }
+  .case-toc__item { flex: none; scroll-snap-align: center; white-space: nowrap; }
+
+  /* Stack hero action buttons full-width so long labels can't overflow. */
+  .case-hero__actions {
+    flex-direction: column;
+    align-self: stretch;
+    align-items: stretch;
+  }
+  .case-hero__actions .case-hero__jump {
+    align-self: stretch;
+    justify-content: center;
+  }
+  /* Override Phia's desktop nowrap; let buttons take the column width. */
+  .case-study-page--phia .case-hero__actions { flex-wrap: wrap; }
+  .case-study-page--phia .case-hero__actions .case-hero__jump {
+    font-size: 13px;
+    padding: 12px 18px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* Phia meta values are long ("Phia x Design Meetup", "Figma, Loom, Claude").
+     Stack to 1 column so they breathe instead of clipping. */
+  .case-study-page--phia .case-hero__meta { grid-template-columns: 1fr; }
 }
 
 /* ════════════════════════════════════════════════════════════════
