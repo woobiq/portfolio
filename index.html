@@ -821,36 +821,38 @@
   fadeEls.forEach(function(el) { observer.observe(el); });
 
   /* ════════════════════════════════════
-     Pill cursor on project cards
+     Pill cursor on project cards (fine-pointer devices only)
   ════════════════════════════════════ */
   var pill = document.getElementById('pillCursor');
   var cards = document.querySelectorAll('.project-card');
-  var pillVisible = false;
+  var hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  // Only track mouse position when pill is visible
-  document.addEventListener('mousemove', function(e) {
-    if (pillVisible) {
-      pill.style.left = (e.clientX + 16) + 'px';
-      pill.style.top = (e.clientY + 16) + 'px';
-    }
-  }, { passive: true });
+  if (hasFinePointer) {
+    var pillVisible = false;
 
-  cards.forEach(function(card) {
-    card.addEventListener('mouseenter', function(e) {
-      pill.style.left = (e.clientX + 16) + 'px';
-      pill.style.top = (e.clientY + 16) + 'px';
-      pill.classList.add('pill-cursor--visible');
-      pillVisible = true;
+    document.addEventListener('mousemove', function(e) {
+      if (pillVisible) {
+        pill.style.left = (e.clientX + 16) + 'px';
+        pill.style.top = (e.clientY + 16) + 'px';
+      }
+    }, { passive: true });
+
+    cards.forEach(function(card) {
+      card.addEventListener('mouseenter', function(e) {
+        pill.style.left = (e.clientX + 16) + 'px';
+        pill.style.top = (e.clientY + 16) + 'px';
+        pill.classList.add('pill-cursor--visible');
+        pillVisible = true;
+      });
+      card.addEventListener('mouseleave', function() {
+        pill.classList.remove('pill-cursor--visible');
+        pillVisible = false;
+      });
     });
-    card.addEventListener('mouseleave', function() {
-      pill.classList.remove('pill-cursor--visible');
-      pillVisible = false;
-    });
-  });
-
-  // Hide pill cursor on touch devices
-  if (!window.matchMedia('(hover: hover)').matches) {
-    pill.style.display = 'none';
+  } else {
+    // Touch / coarse-pointer devices: remove the pill from the DOM entirely
+    // so emulated mouse events can't surface it.
+    if (pill && pill.parentNode) pill.parentNode.removeChild(pill);
     cards.forEach(function(card) { card.style.cursor = 'pointer'; });
   }
 
