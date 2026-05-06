@@ -2933,6 +2933,14 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   display: block;
 }
 
+/* Mobile: drop the phone-bezel-style 54px radius — at narrow widths it looks
+   oval; match the smaller radius used by the adjacent images for a cleaner
+   rectangular container, similar to the Google Maps flow videos. */
+@media (max-width: 800px) {
+  .case-outcome { grid-template-columns: 1fr; gap: 12px; }
+  .case-outcome__video { border-radius: 16px; }
+}
+
 /* Footer, minimal, matches home page (white over floral bg on case studies) */
 .footer-minimal {
   padding: 0 48px 32px;
