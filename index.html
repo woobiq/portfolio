@@ -375,16 +375,18 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Mobile tulips: anchor stems at the bottom-left corner, disable tap. */
+    /* Mobile tulips: anchor stems at the bottom-left corner, disable tap.
+       width 1.5x desktop ratio so the bouquet feels more present on phones. */
     .hero__tulips {
-      width: 1100px;
+      width: 1650px;
       bottom: 50px;
-      left: -40px;
+      left: -45px;
       pointer-events: none;
       cursor: default;
     }
-    /* Keep "View my projects below ↓" on a single line on phones. */
-    .hero__arrow { white-space: nowrap; }
+    /* Keep "View my projects below ↓" on a single line, lifted above the
+       Calm wind toggle so even cached HTML can't have them overlap. */
+    .hero__arrow { white-space: nowrap; bottom: 32px; }
     /* Hide wind control on phones so it doesn't overlap the arrow. */
     .wind-control { display: none; }
     .projects { padding: 80px 0 100px; }
