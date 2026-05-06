@@ -14,7 +14,7 @@
     background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
   }
 </style>
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 <style>
   /* ── Reset ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -720,11 +720,11 @@
     'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
     'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
   ];
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 10; i++) {
     var p = document.createElement('div');
     p.classList.add('hero__petal');
-    var size = 50 + Math.random() * 50;
-    var blur = 3 + Math.random() * 7;
+    var size = 30 + Math.random() * 70;
+    var blur = 2 + Math.random() * 7;
     var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
     var top = Math.random() * 85;
     var delay = -(Math.random() * 30);
