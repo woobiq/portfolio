@@ -154,7 +154,38 @@
     });
   });
 
-  // On link click — fade overlay back in, then navigate
+  // ── Prefetch on hover/touch so HTML is in cache by the time of click ──
+  // Prefetch a same-origin URL (HTML page) once. The browser stores the
+  // response so the actual navigation skips the network round-trip.
+  var prefetched = new Set();
+  function prefetch(url) {
+    if (prefetched.has(url)) return;
+    prefetched.add(url);
+    var l = document.createElement('link');
+    l.rel = 'prefetch';
+    l.href = url;
+    l.as = 'document';
+    document.head.appendChild(l);
+  }
+  function maybePrefetchFromEvent(e) {
+    var link = e.target && e.target.closest && e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') return;
+    var url;
+    try { url = new URL(href, window.location.origin); } catch (e) { return; }
+    if (url.origin !== window.location.origin) return;
+    if (url.href === window.location.href) return;
+    prefetch(url.href);
+  }
+  // touchstart fires before click; gives ~100-300ms head-start on mobile
+  document.addEventListener('touchstart', maybePrefetchFromEvent, { passive: true, capture: true });
+  // mouseover for desktop hover
+  document.addEventListener('mouseover', maybePrefetchFromEvent, { passive: true, capture: true });
+
+  // ── On link click, fade overlay back in, then navigate ──
+  // Mobile gets a shorter outgoing fade so the perceived navigation feels snappier.
+  var FADE_OUT_MS = window.innerWidth < 768 ? 120 : 220;
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href]');
     if (!link) return;
@@ -181,7 +212,7 @@
 
     setTimeout(function () {
       window.location.href = href;
-    }, 220);
+    }, FADE_OUT_MS);
   });
 
   // When using browser back/forward, ensure overlay fades out

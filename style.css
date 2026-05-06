@@ -1993,6 +1993,12 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Mobile: shorter overlay timings so navigation feels snappier on phones */
+@media (max-width: 768px) {
+  .page-transition-overlay { transition: opacity 0.20s cubic-bezier(0.4, 0, 0.2, 1); }
+  .page-transition-overlay.is-leaving { transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1); }
+}
+
 /* Floral bg layer behind everything, matches home page exact gradient */
 .bg-layer {
   position: fixed;
