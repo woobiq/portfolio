@@ -3,18 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fun — Ruby Qian Portfolio</title>
+  <title>Fun · Ruby Qian Portfolio</title>
   <link rel="icon" type="image/png" href="favicon.png">
+  <!-- Inline html bg paints BEFORE external CSS loads, prevents white flash on navigation -->
+  <style>
+    html {
+      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    }
+  </style>
   <link rel="stylesheet" href="style.css">
+<style>
+  body { background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%); }
+  .page-bg {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 48px 48px;
+  }
+  /* Floating petals */
+  .page-petal {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  }
+  @keyframes petalDriftPage {
+    0% { opacity: var(--pp-opacity); transform: translateX(-60px) translateY(-4vh) rotate(0deg); }
+    100% { opacity: var(--pp-opacity); transform: translateX(calc(100vw + 80px)) translateY(calc(8vh + var(--pp-dy))) rotate(var(--pp-rot)); }
+  }
+  .page-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 60px 80px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .page-card .fun-header {
+    padding: 0;
+    margin-bottom: 48px;
+  }
+  .page-card .fun-header .container {
+    padding: 0;
+  }
+  .page-card .fun-section {
+    padding: 40px 0;
+  }
+  .page-card .fun-section .container {
+    padding: 0;
+  }
+  /* ── Logos: scale down, remove gallery-break so Hannah fits row 1 ── */
+  .page-card .gallery-grid { gap: 12px; }
+  .page-card .gallery-item { height: 180px; cursor: default; }
+  .page-card .gallery-item--sm { height: 130px; }
+  .page-card .gallery-break { display: none; }
+
+  /* Video inside a gallery-item: square container, video centered + zoomed in */
+  .page-card .gallery-item--video { width: 180px; }
+  .gallery-item--video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.4);
+    transform-origin: center;
+    display: block;
+  }
+
+  /* ── Doodles: tall image left spanning both rows ── */
+  .doodles-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 160px 160px;
+    gap: 12px;
+  }
+  .doodles-grid .doodles-tall.gallery-item {
+    grid-row: 1 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    width: auto;
+    height: 100% !important;
+  }
+  .doodles-grid .doodles-tall img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: cover;
+  }
+  .doodles-row {
+    display: flex;
+    gap: 12px;
+    height: 100%;
+    align-items: stretch;
+  }
+  .doodles-grid .doodles-row .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100% !important;
+    flex-shrink: 0;
+  }
+  .doodles-grid .doodles-row .gallery-item img {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
+  /* Below 1100px the side-by-side layout no longer fits, stack everything */
+  @media (max-width: 1100px) {
+    .doodles-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+    .doodles-grid .doodles-tall.gallery-item {
+      grid-row: auto;
+      width: 50%;
+      height: auto !important;
+    }
+    .doodles-grid .doodles-tall img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .doodles-row {
+      flex-wrap: wrap;
+      height: auto;
+    }
+    .doodles-grid .doodles-row .gallery-item {
+      height: 180px !important;
+    }
+  }
+
+  /* ── Animations: left-aligned, videos fit their containers ── */
+  .page-card .gallery-grid--animations { width: 100%; }
+  .page-card .animation-row { justify-content: flex-start; }
+  .page-card .gallery-item--animation {
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .page-card .gallery-item--animation video {
+    height: 240px;
+    width: auto;
+    display: block;
+  }
+  .page-card .animation-row--2 .gallery-item--animation video {
+    height: 220px;
+  }
+  /* Nav, reuse page-home styles from style.css */
+  @media (max-width: 768px) {
+    .page-bg { padding: 80px 16px 24px; }
+    .page-card { padding: 32px 24px 40px; border-radius: 16px; }
+    .page-card .animation-row--1 .gallery-item--animation video { height: 150px; }
+    .page-card .animation-row--2 .gallery-item--animation video { height: 130px; }
+  }
+</style>
 </head>
-<body>
+<body class="page-home no-reveal">
+
+  <!-- Page transition overlay -->
+  <div class="page-transition-overlay"></div>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="container nav__inner">
       <a href="/" class="nav__logo">
-        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
-        Ruby Qian
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="24" height="24">
       </a>
       <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -24,12 +180,16 @@
         </svg>
       </button>
       <ul class="nav__links">
-        <li><a href="/projects" class="nav__link">Projects</a></li>
+        <li><a href="/" class="nav__link">Home</a></li>
+        <li><a href="/#projects" class="nav__link">Projects</a></li>
         <li><a href="/fun" class="nav__link nav__link--active">Fun</a></li>
         <li><a href="/about" class="nav__link">About me</a></li>
       </ul>
     </div>
   </nav>
+
+  <div class="page-bg">
+  <div class="page-card">
 
   <!-- Fun Header -->
   <section class="fun-header">
@@ -46,32 +206,38 @@
       <p class="fun-section__desc">Designed for myself, friends, and projects.</p>
       <div class="gallery-grid">
         <div class="gallery-item gallery-item--framed" data-caption="Ruby Logo Color Explorations">
-          <img src="images/fun/logo-gems.jpg" alt="Ruby logo color explorations">
+          <img src="images/fun/logo-gems.jpg" alt="Ruby logo color explorations" loading="lazy" decoding="async">
           <span class="gallery-caption">Ruby Logo Color Explorations</span>
         </div>
         <div class="gallery-item" data-caption="Ruby Final Logo">
-          <img src="images/fun/logo-ruby.png" alt="Ruby final logo">
+          <img src="images/fun/logo-ruby.png" alt="Ruby final logo" loading="lazy" decoding="async">
           <span class="gallery-caption">Ruby Final Logo</span>
         </div>
+        <div class="gallery-item gallery-item--video" data-caption="Ruby Logo Animation">
+          <video autoplay loop muted playsinline preload="metadata">
+            <source src="images/fun/ruby-logo-animation.mp4" type="video/mp4">
+          </video>
+          <span class="gallery-caption">Ruby Logo Animation</span>
+        </div>
         <div class="gallery-item gallery-item--framed" data-caption="Hannah Logo Color Explorations">
-          <img src="images/fun/logo-fish-colors.jpg" alt="Hannah logo color explorations">
+          <img src="images/fun/logo-fish-colors.jpg" alt="Hannah logo color explorations" loading="lazy" decoding="async">
           <span class="gallery-caption">Hannah Logo Color Explorations</span>
         </div>
         <div class="gallery-item gallery-item--sm" data-caption="Hannah Final Logo">
-          <img src="images/fun/logo-hannah.png" alt="Hannah final logo">
+          <img src="images/fun/logo-hannah.png" alt="Hannah final logo" loading="lazy" decoding="async">
           <span class="gallery-caption">Hannah Final Logo</span>
         </div>
         <div class="gallery-break"></div>
         <div class="gallery-item gallery-item--framed" data-caption="Hokson Logo Explorations">
-          <img src="images/fun/logo-hokson-explorations.jpg" alt="Hokson logo explorations">
+          <img src="images/fun/logo-hokson-explorations.jpg" alt="Hokson logo explorations" loading="lazy" decoding="async">
           <span class="gallery-caption">Hokson Logo Explorations</span>
         </div>
         <div class="gallery-item" data-caption="Hokson Final Logo">
-          <img src="images/fun/logo-hokson.jpg" alt="Hokson final logo">
+          <img src="images/fun/logo-hokson.jpg" alt="Hokson final logo" loading="lazy" decoding="async">
           <span class="gallery-caption">Hokson Final Logo</span>
         </div>
         <div class="gallery-item" data-caption="Reborn Coffee Wine Infused Logo">
-          <img src="images/fun/logo-wine.png" alt="Reborn Coffee Wine Infused logo">
+          <img src="images/fun/logo-wine.png" alt="Reborn Coffee Wine Infused logo" loading="lazy" decoding="async">
           <span class="gallery-caption">Reborn Coffee Wine Infused Logo</span>
         </div>
       </div>
@@ -83,32 +249,30 @@
     <div class="container">
       <h2 class="fun-section__title">Digital Art / Doodles</h2>
       <p class="fun-section__desc">Procreate sketches in my own style, inspired by the world around me.</p>
-      <div class="gallery-grid gallery-grid--doodles">
-        <div class="gallery-item doodle-d">
-          <img src="images/fun/doodle-5-27.avif" alt="Digital doodle — May 27, 2025">
+      <div class="doodles-grid">
+        <div class="doodles-tall gallery-item" data-caption="May 27, 2025">
+          <img src="images/fun/doodle-5-27.avif" alt="Digital doodle, May 27, 2025" loading="lazy" decoding="async">
         </div>
-        <div class="doodle-right">
-          <div class="doodle-right__row">
-            <div class="gallery-item doodle-e gallery-item--framed">
-              <img src="images/fun/doodles-collection-1.jpg" alt="Doodle collection 1 through 12">
-            </div>
-            <div class="gallery-item doodle-f">
-              <img src="images/fun/doodle-4-22.avif" alt="Digital doodle — April 22, 2025">
-            </div>
-            <div class="gallery-item doodle-c">
-              <img src="images/fun/doodle-5-6.avif" alt="Digital doodle — May 6, 2025">
-            </div>
+        <div class="doodles-row">
+          <div class="gallery-item" data-caption="Doodle Collection 1-12">
+            <img src="images/fun/doodles-collection-1.jpg" alt="Doodle collection 1 through 12" loading="lazy" decoding="async">
           </div>
-          <div class="doodle-right__row">
-            <div class="gallery-item doodle-a">
-              <img src="images/fun/doodle-4-25.avif" alt="Digital doodle — April 25, 2025">
-            </div>
-            <div class="gallery-item doodle-b">
-              <img src="images/fun/doodle-3-16.avif" alt="Digital doodle — March 16, 2025">
-            </div>
-            <div class="gallery-item doodle-g">
-              <img src="images/fun/doodles-collection-2.jpg" alt="Doodle collection 13 through 24">
-            </div>
+          <div class="gallery-item" data-caption="April 22, 2025">
+            <img src="images/fun/doodle-4-22.avif" alt="Digital doodle, April 22, 2025" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" data-caption="May 6, 2025">
+            <img src="images/fun/doodle-5-6.avif" alt="Digital doodle, May 6, 2025" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="doodles-row">
+          <div class="gallery-item" data-caption="April 25, 2025">
+            <img src="images/fun/doodle-4-25.avif" alt="Digital doodle, April 25, 2025" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" data-caption="March 16, 2025">
+            <img src="images/fun/doodle-3-16.avif" alt="Digital doodle, March 16, 2025" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" data-caption="Doodle Collection 13-24">
+            <img src="images/fun/doodles-collection-2.jpg" alt="Doodle collection 13 through 24" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
@@ -159,100 +323,129 @@
     </div>
   </section>
 
+  </div><!-- end page-card -->
+
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__left">
-          <span class="footer__logo">Ruby Qian</span>
-          <ul class="footer__links">
-            <li><a href="/projects" class="footer__link">Projects</a></li>
-            <li><a href="/fun" class="footer__link">Fun</a></li>
-            <li><a href="/about" class="footer__link">About me</a></li>
-          </ul>
-        </div>
-        <div class="footer__socials">
-          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer__divider"></div>
-      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+  <footer class="footer-minimal" style="padding: 32px 48px; position: relative; z-index: 5;">
+    <div style="height: 1.5px; background: rgba(255,255,255,0.3); margin-bottom: 24px;"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span style="display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500;">
+        <a href="/" style="color: rgba(255,255,255,0.9); text-decoration: none; text-shadow: 0 1px 6px rgba(20,40,70,0.25); transition: color 0.2s;">Home</a>
+        <span style="color: rgba(255,255,255,0.4);">·</span>
+        <a href="/#projects" style="color: rgba(255,255,255,0.9); text-decoration: none; text-shadow: 0 1px 6px rgba(20,40,70,0.25); transition: color 0.2s;">Projects</a>
+        <span style="color: rgba(255,255,255,0.4);">·</span>
+        <a href="/fun" style="color: rgba(255,255,255,0.9); text-decoration: none; text-shadow: 0 1px 6px rgba(20,40,70,0.25); transition: color 0.2s;">Fun</a>
+        <span style="color: rgba(255,255,255,0.4);">·</span>
+        <a href="/about" style="color: rgba(255,255,255,0.9); text-decoration: none; text-shadow: 0 1px 6px rgba(20,40,70,0.25); transition: color 0.2s;">About me</a>
+      </span>
+      <span style="font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.75); text-shadow: 0 1px 6px rgba(20,40,70,0.2);">© 2026 Ruby Qian</span>
     </div>
   </footer>
+  </div><!-- end page-bg -->
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox__arrow lightbox__arrow--left" aria-label="Previous">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <div class="lightbox__content">
-      <img src="" alt="">
-      <p class="lightbox__caption"></p>
-    </div>
-    <button class="lightbox__arrow lightbox__arrow--right" aria-label="Next">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </div>
-
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="smooth-scroll.js"></script>
   <script src="reveal.js"></script>
   <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const lightboxCaption = lightbox.querySelector('.lightbox__caption');
-    const items = Array.from(document.querySelectorAll('.gallery-item'));
-    let currentIndex = 0;
+  // Interactions: sparkle trail + click sparkles
+  (function() {
+    // Click sparkle + trail CSS
+    var style = document.createElement('style');
+    style.textContent = [
+      '.click-sparkle-fun { position:fixed; pointer-events:none; z-index:9999;',
+      '  clip-path:polygon(50% 0%,57.5% 37.5%,100% 50%,57.5% 62.5%,50% 100%,42.5% 62.5%,0% 50%,42.5% 37.5%);',
+      '  filter:drop-shadow(0 0 6px rgba(255,255,255,0.95)) drop-shadow(0 0 12px rgba(255,255,255,0.6)); }',
+      '.trail-sparkle { position:fixed; pointer-events:none; z-index:9998; background:white;',
+      '  clip-path:polygon(50% 0%,57.5% 37.5%,100% 50%,57.5% 62.5%,50% 100%,42.5% 62.5%,0% 50%,42.5% 37.5%);',
+      '  filter:drop-shadow(0 0 3px rgba(255,255,255,0.8));',
+      '  animation:trailFadeFun 0.5s ease-out forwards; }',
+      '@keyframes trailFadeFun {',
+      '  0% { opacity:0.75; transform:scale(1); }',
+      '  60% { opacity:0.3; transform:scale(0.6) translateY(-5px); }',
+      '  100% { opacity:0; transform:scale(0) translateY(-10px); } }',
+    ].join('');
+    document.head.appendChild(style);
 
-    function showItem(index) {
-      const item = items[index];
-      const img = item.querySelector('img');
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt;
-      lightboxImg.classList.toggle('lightbox-img--png', img.src.endsWith('.png'));
-      lightboxCaption.textContent = item.dataset.caption || '';
-      currentIndex = index;
-    }
-
-    function navigate(dir) {
-      showItem((currentIndex + dir + items.length) % items.length);
-    }
-
-    items.forEach((item, i) => {
-      item.addEventListener('click', () => {
-        showItem(i);
-        lightbox.classList.add('lightbox--open');
-      });
-    });
-
-    lightbox.querySelector('.lightbox__arrow--left').addEventListener('click', (e) => {
-      e.stopPropagation();
-      navigate(-1);
-    });
-
-    lightbox.querySelector('.lightbox__arrow--right').addEventListener('click', (e) => {
-      e.stopPropagation();
-      navigate(1);
-    });
-
-    lightbox.addEventListener('click', (e) => {
-      if (!e.target.closest('.lightbox__content') && !e.target.closest('.lightbox__arrow')) {
-        lightbox.classList.remove('lightbox--open');
+    // Click sparkles on gradient areas
+    var pageBg = document.querySelector('.page-bg');
+    pageBg.addEventListener('click', function(e) {
+      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.page-card')) return;
+      var x = e.clientX, y = e.clientY;
+      var sparkColors = ['rgba(255,255,255,1)','rgba(255,240,248,1)','rgba(255,255,255,1)','rgba(255,230,242,1)'];
+      for (var i = 0; i < 7; i++) {
+        var s = document.createElement('div');
+        s.classList.add('click-sparkle-fun');
+        var angle = (i/7)*Math.PI*2+(Math.random()*0.4);
+        var dist = 35+Math.random()*55;
+        var endX = Math.cos(angle)*dist;
+        var endY = Math.sin(angle)*dist;
+        var sz = 10+Math.random()*12;
+        var color = sparkColors[Math.floor(Math.random()*sparkColors.length)];
+        s.style.cssText='left:'+x+'px;top:'+y+'px;width:'+sz+'px;height:'+sz+'px;background:'+color+';';
+        // Use Web Animations API for reliable dispersion
+        s.animate([
+          { opacity: 1, transform: 'translate(0,0) scale(1)' },
+          { opacity: 0, transform: 'translate('+endX+'px,'+endY+'px) scale(0)' }
+        ], { duration: 1200, easing: 'ease-out', fill: 'forwards' });
+        document.body.appendChild(s);
+        setTimeout(function(el){el.remove();},1300,s);
       }
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('lightbox--open')) return;
-      if (e.key === 'Escape') lightbox.classList.remove('lightbox--open');
-      if (e.key === 'ArrowLeft') navigate(-1);
-      if (e.key === 'ArrowRight') navigate(1);
-    });
+    // Cursor trail on gradient areas
+    if (window.matchMedia('(hover:hover)').matches) {
+      var POOL=30, pool=[], idx=0;
+      for(var t=0;t<POOL;t++){var d=document.createElement('div');d.classList.add('trail-sparkle');d.style.cssText='opacity:0;left:-50px;top:-50px;width:8px;height:8px;';document.body.appendChild(d);pool.push(d);}
+      var trailOn=false, lastT=0;
+      pageBg.addEventListener('mouseenter',function(){trailOn=true;});
+      pageBg.addEventListener('mouseleave',function(){trailOn=false;});
+      document.addEventListener('mousemove',function(e){
+        if(!trailOn||e.target.closest('.page-card'))return;
+        var now=performance.now();if(now-lastT<25)return;lastT=now;
+        var dot=pool[idx];idx=(idx+1)%POOL;
+        var sz=10+Math.random()*12;
+        dot.style.animation='none';dot.style.width=sz+'px';dot.style.height=sz+'px';
+        dot.style.left=(e.clientX+(-5+Math.random()*10))+'px';
+        dot.style.top=(e.clientY+(-5+Math.random()*10))+'px';
+        dot.offsetHeight;
+        dot.style.animation='trailFade 0.5s ease-out forwards';
+      },{passive:true});
+    }
+  })();
+
+  // Floating petals on the gradient background
+  (function() {
+    var pageBg = document.querySelector('.page-bg');
+    if (!pageBg) return;
+    var bokehColors = [
+      'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
+      'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
+      'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
+      'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
+    ];
+    for (var i = 0; i < 10; i++) {
+      var p = document.createElement('div');
+      p.classList.add('page-petal');
+      var size = 30 + Math.random() * 45;
+      var blur = 2 + Math.random() * 6;
+      var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
+      var top = Math.random() * 85;
+      var delay = -(Math.random() * 30);
+      var dur = 10 + Math.random() * 8;
+      var opacity = 0.5 + Math.random() * 0.4;
+      var dy = -30 + Math.random() * 60;
+      var rot = Math.random() * 360;
+      p.style.cssText =
+        'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
+        'background:' + color + ';' +
+        'left:-30px;top:' + top + '%;' +
+        'filter:blur(' + blur + 'px);' +
+        '--pp-opacity:' + opacity + ';--pp-dy:' + dy + 'px;--pp-rot:' + rot + 'deg;' +
+        'animation:petalDriftPage ' + dur + 's ' + delay + 's infinite linear;';
+      document.body.appendChild(p);
+    }
+  })();
   </script>
 </body>
 </html>

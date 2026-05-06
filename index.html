@@ -1,137 +1,1138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ruby Qian Portfolio</title>
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruby Qian Portfolio</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Libre+Caslon+Display&family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<!-- Inline html bg paints BEFORE external CSS loads, prevents white flash on navigation -->
+<style>
+  html {
+    background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+  }
+</style>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: #1a1a1a;
+    background: #F8FBFD;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+
+  /* Nav styles live in style.css now (shared with all pages) */
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* Soft glow spots to mimic the sparkly bokeh of the original */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(90px circle at 75% 55%, rgba(255, 220, 240, 0.2), transparent 70%),
+      radial-gradient(100px circle at 40% 65%, rgba(200, 230, 255, 0.2), transparent 70%),
+      radial-gradient(60px circle at 50% 20%, rgba(255, 255, 255, 0.25), transparent 70%),
+      radial-gradient(70px circle at 30% 40%, rgba(230, 220, 245, 0.15), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+    animation: bokehDrift 12s ease-in-out infinite alternate;
+  }
+  @keyframes bokehDrift {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { transform: translate(8px, -5px) scale(1.03); opacity: 0.8; }
+  }
+
+  /* Tulip cutout, anchored bottom-left, gentle top sway only */
+  .hero__tulips {
+    position: absolute;
+    bottom: -50px;
+    left: -100px;
+    width: 1500px;
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+    transform-origin: 25% 100%;
+    filter: contrast(1.08) saturate(1.18);
+    animation: tulipSway 8s ease-in-out infinite alternate;
+  }
+  @keyframes tulipSway {
+    0% { transform: rotate(-0.5deg) translateX(0); }
+    33% { transform: rotate(1.2deg) translateX(3px); }
+    66% { transform: rotate(-0.3deg) translateX(1px); }
+    100% { transform: rotate(1deg) translateX(4px); }
+  }
+  @keyframes tulipSwayBreeze {
+    0% { transform: rotate(-0.8deg) translateX(0); }
+    25% { transform: rotate(1.8deg) translateX(4px); }
+    50% { transform: rotate(-0.3deg) translateX(1px); }
+    75% { transform: rotate(1.5deg) translateX(3px); }
+    100% { transform: rotate(-0.5deg) translateX(1px); }
+  }
+  @keyframes tulipSwayGusty {
+    0% { transform: rotate(-3deg) translateX(0); }
+    25% { transform: rotate(3deg) translateX(8px); }
+    50% { transform: rotate(-2deg) translateX(2px); }
+    75% { transform: rotate(3deg) translateX(6px); }
+    100% { transform: rotate(-2.5deg) translateX(1px); }
+  }
+
+  /* Floating petals, drift left to right like wind */
+  /* Floating SVG petals */
+  .hero__petal {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 1px 2px rgba(232, 165, 180, 0.15));
+  }
+  @keyframes petalWind {
+    0% {
+      opacity: var(--p-opacity, 0.65);
+      transform: translateX(-60px) translateY(-4vh) rotate(0deg) scale(1);
+    }
+    100% {
+      opacity: var(--p-opacity, 0.65);
+      transform: translateX(calc(100vw + 80px)) translateY(calc(8vh + var(--p-driftY, 30px))) rotate(var(--p-rot, 360deg)) scale(0.85);
+    }
+  }
+
+  /* Twinkling sparkles */
+  .hero__sparkle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+  }
+  @keyframes sparkle {
+    0% { opacity: 0; transform: scale(0); }
+    15% { opacity: 0; transform: scale(0.2); }
+    35% { opacity: var(--sp-opacity, 0.55); transform: scale(1); }
+    50% { opacity: var(--sp-opacity, 0.55); transform: scale(1.15); }
+    65% { opacity: var(--sp-opacity, 0.55); transform: scale(1); }
+    85% { opacity: 0; transform: scale(0.2); }
+    100% { opacity: 0; transform: scale(0); }
+  }
+
+  /* Shooting stars, Hemi-style two-part animation */
+  .hero__shooting-star {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+  }
+  @keyframes shootingStarMove {
+    0%, 88% { transform: translate(0, 0); opacity: 0; }
+    89% { transform: translate(0, 0); opacity: 1; }
+    96% { opacity: 0.7; }
+    98% { transform: translate(50vw, 38vh); opacity: 0; }
+    100% { transform: translate(50vw, 38vh); opacity: 0; }
+  }
+  .hero__shooting-star-head {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.4);
+    z-index: 2;
+    top: -2.5px;
+    left: -2.5px;
+  }
+  .hero__shooting-star-streak {
+    position: absolute;
+    top: -1.5px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(270deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.35) 25%, rgba(255,255,255,0.1) 60%, transparent 100%);
+    border-radius: 2px;
+    transform-origin: left center;
+  }
+  @keyframes shootingStarStretch {
+    0%, 88% { width: 0px; opacity: 0; }
+    89% { width: 2px; opacity: 1; }
+    91% { width: 60px; opacity: 1; }
+    93% { width: 140px; opacity: 1; }
+    95% { width: 120px; opacity: 0.8; }
+    97% { width: 40px; opacity: 0.4; }
+    98% { width: 0px; opacity: 0; }
+    100% { width: 0px; opacity: 0; }
+  }
+
+  /* Right-aligned hero content (name + tagline) */
+  .hero__content {
+    position: absolute;
+    right: 7%;
+    left: 7%;
+    top: 50%;
+    transform: translateY(calc(-50% - 40px));
+    text-align: right;
+    z-index: 5;
+  }
+  .hero__name {
+    font-family: 'Libre Caslon Display', serif;
+    font-weight: 400;
+    font-size: clamp(55px, 12vw, 180px);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    margin-bottom: 32px;
+    color: #ffffff;
+    text-shadow: 0 4px 32px rgba(20, 40, 70, 0.22), 0 2px 8px rgba(20, 40, 70, 0.16), 0 1px 2px rgba(20, 40, 70, 0.1);
+    overflow-wrap: break-word;
+  }
+  .name__initial {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.3em;
+    line-height: 0.8;
+  }
+  .hero__tag {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(20, 40, 70, 0.28), 0 1px 4px rgba(20, 40, 70, 0.18);
+    max-width: 26em;
+    margin-left: auto;
+    font-size: clamp(22px, 2.1vw, 33px);
+  }
+  .hero__tag em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(25px, 2.4vw, 39px);
+  }
+  .hero__arrow {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 10;
+    text-shadow: 0 2px 16px rgba(20, 40, 70, 0.3), 0 1px 4px rgba(20, 40, 70, 0.2), 0 0 30px rgba(20, 40, 70, 0.1);
+    transition: color 0.5s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.5s ease;
+  }
+  .hero__arrow:hover {
+    color: #ffffff;
+    transform: translateX(-50%) translateY(-3px);
+  }
+
+
+  /* ── Projects Section ── */
+  .projects {
+    background: #F8FBFD;
+    padding: 120px 0 140px;
+    position: relative;
+  }
+  .projects__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .projects__heading {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(24px, 2.5vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+    margin-bottom: 48px;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card--placeholder .project-card__image {
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 30% 30%, #3d4f8c 0%, #1f2a4d 55%, #0f1730 100%);
+    color: #ffffff;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  }
+  .project-card:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  .project-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: #F5F0EC;
+  }
+  .project-card__body {
+    padding: 28px 32px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card__title {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.35;
+    color: #1a1a1a;
+    letter-spacing: -0.01em;
+  }
+  .project-card__desc {
+    color: #6a6a6a;
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  /* Pill cursor */
+  .pill-cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.65);
+    color: #1a1a1a;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 10px 22px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .pill-cursor--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0s;
+  }
+
+  /* Hide default cursor on project cards (desktop only) */
+  @media (hover: hover) {
+    .project-card { cursor: none; }
+    .project-card:hover { cursor: none; }
+  }
+  .project-card:hover .project-card__link svg {
+    transform: translateX(3px);
+  }
+
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .projects-grid { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav { padding: 0 24px; }
+    .nav__links { gap: 20px; }
+    .hero__content { right: 6%; left: 6%; }
+    .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
+    .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
+    .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
+    .projects { padding: 80px 0 100px; }
+    .projects__inner { padding: 0 24px; }
+    .projects__heading { margin-bottom: 32px; }
+    .project-card__body { padding: 24px 24px 28px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav__link { font-size: 15px; }
+    .nav--scrolled .nav__link { font-size: 13px; }
+    .project-card__title { font-size: 20px; }
+  }
+
+  /* ── Click sparkle ── */
+  .click-sparkle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 50;
+    clip-path: polygon(50% 0%, 57.5% 37.5%, 100% 50%, 57.5% 62.5%, 50% 100%, 42.5% 62.5%, 0% 50%, 42.5% 37.5%);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+    animation: clickSparkleOut 1.2s ease-out forwards;
+  }
+  @keyframes clickSparkleOut {
+    0% { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0); }
+  }
+
+  /* ── CTA buttons ── */
+  .cta-btn-white {
+    background: #ffffff;
+    color: #1a1a1a;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .cta-btn-white:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .cta-btn-glass {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-shadow: 0 1px 6px rgba(20,40,70,0.2);
+    cursor: pointer;
+  }
+  .cta-btn-glass:hover {
+    background: rgba(255,255,255,0.35);
+    border-color: rgba(255,255,255,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  /* ── Petal burst from tulips ── */
+  .burst-petal {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  }
+  @keyframes petalBurst {
+    0% { opacity: 0.85; transform: translate(0,0) rotate(0deg) scale(1); }
+    100% { opacity: 0; transform: translate(var(--bx), var(--by)) rotate(var(--br)) scale(0.3); }
+  }
+  @keyframes tulipGentle {
+    0% { transform: rotate(-0.5deg); }
+    25% { transform: rotate(1.5deg) translateX(3px); }
+    50% { transform: rotate(0.3deg) translateX(1px); }
+    75% { transform: rotate(1.2deg) translateX(2px); }
+    100% { transform: rotate(-0.3deg); }
+  }
+
+  /* ── Tulip click area hidden, tulip image is clickable ── */
+  .tulip-click-area { display: none; }
+  .hero__tulips { pointer-events: auto; cursor: pointer; z-index: 6; }
+
+  /* ── Wind control ── */
+  .wind-control {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    padding: 8px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.4);
+    user-select: none;
+    transition: background 0.2s;
+    box-shadow: 0 2px 12px rgba(20, 40, 70, 0.08);
+  }
+  .wind-control:hover { background: rgba(255,255,255,0.45); }
+  .wind-control svg { width: 16px; height: 16px; color: #ffffff; filter: drop-shadow(0 1px 6px rgba(20,40,70,0.35)); }
+  .wind-control span {
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 2px 10px rgba(20,40,70,0.4), 0 1px 3px rgba(20,40,70,0.25);
+  }
+  /* ── Minimal footer ── */
+  .footer-minimal {
+    padding: 0 48px 32px;
+    position: relative;
+    z-index: 5;
+  }
+  .footer-minimal__divider {
+    height: 1.5px;
+    background: rgba(255,255,255,0.45);
+    margin-bottom: 24px;
+  }
+  .footer-minimal__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-minimal__links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .footer-minimal__links a {
+    color: rgba(255,255,255,0.95);
+    text-shadow: 0 2px 10px rgba(20,40,70,0.35), 0 1px 3px rgba(20,40,70,0.2);
+    transition: color 0.2s;
+  }
+  .footer-minimal__links a:hover {
+    color: #ffffff;
+  }
+  .footer-minimal__dot {
+    color: rgba(255,255,255,0.5);
+  }
+  .footer-minimal__copyright {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 2px 10px rgba(20,40,70,0.3), 0 1px 3px rgba(20,40,70,0.2);
+  }
+
+  /* ── Cursor trail (4-pointed star) ── */
+  .trail-sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 50;
+    background: white;
+    clip-path: polygon(50% 0%, 57.5% 37.5%, 100% 50%, 57.5% 62.5%, 50% 100%, 42.5% 62.5%, 0% 50%, 42.5% 37.5%);
+    filter: drop-shadow(0 0 3px rgba(255,255,255,0.8)) drop-shadow(0 0 6px rgba(255,220,240,0.4));
+    animation: trailFade 0.3s ease-out forwards;
+  }
+  @keyframes trailFade {
+    0% { opacity: 0.75; transform: scale(1); }
+    60% { opacity: 0.3; transform: scale(0.6) translateY(-5px); }
+    100% { opacity: 0; transform: scale(0) translateY(-10px); }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll { animation: none; }
+    .trail-sparkle { display: none; }
+    .wind-control { display: none; }
+  }
+</style>
 </head>
-<body>
+<body class="page-home">
 
-  <!-- Navigation -->
-  <nav class="nav">
-    <div class="container nav__inner">
-      <a href="/" class="nav__logo">
-        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
-        Ruby Qian
+<!-- Page transition overlay -->
+<div class="page-transition-overlay"></div>
+
+<!-- ── Nav ── -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">
+      <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="24" height="24">
+    </a>
+    <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <ul class="nav__links">
+      <li><a href="/" class="nav__link">Home</a></li>
+      <li><a href="/#projects" class="nav__link">Projects</a></li>
+      <li><a href="/fun" class="nav__link">Fun</a></li>
+      <li><a href="/about" class="nav__link">About me</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero" id="hero">
+  <img src="images/bg/tulips-cutout.png" alt="" class="hero__tulips" id="heroTulips">
+  <div class="tulip-click-area" id="tulipClickArea"></div>
+  <div class="hero__content">
+    <h1 class="hero__name"><span class="name__initial">R</span>uby <span class="name__initial">Q</span>ian</h1>
+    <p class="hero__tag">A product designer based in New York City, designing experiences that are <em>intuitive, refined, and purposeful</em>.</p>
+  </div>
+
+  <a href="#projects" class="hero__arrow">View my projects below ↓</a>
+  <div class="wind-control" id="windControl">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+    <span id="windLabel">Calm</span>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section class="projects" id="projects">
+  <div class="projects__inner">
+    <h2 class="projects__heading">Selected Work</h2>
+
+    <div class="projects-grid">
+      <a href="/phia" class="project-card">
+        <img src="images/phia/mockup-phia.jpg" alt="Phia shopping app mockup" class="project-card__image" loading="lazy" decoding="async">
+        <div class="project-card__body">
+          <h3 class="project-card__title">Phia: Designathon Finalist</h3>
+          <p class="project-card__desc">Designing for Phia, a shopping app. Finalist work from the semifinals and finals. Full case study in progress.</p>
+        </div>
       </a>
-      <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
-      <ul class="nav__links">
-        <li><a href="/projects" class="nav__link">Projects</a></li>
-        <li><a href="/fun" class="nav__link">Fun</a></li>
-        <li><a href="/about" class="nav__link">About me</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <img src="images/headshot.avif" alt="Ruby Qian" class="hero__photo">
-      <h1 class="hero__heading">Hallo! I'm Ruby Qian, a product designer based in New York City. I design experiences that are intuitive, refined, and purposeful.</h1>
-      <a href="#projects" class="hero__arrow">View my projects below ↓</a>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="section projects-section">
-    <div class="container">
-      <h2 class="section-heading">Projects</h2>
-
-      <div class="projects-grid">
-        <a href="/yammii" class="project-card">
-          <img src="images/yammii/mockup-yammii.png" alt="Yammii Online Order Revamp" class="project-card__image">
-          <div class="project-card__body">
-            <h3 class="project-card__title">Redesign Project: Yammii Online Order Revamp</h3>
-            <p class="project-card__desc">Simplifying and modernizing Yammii's mobile order flow to create a more visually engaging and faster experience.</p>
-            <span class="project-card__link">
-              See the project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-        <a href="/googlemaps" class="project-card">
-          <img src="images/googlemaps/mockup-googlemaps.png" alt="AI Assistant for Google Maps" class="project-card__image">
-          <div class="project-card__body">
-            <h3 class="project-card__title">AI Assistant for Google Maps</h3>
-            <p class="project-card__desc">Designing an AI assistant for place discovery in Google Maps to help reduce decision fatigue.</p>
-            <span class="project-card__link">
-              See the project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-        <a href="/hemi" class="project-card">
-          <img src="images/hemi/hemi_skygarden.png" alt="Hemi sky garden view" class="project-card__image">
-          <div class="project-card__body">
-            <h3 class="project-card__title">Hemi: A Personal Reflection Journal</h3>
-            <p class="project-card__desc">Designing and vibe coding a digital journal, from a paper planner sketch to a fully deployed web app.</p>
-            <span class="project-card__link">
-              See the project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="cta-gem" aria-hidden="true"></div>
-    <div class="cta-gem cta-gem--2" aria-hidden="true"></div>
-    <div class="cta">
-      <h2 class="cta__heading">Connect with me!</h2>
-      <p class="cta__text">Let's talk projects, collaborations, and anything design.</p>
-      <div class="cta__buttons">
-        <a href="mailto:rubyqian1201@gmail.com" class="btn btn--cta">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          Email me
-        </a>
-        <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="btn btn--cta btn--cta-alt">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__left">
-          <span class="footer__logo">Ruby Qian</span>
-          <ul class="footer__links">
-            <li><a href="/projects" class="footer__link">Projects</a></li>
-            <li><a href="/fun" class="footer__link">Fun</a></li>
-            <li><a href="/about" class="footer__link">About me</a></li>
-          </ul>
+      <a href="/googlemaps" class="project-card">
+        <img src="images/googlemaps/mockup-googlemaps.png" alt="AI Assistant for Google Maps" class="project-card__image" loading="lazy" decoding="async">
+        <div class="project-card__body">
+          <h3 class="project-card__title">AI Assistant for Google Maps</h3>
+          <p class="project-card__desc">Designing an AI assistant for place discovery in Google Maps to help reduce decision fatigue.</p>
         </div>
-        <div class="footer__socials">
-          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer__divider"></div>
-      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
-    </div>
-  </footer>
+      </a>
 
-  <script src="reveal.js"></script>
+      <a href="/yammii" class="project-card">
+        <img src="images/yammii/mockup-yammii.jpg" alt="Yammii Online Order Revamp" class="project-card__image" loading="lazy" decoding="async">
+        <div class="project-card__body">
+          <h3 class="project-card__title">Yammii: Online Order Revamp</h3>
+          <p class="project-card__desc">Simplifying and modernizing Yammii's mobile order flow to create a more visually engaging and faster experience.</p>
+        </div>
+      </a>
+
+      <a href="/hemi" class="project-card">
+        <img src="images/hemi/hemi_skygarden.jpg" alt="Hemi sky garden view" class="project-card__image" loading="lazy" decoding="async">
+        <div class="project-card__body">
+          <h3 class="project-card__title">Hemi: A Personal Reflection Journal</h3>
+          <p class="project-card__desc">Designing and vibe coding a digital journal, from a paper planner sketch to a fully deployed web app.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA + Footer wrapper for glass effect -->
+<div style="background: linear-gradient(160deg, #B8D0E8 0%, #B0C8E4 30%, #B4CCE8 60%, #D4A0BC 100%);">
+
+<!-- CTA -->
+<section class="cta-section" id="ctaSection" style="background: transparent; position: relative; overflow: hidden;">
+  <div class="cta">
+    <h2 class="cta__heading" style="color: #ffffff; text-shadow: 0 2px 16px rgba(20,40,70,0.3), 0 1px 4px rgba(20,40,70,0.2);">Connect with me!</h2>
+    <p class="cta__text" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 8px rgba(20,40,70,0.2);">Let's talk projects, collaborations, and anything design.</p>
+    <div class="cta__buttons">
+      <a href="mailto:rubyqian1201@gmail.com" class="cta-btn-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        Email me
+      </a>
+      <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="cta-btn-glass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Minimal footer inside gradient -->
+<footer class="footer-minimal">
+  <div class="footer-minimal__divider"></div>
+  <div class="footer-minimal__content">
+    <span class="footer-minimal__links">
+      <a href="/">Home</a>
+      <span class="footer-minimal__dot">·</span>
+      <a href="/#projects">Projects</a>
+      <span class="footer-minimal__dot">·</span>
+      <a href="/fun">Fun</a>
+      <span class="footer-minimal__dot">·</span>
+      <a href="/about">About me</a>
+    </span>
+    <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
+  </div>
+</footer>
+</div><!-- end CTA + footer wrapper -->
+
+<!-- Pill cursor -->
+<div class="pill-cursor" id="pillCursor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View project</div>
+
+<script>
+(function() {
+  'use strict';
+
+  /* Nav scroll behavior is handled in reveal.js (shared) */
+
+  /* ════════════════════════════════════
+     Floating elements, Hemi-style
+  ════════════════════════════════════ */
+  var hero = document.getElementById('hero');
+
+  // ── Style A: Soft Bokeh Ovals ──
+  var petalSVGs = [];
+  var bokehColors = [
+    'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
+    'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
+    'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
+    'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
+    'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
+  ];
+  for (var i = 0; i < 12; i++) {
+    var p = document.createElement('div');
+    p.classList.add('hero__petal');
+    var size = 30 + Math.random() * 45;
+    var blur = 2 + Math.random() * 6;
+    var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
+    var top = Math.random() * 85;
+    var delay = -(Math.random() * 30);
+    var dur = 10 + Math.random() * 8;
+    var opacity = 0.5 + Math.random() * 0.4;
+    var driftY = -40 + Math.random() * 80;
+    var rot = Math.random() * 360;
+    p.style.cssText =
+      'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
+      'background:' + color + ';' +
+      'border-radius:50% 50% 50% 50%/60% 60% 40% 40%;' +
+      'left:-30px;top:' + top + '%;z-index:1;' +
+      'filter:blur(' + blur + 'px);' +
+      '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
+      'animation:petalWind ' + dur + 's ' + delay + 's infinite linear;';
+    hero.appendChild(p);
+  }
+
+  // ── Twinkling sparkles (evenly dispersed using grid sectors) ──
+  var gridCols = 4, gridRows = 3;
+  var sparkleCount = gridCols * gridRows;
+  for (var s = 0; s < sparkleCount; s++) {
+    var sp = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    sp.setAttribute('viewBox', '0 0 20 20');
+    var spSize = 10 + Math.random() * 10;
+    sp.setAttribute('width', spSize);
+    sp.setAttribute('height', spSize);
+    sp.classList.add('hero__sparkle');
+    sp.innerHTML = '<path d="M10 0 L11.5 7.5 L20 10 L11.5 12.5 L10 20 L8.5 12.5 L0 10 L8.5 7.5 Z" fill="white" opacity="1"/>';
+    // Grid-based placement for even distribution
+    var col = s % gridCols;
+    var row = Math.floor(s / gridCols);
+    var cellW = 80 / gridCols;
+    var cellH = 75 / gridRows;
+    var spLeft = 8 + col * cellW + Math.random() * (cellW * 0.7);
+    var spTop = 8 + row * cellH + Math.random() * (cellH * 0.7);
+    var spDur = 4 + Math.random() * 4;
+    sp.style.cssText =
+      'left:' + spLeft + '%;' +
+      'top:' + spTop + '%;' +
+      '--sp-opacity:' + (0.6 + Math.random() * 0.3) + ';' +
+      'filter:drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 3px rgba(255,250,230,0.7));' +
+      'animation:sparkle ' + spDur + 's ' + (Math.random() * 5) + 's infinite ease-in-out;' +
+      'animation-fill-mode: both;';
+    hero.appendChild(sp);
+  }
+
+  // ── Shooting stars (Hemi-style, mirrored direction: top-left to bottom-right) ──
+  var ssConfigs = [
+    { left: '15%', top: '10%', cycle: '18s', delay: '0s' },
+    { left: '5%', top: '30%', cycle: '22s', delay: '-8s' },
+    { left: '25%', top: '5%', cycle: '25s', delay: '-16s' },
+  ];
+  function createShootingStar(container, cfg) {
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('hero__shooting-star');
+    wrapper.style.cssText =
+      'top:' + cfg.top + ';left:' + cfg.left + ';' +
+      'animation:shootingStarMove ' + cfg.cycle + ' ease-in infinite;' +
+      'animation-delay:' + cfg.delay + ';';
+    var inner = document.createElement('div');
+    inner.style.cssText = 'transform:rotate(38deg);transform-origin:0 0;';
+    var head = document.createElement('div');
+    head.classList.add('hero__shooting-star-head');
+    var streak = document.createElement('div');
+    streak.classList.add('hero__shooting-star-streak');
+    streak.style.cssText =
+      'animation:shootingStarStretch ' + cfg.cycle + ' ease-out infinite;' +
+      'animation-delay:' + cfg.delay + ';';
+    inner.appendChild(head);
+    inner.appendChild(streak);
+    wrapper.appendChild(inner);
+    container.appendChild(wrapper);
+  }
+  for (var ss = 0; ss < ssConfigs.length; ss++) {
+    createShootingStar(hero, ssConfigs[ss]);
+  }
+
+  /* ════════════════════════════════════
+     Fade-in on scroll
+  ════════════════════════════════════ */
+  var fadeEls = document.querySelectorAll('.projects__heading, .project-card, .cta');
+  fadeEls.forEach(function(el, i) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1) ' + (i * 0.045) + 's, transform 0.55s cubic-bezier(0.4, 0, 0.2, 1) ' + (i * 0.045) + 's';
+    el.dataset.revealDelay = i * 45;
+  });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        observer.unobserve(el);
+        var delayMs = parseInt(el.dataset.revealDelay, 10) || 0;
+        setTimeout(function() {
+          el.style.opacity = '';
+          el.style.transform = '';
+          el.style.transition = '';
+        }, 600 + delayMs);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px 20px 0px' });
+
+  fadeEls.forEach(function(el) { observer.observe(el); });
+
+  /* ════════════════════════════════════
+     Pill cursor on project cards
+  ════════════════════════════════════ */
+  var pill = document.getElementById('pillCursor');
+  var cards = document.querySelectorAll('.project-card');
+  var pillVisible = false;
+
+  // Only track mouse position when pill is visible
+  document.addEventListener('mousemove', function(e) {
+    if (pillVisible) {
+      pill.style.left = (e.clientX + 16) + 'px';
+      pill.style.top = (e.clientY + 16) + 'px';
+    }
+  }, { passive: true });
+
+  cards.forEach(function(card) {
+    card.addEventListener('mouseenter', function(e) {
+      pill.style.left = (e.clientX + 16) + 'px';
+      pill.style.top = (e.clientY + 16) + 'px';
+      pill.classList.add('pill-cursor--visible');
+      pillVisible = true;
+    });
+    card.addEventListener('mouseleave', function() {
+      pill.classList.remove('pill-cursor--visible');
+      pillVisible = false;
+    });
+  });
+
+  // Hide pill cursor on touch devices
+  if (!window.matchMedia('(hover: hover)').matches) {
+    pill.style.display = 'none';
+    cards.forEach(function(card) { card.style.cursor = 'pointer'; });
+  }
+
+  /* ════════════════════════════════════
+     CTA section, same elements as hero
+  ════════════════════════════════════ */
+  var ctaSection = document.getElementById('ctaSection');
+  if (ctaSection) {
+    // CTA petals (Style A bokeh, matching hero)
+    for (var cp = 0; cp < 8; cp++) {
+      var cPetal = document.createElement('div');
+      cPetal.classList.add('hero__petal');
+      var cSize = 30 + Math.random() * 45;
+      var cBlur = 2 + Math.random() * 6;
+      var cColor = bokehColors[Math.floor(Math.random() * bokehColors.length)];
+      var cTop = Math.random() * 80;
+      var cDelay = -(Math.random() * 25);
+      var cDur = 10 + Math.random() * 8;
+      var cOpacity = 0.5 + Math.random() * 0.4;
+      var cDriftY = -30 + Math.random() * 60;
+      var cRot = Math.random() * 360;
+      cPetal.style.cssText =
+        'width:' + cSize + 'px;height:' + (cSize * 1.4) + 'px;' +
+        'background:' + cColor + ';' +
+        'border-radius:50% 50% 50% 50%/60% 60% 40% 40%;' +
+        'left:-30px;top:' + cTop + '%;z-index:1;' +
+        'filter:blur(' + cBlur + 'px);' +
+        '--p-opacity:' + cOpacity + ';--p-driftY:' + cDriftY + 'px;--p-rot:' + cRot + 'deg;' +
+        'animation:petalWind ' + cDur + 's ' + cDelay + 's infinite linear;';
+      ctaSection.appendChild(cPetal);
+    }
+
+    // CTA sparkles
+    for (var cs = 0; cs < 6; cs++) {
+      var cSp = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      cSp.setAttribute('viewBox', '0 0 20 20');
+      var csSize = 8 + Math.random() * 8;
+      cSp.setAttribute('width', csSize);
+      cSp.setAttribute('height', csSize);
+      cSp.classList.add('hero__sparkle');
+      cSp.innerHTML = '<path d="M10 0 L11.5 7.5 L20 10 L11.5 12.5 L10 20 L8.5 12.5 L0 10 L8.5 7.5 Z" fill="white" opacity="1"/>';
+      cSp.style.cssText =
+        'position:absolute;left:' + (5 + Math.random() * 88) + '%;' +
+        'top:' + (5 + Math.random() * 85) + '%;' +
+        '--sp-opacity:' + (0.5 + Math.random() * 0.3) + ';' +
+        'filter:drop-shadow(0 0 5px rgba(255,255,255,0.8));' +
+        'animation:sparkle ' + (4 + Math.random() * 4) + 's ' + (Math.random() * 4) + 's infinite ease-in-out;' +
+        'animation-fill-mode:both;';
+      ctaSection.appendChild(cSp);
+    }
+
+    // CTA shooting stars (same Hemi-style)
+    createShootingStar(ctaSection, { left: '10%', top: '15%', cycle: '20s', delay: '-5s' });
+    createShootingStar(ctaSection, { left: '30%', top: '35%', cycle: '24s', delay: '-15s' });
+  }
+
+  /* ════════════════════════════════════
+     Click to Sparkle (hero only)
+  ════════════════════════════════════ */
+  hero.addEventListener('click', function(e) {
+    // Don't sparkle if clicking tulip area, links, or controls
+    if (e.target.closest('.tulip-click-area') || e.target.closest('a') || e.target.closest('.wind-control')) return;
+    var rect = hero.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    var sparkColors = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
+    for (var ci = 0; ci < 7; ci++) {
+      var spark = document.createElement('div');
+      spark.classList.add('click-sparkle');
+      var angle = (ci / 7) * Math.PI * 2 + (Math.random() * 0.4);
+      var dist = 35 + Math.random() * 55;
+      var cSize = 10 + Math.random() * 12;
+      var sColor = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+      spark.style.cssText =
+        'left:' + x + 'px;top:' + y + 'px;' +
+        'width:' + cSize + 'px;height:' + cSize + 'px;' +
+        'background:' + sColor + ';' +
+        '--sx:' + (Math.cos(angle) * dist) + 'px;--sy:' + (Math.sin(angle) * dist) + 'px;';
+      hero.appendChild(spark);
+      setTimeout(function(el) { el.remove(); }, 1300, spark);
+    }
+  });
+
+  /* ════════════════════════════════════
+     Petal Burst on Tulip Click
+  ════════════════════════════════════ */
+  var heroTulips = document.getElementById('heroTulips');
+  var burstBokehColors = [
+    'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
+    'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
+    'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
+  ];
+
+  // Load tulip image into canvas for pixel-perfect click detection
+  var _tulipCanvas = document.createElement('canvas');
+  var _tulipCtx = _tulipCanvas.getContext('2d', { willReadFrequently: true });
+  var _tulipReady = false;
+  var _tulipImg = new Image();
+  _tulipImg.crossOrigin = 'anonymous';
+  _tulipImg.onload = function() {
+    _tulipCanvas.width = _tulipImg.naturalWidth;
+    _tulipCanvas.height = _tulipImg.naturalHeight;
+    _tulipCtx.drawImage(_tulipImg, 0, 0);
+    _tulipReady = true;
+  };
+  _tulipImg.src = heroTulips.src;
+
+  heroTulips.addEventListener('click', function(e) {
+    // Check if click hit a non-transparent pixel
+    if (_tulipReady) {
+      var imgRect = heroTulips.getBoundingClientRect();
+      var relX = (e.clientX - imgRect.left) / imgRect.width;
+      var relY = (e.clientY - imgRect.top) / imgRect.height;
+      var px = Math.floor(relX * _tulipCanvas.width);
+      var py = Math.floor(relY * _tulipCanvas.height);
+      if (px < 0 || px >= _tulipCanvas.width || py < 0 || py >= _tulipCanvas.height) return;
+      var alpha = _tulipCtx.getImageData(px, py, 1, 1).data[3];
+      if (alpha < 5) return; // clicked transparent area, ignore
+    }
+    e.stopPropagation(); // prevent hero sparkle
+    // Gentle sway
+    heroTulips.style.animation = 'none';
+    heroTulips.offsetHeight;
+    heroTulips.style.animation = 'tulipGentle 1.2s ease-in-out, tulipSway 8s 1.2s ease-in-out infinite alternate';
+    // Burst petals from both tulip heads
+    var rect = hero.getBoundingClientRect();
+    var origins = [
+      { x: 200, y: rect.height - 420 },
+      { x: 320, y: rect.height - 320 },
+    ];
+    for (var bi = 0; bi < 10; bi++) {
+      var bPetal = document.createElement('div');
+      bPetal.classList.add('burst-petal');
+      var origin = origins[Math.floor(Math.random() * origins.length)];
+      var bSize = 50 + Math.random() * 50;
+      var bx = 80 + Math.random() * 400;
+      var by = -80 - Math.random() * 280;
+      var br = 90 + Math.random() * 270;
+      var bColor = burstBokehColors[Math.floor(Math.random() * burstBokehColors.length)];
+      bPetal.style.cssText =
+        'width:' + bSize + 'px;height:' + (bSize * 1.4) + 'px;' +
+        'background:' + bColor + ';' +
+        'left:' + origin.x + 'px;top:' + origin.y + 'px;' +
+        'filter:blur(' + (1 + Math.random() * 3) + 'px);' +
+        '--bx:' + bx + 'px;--by:' + by + 'px;--br:' + br + 'deg;' +
+        'animation:petalBurst ' + (1.4 + Math.random() * 0.8) + 's ease-out forwards;';
+      hero.appendChild(bPetal);
+      setTimeout(function(el) { el.remove(); }, 2500, bPetal);
+    }
+  });
+
+  /* ════════════════════════════════════
+     Wind Speed Toggle
+  ════════════════════════════════════ */
+  var windControl = document.getElementById('windControl');
+  var windLabelEl = document.getElementById('windLabel');
+  var windSpeeds = ['Calm', 'Breeze', 'Gusty'];
+  var windDurations = { Calm: 10, Breeze: 6, Gusty: 3 };
+  var windTulipAnim = { Calm: 'tulipSway 8s ease-in-out infinite alternate', Breeze: 'tulipSwayBreeze 6s ease-in-out infinite alternate', Gusty: 'tulipSwayGusty 6s ease-in-out infinite alternate' };
+  var currentWindIdx = 0;
+
+  // Collect all petals (hero + CTA) for speed adjustment
+  var allPetals = document.querySelectorAll('.hero__petal');
+
+  windControl.addEventListener('click', function(e) {
+    e.stopPropagation();
+    currentWindIdx = (currentWindIdx + 1) % windSpeeds.length;
+    var speed = windSpeeds[currentWindIdx];
+    windLabelEl.textContent = speed;
+    var dur = windDurations[speed];
+    allPetals.forEach(function(p) {
+      p.style.animationDuration = dur + 's';
+    });
+    // Update tulip sway intensity
+    heroTulips.style.animation = 'none';
+    heroTulips.offsetHeight;
+    heroTulips.style.animation = windTulipAnim[speed];
+  });
+
+  /* ════════════════════════════════════
+     Cursor Trail, Pixie Dust (hero only, pooled for smoothness)
+  ════════════════════════════════════ */
+  var trailActive = false;
+  var footerMinimal = document.querySelector('.footer-minimal');
+  var trailSections = [hero, ctaSection, footerMinimal].filter(Boolean);
+  trailSections.forEach(function(sec) {
+    sec.addEventListener('mouseenter', function() { trailActive = true; });
+    sec.addEventListener('mouseleave', function() { trailActive = false; });
+  });
+
+  // Click sparkle also works in CTA
+  if (ctaSection) {
+    ctaSection.addEventListener('click', function(e) {
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      var rect = ctaSection.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var sparkColors2 = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
+      for (var ci2 = 0; ci2 < 7; ci2++) {
+        var spark2 = document.createElement('div');
+        spark2.classList.add('click-sparkle');
+        var angle2 = (ci2 / 7) * Math.PI * 2 + (Math.random() * 0.4);
+        var dist2 = 35 + Math.random() * 55;
+        var cSize2 = 8 + Math.random() * 10;
+        var sColor2 = sparkColors2[Math.floor(Math.random() * sparkColors2.length)];
+        spark2.style.cssText =
+          'left:' + x + 'px;top:' + y + 'px;' +
+          'width:' + cSize2 + 'px;height:' + cSize2 + 'px;' +
+          'background:' + sColor2 + ';' +
+          '--sx:' + (Math.cos(angle2) * dist2) + 'px;--sy:' + (Math.sin(angle2) * dist2) + 'px;';
+        ctaSection.appendChild(spark2);
+        setTimeout(function(el) { el.remove(); }, 1300, spark2);
+      }
+    });
+  }
+
+  // Footer click sparkles
+  if (footerMinimal) {
+    footerMinimal.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      var rect = footerMinimal.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var sparkColors3 = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
+      for (var ci3 = 0; ci3 < 7; ci3++) {
+        var spark3 = document.createElement('div');
+        spark3.classList.add('click-sparkle');
+        var angle3 = (ci3 / 7) * Math.PI * 2 + (Math.random() * 0.4);
+        var dist3 = 35 + Math.random() * 55;
+        var cSize3 = 10 + Math.random() * 12;
+        var sColor3 = sparkColors3[Math.floor(Math.random() * sparkColors3.length)];
+        spark3.style.cssText =
+          'left:' + x + 'px;top:' + y + 'px;' +
+          'width:' + cSize3 + 'px;height:' + cSize3 + 'px;' +
+          'background:' + sColor3 + ';' +
+          '--sx:' + (Math.cos(angle3) * dist3) + 'px;--sy:' + (Math.sin(angle3) * dist3) + 'px;';
+        footerMinimal.appendChild(spark3);
+        setTimeout(function(el) { el.remove(); }, 1300, spark3);
+      }
+    });
+  }
+
+  if (window.matchMedia('(hover: hover)').matches) {
+    // Pre-create a pool of sparkle elements
+    var POOL_SIZE = 30;
+    var sparklePool = [];
+    var poolIndex = 0;
+    for (var tp = 0; tp < POOL_SIZE; tp++) {
+      var dot = document.createElement('div');
+      dot.classList.add('trail-sparkle');
+      dot.style.cssText = 'opacity:0;left:-50px;top:-50px;width:8px;height:8px;';
+      document.body.appendChild(dot);
+      sparklePool.push(dot);
+    }
+
+    var lastTrailTime = 0;
+    document.addEventListener('mousemove', function(e) {
+      if (!trailActive) return;
+      var now = performance.now();
+      if (now - lastTrailTime < 25) return; // throttle to ~40fps for smoothness
+      lastTrailTime = now;
+
+      var dot = sparklePool[poolIndex];
+      poolIndex = (poolIndex + 1) % POOL_SIZE;
+      var tSize = 10 + Math.random() * 12;
+      var offsetX = -5 + Math.random() * 10;
+      var offsetY = -5 + Math.random() * 10;
+      var driftY = -6 - Math.random() * 10;
+
+      // Position and restart animation
+      dot.style.animation = 'none';
+      dot.style.width = tSize + 'px';
+      dot.style.height = tSize + 'px';
+      dot.style.left = (e.clientX + offsetX) + 'px';
+      dot.style.top = (e.clientY + offsetY) + 'px';
+      dot.offsetHeight; // force reflow
+      dot.style.animation = 'trailFade 0.5s ease-out forwards';
+    }, { passive: true });
+  }
+
+})();
+</script>
+<script src="reveal.js"></script>
 </body>
 </html>

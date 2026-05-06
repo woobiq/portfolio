@@ -3,18 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hemi: Ruby Qian Portfolio</title>
+  <title>Hemi: A Personal Reflection Journal · Ruby Qian Portfolio</title>
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Inline floral on <html> so it paints BEFORE any other CSS, prevents white flash on page load -->
+  <style>
+    html {
+      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    }
+  </style>
 </head>
 <body class="case-study-page hemi-page">
 
+  <!-- Page transition overlay, covers screen at first paint, fades out via JS -->
+  <div class="page-transition-overlay"></div>
+
+  <!-- Floral background layer -->
+  <div class="bg-layer" id="bgLayer"></div>
+
   <!-- Navigation -->
   <nav class="nav">
-    <div class="container nav__inner">
+    <div class="nav__inner">
       <a href="/" class="nav__logo">
-        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
-        Ruby Qian
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="24" height="24">
       </a>
       <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -24,264 +38,484 @@
         </svg>
       </button>
       <ul class="nav__links">
-        <li><a href="/projects" class="nav__link nav__link--active">Projects</a></li>
+        <li><a href="/" class="nav__link">Home</a></li>
+        <li><a href="/#projects" class="nav__link">Projects</a></li>
         <li><a href="/fun" class="nav__link">Fun</a></li>
         <li><a href="/about" class="nav__link">About me</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Sidebar Nav -->
-  <aside class="case-study-sidebar">
-    <nav class="case-study-nav">
-      <a href="#introduction" class="case-study-nav__link">Introduction</a>
-      <a href="#vision" class="case-study-nav__link">Vision & Inspiration</a>
-      <a href="#process" class="case-study-nav__link">The Vibe Coding Process</a>
-      <a href="#features" class="case-study-nav__link">Key Features</a>
-      <a href="#outcome" class="case-study-nav__link">Outcome</a>
-      <a href="#reflection" class="case-study-nav__link">Reflection</a>
-    </nav>
-  </aside>
+  <!-- Case study shell: TOC | card | spacer -->
+  <div class="case-shell">
 
-  <!-- Case Study Hero -->
-  <div class="container">
-    <section class="case-study-hero">
-      <span class="case-study-hero__label">Personal Project</span>
-      <h1 class="case-study-hero__title">Hemi: A Personal Reflection Journal</h1>
-      <p class="case-study-hero__subtitle">Designing and vibe coding a digital journal, from a paper planner sketch to a fully deployed web app.</p>
-    </section>
+    <aside class="case-toc">
+      <div class="case-toc__header">Contents</div>
+      <a class="case-toc__item case-toc__item--active" href="#origin">Origin</a>
+      <a class="case-toc__item" href="#outcome">Outcome</a>
+      <a class="case-toc__item" href="#process">Process</a>
+      <a class="case-toc__item" href="#reflections">Reflections</a>
+    </aside>
 
-    <!-- Meta -->
-    <div class="case-study-meta-group">
-      <div class="case-study-meta">
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Role</span>
-          <span class="case-study-meta__value">Creator & Product Designer</span>
-        </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Category</span>
-          <span class="case-study-meta__value">Personal / Lifestyle</span>
-        </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Duration</span>
-          <span class="case-study-meta__value">3 weeks</span>
-        </div>
-      </div>
-      <div class="case-study-meta">
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Built with</span>
-          <span class="case-study-meta__value">Claude Code</span>
-        </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Live site</span>
-          <span class="case-study-meta__value"><a href="https://hemi.rubyqian.com" target="_blank" style="color: #4a7faa; border-bottom: 1px solid transparent; transition: border-color 0.3s ease;">hemi.rubyqian.com</a></span>
-        </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Demo</span>
-          <span class="case-study-meta__value"><a href="https://hemi.rubyqian.com/demo" target="_blank" style="color: #4a7faa; border-bottom: 1px solid transparent; transition: border-color 0.3s ease;">hemi.rubyqian.com/demo</a></span>
-        </div>
-      </div>
-      <div class="case-study-meta__item">
-        <span class="case-study-meta__label">About</span>
-        <span class="case-study-meta__value">Hemi, short for hemisphere, is a browser-based personal reflection journal inspired by how the two halves of the brain work: one side thinks, the other feels. Each monthly spread mirrors this idea, pairing structured tracking on the left (goals, stats, reflections) with expressive scrapbooking on the right (photos, quotes, music, vibes). It runs entirely in the browser with optional Google sign-in to sync across devices.</span>
-      </div>
-    </div>
+    <main class="case-card">
 
-    <!-- Case Study Body -->
-    <div class="case-study-layout">
-
-      <article class="case-study-body">
-
-        <img src="images/hemi/hemi_skygarden.png" alt="Hemi sky garden view with floating journals in a dreamy cloud scene" class="case-study-image">
-
-        <!-- Introduction -->
-        <h2 id="introduction">Introduction</h2>
-        <div class="case-study-intro-row">
-          <div class="case-study-intro-text">
-            <p>Hemi started from a real problem: <strong>my monthly reflections were scattered across too many places</strong>: a Hobonichi planner, a Notion doc, social media posts. The turning point was a hand-drawn spread in my planner. A structured page on the left with goals and statistics, and a creative page on the right capturing everything else: a quote of the month, favorite memories, what I was listening to and watching, and reflections on what I was letting go and bringing in. That sketch became the blueprint for Hemi: <strong>a digital version I could fill in quickly, access from anywhere, and use to pull insights over time.</strong> I designed and directed the entire build through vibe coding, using AI (Claude Code) to translate my design vision into a working, deployed product.</p>
+      <!-- Hero: text left, image right -->
+      <header class="case-hero">
+        <div class="case-hero__text">
+          <h1 class="case-hero__title">Hemi: A Personal Reflection Journal</h1>
+          <p class="case-hero__glance">
+            <span class="case-hero__glance-label">At a glance</span>
+            A personal product I designed and <em>vibe coded</em> end-to-end: a <em>digital reflection journal</em> that pairs <em>structured tracking</em> on the left page with <em>expressive scrapbooking</em> on the right.
+          </p>
+          <div class="case-hero__meta">
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Role</div>
+              <div class="case-hero__meta-value">Creator &amp; Product Designer</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Timeline</div>
+              <div class="case-hero__meta-value">3 weeks</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Category</div>
+              <div class="case-hero__meta-value">Personal / Lifestyle</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Built with</div>
+              <div class="case-hero__meta-value">Claude Code</div>
+            </div>
           </div>
-          <img src="images/hemi/planner-spread.png" alt="Hand-drawn Hobonichi planner spread that inspired Hemi" class="case-study-intro-img">
-        </div>
-
-        <!-- Vision -->
-        <h2 id="vision">Vision & Inspiration</h2>
-        <p>I knew exactly what I wanted Hemi to feel like: <strong>muji-inspired Japanese minimalism.</strong> Quiet, warm, analog. Everything lowercase. Muted pastels. Generous whitespace. No harsh edges or aggressive UI patterns.</p>
-
-        <ul>
-          <li><strong>Quiet over loud:</strong> muted colors, thin borders, small type.</li>
-          <li><strong>Analog warmth:</strong> linen textures, wooden shelf planks, page-flip shadows.</li>
-          <li><strong>Color as mood:</strong> each month gets its own color that tints the entire spread.</li>
-          <li><strong>Soft transitions always:</strong> every element fades in and out gently.</li>
-        </ul>
-
-        <p>The app is built around the metaphor of a <strong>physical bookshelf</strong>: a shelf of journals, one for each year. You pull a book off the shelf, flip to a month, and land on a two-page spread. My original vision was more immersive, a full library scene with a window and couch. But I realized that would be difficult to execute well through vibe coding, and <strong>simplifying to just shelf planks and book spines was the stronger choice</strong>. Cleaner, more minimal, more aligned with the muji aesthetic.</p>
-
-        <!-- Process -->
-        <h2 id="process">The Vibe Coding Process</h2>
-        <p>Vibe coding means building software by describing what you want in natural language and having AI write the code. This wasn't "AI generated the app." It was a deeply collaborative process where I <strong>directed every design decision through conversation.</strong></p>
-
-        <img src="images/hemi/hemi-vibe-coding-process.png" alt="Vibe coding process diagram showing the iterative design-to-code workflow" class="case-study-image" style="border-radius: 10px; max-width: 70%; margin: 0 auto 2rem; display: block;">
-
-        <p>The <strong>3D page-flip transition</strong> is a good example. The first version was clunky: pages flashing incorrectly, wrong pages showing mid-flip, stiff animation. Getting it to feel like smoothly turning a page in a real book took many rounds of design feedback until it finally felt right.</p>
-
-        <!-- Features -->
-        <h2 id="features">Key Features</h2>
-        <p class="case-study-demo-note">All features below are shown with sample data for demonstration.</p>
-        <h3 class="case-study-feature-title">Monthly Spreads</h3>
-        <p>The heart of Hemi. Each month is a <strong>two-page spread</strong> with the left page for structured tracking (theme, stats, goals, reflection) and the right page for expressive content (quotes, photos, songs, vibes). Content is <strong>fixed-size like real paper</strong>, so there's no scrolling, which encourages intentional editing over endless journaling. One of my favorite details is the <strong>Spotify embed</strong>. Each month has a song of the month that you can play directly in the journal, because music is such a big part of how I remember a period of time.</p>
-
-        <img src="images/hemi/monthly-spread.png" alt="Monthly spread showing structured tracking on the left and expressive content on the right" class="case-study-image">
-
-        <h3 class="case-study-feature-title">Sky Garden</h3>
-        <p>An alternative home view where journals float in a <strong>sky scene</strong> with watercolor clouds, falling petals, and twinkling sparkles. A live sky mode shifts based on time of day, from soft morning light to a moonlit night sky with four-pointed stars and shooting stars. Users can also <strong>choose the season</strong>, which changes the flowers and elements drifting across the sky, and <strong>adjust the wind speed</strong>, which affects how everything moves.</p>
-
-        <div class="case-study-sky-pair">
-          <figure class="case-study-sky-figure">
-            <img src="images/hemi/sky-day.png" alt="Spring daytime sky garden view" class="case-study-image">
-            <figcaption>Day Time - Spring Season</figcaption>
-          </figure>
-          <figure class="case-study-sky-figure">
-            <img src="images/hemi/sky-night.png" alt="Summer nighttime sky garden view" class="case-study-image">
-            <figcaption>Night Time - Summer Season</figcaption>
-          </figure>
-        </div>
-
-        <h3 class="case-study-feature-title">Hemi Wrapped</h3>
-        <p>Inspired by Spotify Wrapped, Hemi automatically compiles insights from all 12 months into a <strong>read-only year recap</strong>: recurring themes, a timeline of month-by-month colors, your <strong>top songs across the year</strong> pulled from each month's Spotify embed, favorite memories, and a summary of what you let go of and brought in.</p>
-
-        <img src="images/hemi/hemi-wrapped.png" alt="Hemi Wrapped year recap showing stats, songs, and memories" class="case-study-image">
-
-        <!-- Outcome -->
-        <h2 id="outcome">Outcome</h2>
-        <p>Hemi is live at <a href="https://hemi.rubyqian.com" target="_blank" style="color: #4a7faa;">hemi.rubyqian.com</a> with a pre-filled demo at <a href="https://hemi.rubyqian.com/demo" target="_blank" style="color: #4a7faa;">hemi.rubyqian.com/demo</a>. By default, everything runs locally in the browser with no accounts required. Users can optionally <strong>sign in with Google to sync their data across devices</strong>, and the only backend is for image uploads.</p>
-        <p>I've been using Hemi throughout 2026 to recap my months, and it's become a genuine part of my routine, something I look forward to filling in at the end of each month. I'm now slowly testing it with friends to get feedback on the experience. Hemi is currently <strong>designed for desktop</strong>, which is intentional. The two-page spread layout mirrors the physical journal that inspired it, and the level of detail in each spread benefits from a larger screen.</p>
-
-        <div style="border-radius: 10px; overflow: hidden; background: #1a1a1a;">
-          <video id="hemi-demo" controls muted preload="auto" style="width: 100%; display: block;">
-            <source src="images/hemi/hemi_demo.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-
-        <!-- Reflection -->
-        <h2 id="reflection">Reflection</h2>
-
-        <div class="case-study-reflections">
-          <div class="case-study-reflection">
-            <h3>Learnings</h3>
-            <p><strong>Clear prompting is everything.</strong> The more precisely I could describe what I wanted upfront (the aesthetic, the layout, the feel), the faster and better the results were. Vibe coding works best when you and the AI are fully on the same page before building starts. Once that foundation was set, it let me focus on <strong>product thinking over implementation</strong>. Instead of worrying about whether something could be built, I could just try it and see.</p>
-          </div>
-          <div class="case-study-reflection">
-            <h3>Challenges</h3>
-            <p><strong>Communicating visual intent without technical vocabulary.</strong> I couldn't say "reduce the border-radius to 8px," so I'd say "make it feel less rounded" or "this looks too bubbly." Some things took many rounds to get right, like the <strong>3D page-flip transition</strong>, which took a long time before the flip felt smooth and natural instead of clunky. Over time, I developed a shared language with the AI that made iteration faster, but translating a feeling into words was always the hardest part.</p>
-          </div>
-          <div class="case-study-reflection case-study-reflection--wide">
-            <h3>What's Next</h3>
-            <p>Currently expanding Hemi with new journal types, including a <strong>travel journal</strong> and a <strong>cafe journal</strong>, and working on making the experience responsive across screen sizes.</p>
-          </div>
-        </div>
-
-        <!-- Other Projects -->
-        <div class="other-projects">
-          <h3 class="other-projects__heading">Other projects</h3>
-          <div class="other-projects__grid">
-            <a href="/yammii" class="other-projects__card">
-              <img src="images/yammii/mockup-yammii.png" alt="Yammii Online Order Revamp" class="other-projects__image">
-              <div class="other-projects__body">
-                <h4 class="other-projects__title">Yammii — Online Order Revamp</h4>
-                <p class="other-projects__desc">Simplifying and modernizing Yammii's mobile order flow.</p>
-              </div>
+          <div class="case-hero__actions">
+            <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener" class="case-hero__jump case-hero__jump--solid">
+              <span class="case-hero__jump-arrow">↗</span>
+              Visit site
             </a>
-            <a href="/googlemaps" class="other-projects__card">
-              <img src="images/googlemaps/mockup-googlemaps.png" alt="AI Assistant for Google Maps" class="other-projects__image">
-              <div class="other-projects__body">
-                <h4 class="other-projects__title">AI Assistant for Google Maps</h4>
-                <p class="other-projects__desc">Designing an AI assistant for place discovery to help reduce decision fatigue.</p>
-              </div>
+            <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener" class="case-hero__jump">
+              <span class="case-hero__jump-arrow">↗</span>
+              Visit demo
+            </a>
+            <a href="#outcome" class="case-hero__jump">
+              <span class="case-hero__jump-arrow">↓</span>
+              Jump to outcome
             </a>
           </div>
         </div>
+        <img src="images/hemi/hemi_skygarden.jpg" alt="Hemi sky garden view with floating journals in a dreamy cloud scene" class="case-hero__image">
+      </header>
 
-      </article>
-    </div>
+      <!-- Body -->
+      <div class="case-body">
+        <div class="case-content">
+
+          <!-- ORIGIN -->
+          <h2 id="origin">Origin</h2>
+          <div class="case-study-intro-row">
+            <div class="case-study-intro-text">
+              <p>Hemi started from a real personal frustration: <strong>my monthly reflections were scattered across too many places</strong>, a Hobonichi planner, a Notion doc, social media posts. The turning point was a hand-drawn spread in my planner: a structured page on the left with goals and statistics, and a creative page on the right with a quote of the month, favorite memories, what I was listening to and watching, and reflections on what I was letting go and bringing in.</p>
+              <p>That sketch became the blueprint for Hemi: <strong>a digital version I could fill in quickly, access from anywhere, and use to pull insights over time.</strong> I designed and directed the entire build through vibe coding, using AI (Claude Code) to translate my vision into a working, deployed product.</p>
+            </div>
+            <img src="images/hemi/planner-spread.jpg" alt="Hand-drawn Hobonichi planner spread that inspired Hemi" class="case-study-intro-img" loading="lazy" decoding="async">
+          </div>
+
+          <!-- OUTCOME -->
+          <h2 id="outcome">Outcome</h2>
+          <p>Hemi is live at <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener">hemi.rubyqian.com</a> with a pre-filled demo at <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener">hemi.rubyqian.com/demo</a>. Everything runs locally in the browser with no accounts required by default; users can optionally <strong>sign in with Google to sync across devices</strong>. Hemi is intentionally <strong>designed for desktop</strong>, the two-page spread mirrors the physical journal that inspired it. I've been using it throughout 2026, and it's become a real part of my monthly routine.</p>
+
+          <h3>Hemi in motion</h3>
+          <div style="border-radius: 16px; overflow: hidden; background: #1a1a1a; margin: 24px 0 40px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+            <video id="hemi-demo" controls muted preload="metadata" style="width: 100%; display: block;">
+              <source src="images/hemi/hemi_demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <p class="case-study-demo-note">Three features anchor the experience. All shown with sample data.</p>
+
+          <div class="feature-row">
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">01</div>
+                <div class="feature-card__title">Monthly Spreads</div>
+              </div>
+              <div class="feature-card__desc">A <strong>two-page spread</strong> per month, structured tracking on the left, expressive content (quotes, photos, songs) on the right.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">02</div>
+                <div class="feature-card__title">Sky Garden</div>
+              </div>
+              <div class="feature-card__desc">An alternative home view where journals float in a <strong>live sky scene</strong> that shifts with time of day, season, and wind speed.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">03</div>
+                <div class="feature-card__title">Hemi Wrapped</div>
+              </div>
+              <div class="feature-card__desc">A <strong>read-only year recap</strong> that compiles themes, top songs, memories, and color timelines from all 12 months.</div>
+            </div>
+          </div>
+
+          <h3>Monthly Spreads</h3>
+          <p>The heart of Hemi. Content is <strong>fixed-size like real paper</strong>, so there's no scrolling, which encourages intentional editing over endless journaling. One of my favorite details is the <strong>Spotify embed</strong>: each month has a song of the month that you can play directly in the journal, because music is such a big part of how I remember a period of time.</p>
+          <img src="images/hemi/monthly-spread.png" alt="Monthly spread showing structured tracking on the left and expressive content on the right" class="case-image" loading="lazy" decoding="async">
+
+          <h3>Sky Garden</h3>
+          <p>Journals float in a <strong>sky scene</strong> with watercolor clouds, falling petals, and twinkling sparkles. A live sky mode shifts based on time of day, from soft morning light to a moonlit night sky with four-pointed stars and shooting stars. Users can also <strong>choose the season</strong>, which changes the flowers and elements drifting across the sky, and <strong>adjust the wind speed</strong>.</p>
+          <div class="case-study-sky-pair">
+            <figure class="case-study-sky-figure">
+              <img src="images/hemi/sky-day.png" alt="Spring daytime sky garden view" class="case-image" loading="lazy" decoding="async">
+              <figcaption>Day Time · Spring Season</figcaption>
+            </figure>
+            <figure class="case-study-sky-figure">
+              <img src="images/hemi/sky-night.png" alt="Summer nighttime sky garden view" class="case-image" loading="lazy" decoding="async">
+              <figcaption>Night Time · Summer Season</figcaption>
+            </figure>
+          </div>
+
+          <h3>Hemi Wrapped</h3>
+          <p>Inspired by Spotify Wrapped, Hemi automatically compiles insights from all 12 months into a <strong>read-only year recap</strong>: recurring themes, a timeline of month-by-month colors, top songs across the year pulled from each month's Spotify embed, favorite memories, and a summary of what you let go of and brought in.</p>
+          <img src="images/hemi/hemi-wrapped.png" alt="Hemi Wrapped year recap showing stats, songs, and memories" class="case-image" loading="lazy" decoding="async">
+
+          <!-- PROCESS -->
+          <h2 id="process">Process</h2>
+
+          <h3><span class="stage-prefix">Vision:</span> Muji-inspired Japanese minimalism</h3>
+          <p>I knew exactly what I wanted Hemi to feel like: <strong>muji-inspired Japanese minimalism.</strong> Quiet, warm, analog. Everything lowercase. Muted pastels. Generous whitespace. No harsh edges or aggressive UI patterns.</p>
+          <ul>
+            <li><strong>Quiet over loud:</strong> Muted colors, thin borders, small type.</li>
+            <li><strong>Analog warmth:</strong> Linen textures, wooden shelf planks, page-flip shadows.</li>
+            <li><strong>Color as mood:</strong> Each month gets its own color that tints the entire spread.</li>
+            <li><strong>Soft transitions always:</strong> Every element fades in and out gently.</li>
+          </ul>
+          <p>The app is built around the metaphor of a <strong>physical bookshelf</strong>: a shelf of journals, one for each year. You pull a book off the shelf, flip to a month, and land on a two-page spread. My original vision was more immersive, a full library scene with a window and couch, but I realized that would be hard to execute well through vibe coding, and <strong>simplifying to just shelf planks and book spines was the stronger choice</strong>. Cleaner, more minimal, more aligned with the muji aesthetic.</p>
+
+          <h3><span class="stage-prefix">Vibe coding:</span> Designing through conversation</h3>
+          <div class="case-split">
+            <div class="case-split__text">
+              <p>Vibe coding means building software by describing what you want in natural language and having AI write the code. This wasn't "AI generated the app." It was a deeply collaborative process where I <strong>directed every design decision through conversation.</strong></p>
+              <p>The <strong>3D page-flip transition</strong> is a good example. The first version was clunky: pages flashing incorrectly, wrong pages showing mid-flip, stiff animation. Getting it to feel like smoothly turning a page in a real book took many rounds of design feedback until it finally felt right.</p>
+            </div>
+            <div class="case-split__media">
+              <img src="images/hemi/hemi-vibe-coding-process.png" alt="Vibe coding process diagram showing the iterative design-to-code workflow" class="case-split__image" loading="lazy" decoding="async">
+            </div>
+          </div>
+
+          <!-- REFLECTIONS -->
+          <h2 id="reflections">Reflections</h2>
+          <div class="reflections-grid">
+            <div class="reflection-card">
+              <h3>Learnings</h3>
+              <p><strong>Clear prompting is everything.</strong> The more precisely I could describe what I wanted upfront (the aesthetic, the layout, the feel), the faster and better the results were. Vibe coding works best when you and the AI are fully on the same page before building starts. Once that foundation was set, it let me focus on <strong>product thinking over implementation</strong>.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>Challenges</h3>
+              <p><strong>Communicating visual intent without technical vocabulary.</strong> I couldn't say "reduce the border-radius to 8px," so I'd say "make it feel less rounded" or "this looks too bubbly." Some things took many rounds to get right, like the <strong>3D page-flip transition</strong>. Over time, I developed a shared language with the AI that made iteration faster, but translating a feeling into words was always the hardest part.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>What's next</h3>
+              <p>Currently expanding Hemi with new journal types, including a <strong>travel journal</strong> and a <strong>cafe journal</strong>, and working on making the experience responsive across screen sizes.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>Takeaway</h3>
+              <p>Vibe coding doesn't replace design thinking, it amplifies it. The clearer the design intent, the faster a real, deployed product can come to life.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Other Projects -->
+      <section class="case-more-projects">
+        <h2 class="case-more-projects__heading">Other Projects</h2>
+        <div class="case-more-projects__grid">
+          <a href="/phia" class="case-more-projects__card">
+            <img src="images/phia/mockup-phia.jpg" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">Phia: Designathon Finalist</h3>
+              <p class="case-more-projects__desc">Designing for Phia, a shopping app. Finalist work from the semifinals and finals.</p>
+            </div>
+          </a>
+          <a href="/googlemaps" class="case-more-projects__card">
+            <img src="images/googlemaps/mockup-googlemaps.png" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">AI Assistant for Google Maps</h3>
+              <p class="case-more-projects__desc">Designing an AI assistant for place discovery to reduce decision fatigue.</p>
+            </div>
+          </a>
+          <a href="/yammii" class="case-more-projects__card">
+            <img src="images/yammii/mockup-yammii.jpg" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">Yammii: Online Order Revamp</h3>
+              <p class="case-more-projects__desc">Simplifying and modernizing Yammii's mobile order flow.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="case-shell__spacer" aria-hidden="true"></div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__left">
-          <span class="footer__logo">Ruby Qian</span>
-          <ul class="footer__links">
-            <li><a href="/projects" class="footer__link">Projects</a></li>
-            <li><a href="/fun" class="footer__link">Fun</a></li>
-            <li><a href="/about" class="footer__link">About me</a></li>
-          </ul>
-        </div>
-        <div class="footer__socials">
-          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer__divider"></div>
-      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+  <!-- Footer (matches home page minimal style) -->
+  <footer class="footer-minimal">
+    <div class="footer-minimal__divider"></div>
+    <div class="footer-minimal__content">
+      <span class="footer-minimal__links">
+        <a href="/">Home</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/#projects">Projects</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/fun">Fun</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/about">About me</a>
+      </span>
+      <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
     </div>
   </footer>
 
+  <!-- Pill cursor for project card hover -->
+  <div class="pill-cursor" id="pillCursor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View project</div>
+
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="smooth-scroll.js"></script>
   <script src="reveal.js"></script>
   <script>
+    // Drifting bokeh petals on the bg layer (same style as home page)
     (function() {
-      const links = document.querySelectorAll('.case-study-nav__link');
-      const sections = Array.from(links).map(link => {
-        const id = link.getAttribute('href').slice(1);
-        return document.getElementById(id);
-      }).filter(Boolean);
+      var bgLayer = document.getElementById('bgLayer');
+      if (!bgLayer) return;
+      var bokehColors = [
+        'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
+        'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
+      ];
+      for (var i = 0; i < 12; i++) {
+        var p = document.createElement('div');
+        p.className = 'bg-petal';
+        var size = 30 + Math.random() * 45;
+        var blur = 2 + Math.random() * 6;
+        var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
+        var top = Math.random() * 85;
+        var delay = -(Math.random() * 30);
+        var dur = 10 + Math.random() * 8;
+        var opacity = 0.5 + Math.random() * 0.4;
+        var driftY = -40 + Math.random() * 80;
+        var rot = Math.random() * 360;
+        p.style.cssText =
+          'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
+          'background:' + color + ';' +
+          'border-radius:50% 50% 50% 50%/60% 60% 40% 40%;' +
+          'left:-30px;top:' + top + '%;' +
+          'filter:blur(' + blur + 'px);' +
+          '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
+          'animation:petalDrift ' + dur + 's ' + delay + 's infinite linear;';
+        bgLayer.appendChild(p);
+      }
+    })();
 
-      links.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const id = this.getAttribute('href').slice(1);
-          const target = document.getElementById(id);
-          if (!target) return;
-          let el = target;
-          for (let i = 0; i < 6 && el; i++) {
-            el.classList.add('reveal--visible');
-            el = el.nextElementSibling;
-          }
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+    // Smooth scroll + active TOC tracking (immediate on click)
+    (function() {
+      var tocItems = document.querySelectorAll('.case-toc__item');
+      var allLinks = document.querySelectorAll('.case-toc__item, .case-hero__jump');
+      var tocIds = Array.prototype.map.call(tocItems, function(item) {
+        return item.getAttribute('href').slice(1);
       });
+      var sections = Array.prototype.filter.call(
+        document.querySelectorAll('.case-content [id]'),
+        function(el) { return tocIds.indexOf(el.id) !== -1; }
+      );
+      var allIdEls = Array.prototype.slice.call(
+        document.querySelectorAll('.case-content [id]')
+      );
+      var lockedToClick = false;
 
-      function updateActive() {
-        let current = sections[0];
-        for (const section of sections) {
-          if (section.getBoundingClientRect().top <= 120) current = section;
-        }
-        links.forEach(link => {
-          const id = link.getAttribute('href').slice(1);
-          link.classList.toggle('case-study-nav__link--active', id === current.id);
+      function setActive(id) {
+        tocItems.forEach(function(link) {
+          var linkId = link.getAttribute('href').slice(1);
+          link.classList.toggle('case-toc__item--active', linkId === id);
         });
       }
 
-      window.addEventListener('scroll', updateActive, { passive: true });
-      updateActive();
+      function findParentTocId(id) {
+        if (tocIds.indexOf(id) !== -1) return id;
+        var idx = -1;
+        for (var i = 0; i < allIdEls.length; i++) {
+          if (allIdEls[i].id === id) { idx = i; break; }
+        }
+        if (idx === -1) return null;
+        for (var j = idx; j >= 0; j--) {
+          if (tocIds.indexOf(allIdEls[j].id) !== -1) return allIdEls[j].id;
+        }
+        return null;
+      }
+
+      function applyCurrent() {
+        if (!sections.length) return;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top <= 140) current = sections[i];
+        }
+        if (current) setActive(current.id);
+      }
+
+      allLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (!href || !href.startsWith('#')) return;
+          e.preventDefault();
+          var id = href.slice(1);
+          var parentId = findParentTocId(id);
+          if (parentId) {
+            setActive(parentId);
+            lockedToClick = true;
+          }
+          var target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      function unlockOnUserScroll() { lockedToClick = false; }
+      window.addEventListener('wheel', unlockOnUserScroll, { passive: true });
+      window.addEventListener('touchstart', unlockOnUserScroll, { passive: true });
+      window.addEventListener('keydown', function(e) {
+        var k = e.key;
+        if (k === 'ArrowUp' || k === 'ArrowDown' || k === 'PageUp' ||
+            k === 'PageDown' || k === 'Home' || k === 'End' || k === ' ') {
+          unlockOnUserScroll();
+        }
+      });
+
+      function onScroll() {
+        if (lockedToClick) return;
+        applyCurrent();
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      applyCurrent();
     })();
-  </script>
-  <script>
+
+    // Cursor sparkle trail, only on hover devices, only outside the card
+    (function() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      var card = document.querySelector('.case-card');
+      var POOL_SIZE = 30;
+      var pool = [];
+      for (var i = 0; i < POOL_SIZE; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'trail-sparkle';
+        dot.style.cssText = 'opacity:0;left:-50px;top:-50px;width:8px;height:8px;display:block;';
+        document.body.appendChild(dot);
+        pool.push(dot);
+      }
+      var idx = 0;
+      var lastTime = 0;
+      document.addEventListener('mousemove', function(e) {
+        if (card) {
+          var rect = card.getBoundingClientRect();
+          if (e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom) return;
+        }
+        var now = performance.now();
+        if (now - lastTime < 25) return;
+        lastTime = now;
+        var dot = pool[idx];
+        idx = (idx + 1) % POOL_SIZE;
+        var size = 10 + Math.random() * 12;
+        dot.style.animation = 'none';
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        dot.style.left = (e.clientX + (-5 + Math.random() * 10)) + 'px';
+        dot.style.top = (e.clientY + (-5 + Math.random() * 10)) + 'px';
+        dot.offsetHeight;
+        dot.style.animation = 'trailFade 0.5s ease-out forwards';
+      }, { passive: true });
+    })();
+
+    // Click sparkle burst, matches home page exactly
+    (function() {
+      var sparkColors = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
+
+      function spawnSparkles(x, y) {
+        for (var c = 0; c < 7; c++) {
+          var spark = document.createElement('div');
+          spark.className = 'click-sparkle';
+          var angle = (c / 7) * Math.PI * 2 + (Math.random() * 0.4);
+          var dist = 35 + Math.random() * 55;
+          var size = 10 + Math.random() * 12;
+          var color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+          var dx = Math.cos(angle) * dist;
+          var dy = Math.sin(angle) * dist;
+
+          spark.style.left = (x - size / 2) + 'px';
+          spark.style.top = (y - size / 2) + 'px';
+          spark.style.width = size + 'px';
+          spark.style.height = size + 'px';
+          spark.style.background = color;
+
+          document.body.appendChild(spark);
+
+          spark.animate(
+            [
+              { opacity: 1, transform: 'translate(0,0) scale(1)' },
+              { opacity: 0, transform: 'translate(' + dx + 'px, ' + dy + 'px) scale(0)' }
+            ],
+            { duration: 1200, easing: 'ease-out', fill: 'forwards' }
+          );
+
+          (function(s) {
+            setTimeout(function() {
+              if (s && s.parentNode) s.parentNode.removeChild(s);
+            }, 1300);
+          })(spark);
+        }
+      }
+
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.case-card, a, button, input, select, textarea, .case-toc, video')) return;
+        spawnSparkles(e.clientX, e.clientY);
+      });
+    })();
+
+    // Pill cursor for project card hover
+    (function() {
+      var pill = document.getElementById('pillCursor');
+      if (!pill) return;
+      var cards = document.querySelectorAll('.case-more-projects__card');
+      var visible = false;
+
+      document.addEventListener('mousemove', function(e) {
+        if (visible) {
+          pill.style.left = (e.clientX + 16) + 'px';
+          pill.style.top = (e.clientY + 16) + 'px';
+        }
+      }, { passive: true });
+
+      cards.forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+          pill.classList.add('pill-cursor--visible');
+          visible = true;
+        });
+        card.addEventListener('mouseleave', function() {
+          pill.classList.remove('pill-cursor--visible');
+          visible = false;
+        });
+      });
+    })();
+
+    // Hemi demo video, autoplay when scrolled into view
     (function() {
       var video = document.getElementById('hemi-demo');
       if (!video) return;
       var playObserver = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            video.play();
+            video.play().catch(function(){});
           } else if (!video.paused) {
             video.pause();
           }

@@ -26,6 +26,9 @@
   }
 
   function init() {
+    // Skip reveal animations if body has no-reveal class
+    if (document.body.classList.contains('no-reveal')) return;
+
     const elements = document.querySelectorAll(selectors.join(', '));
 
     // Skip if no elements or no IntersectionObserver support
@@ -66,8 +69,8 @@
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: 0,
+        rootMargin: '0px 0px 120px 0px',
       }
     );
 
@@ -85,8 +88,7 @@
     init();
   }
 
-  // ── Fix back-button blank page ──
-  // Always clean up page-exit state and restore visibility
+  // ── Fix blank page on any navigation ──
   function restorePage() {
     document.body.classList.remove('page-exit');
     document.querySelectorAll('.reveal:not(.reveal--visible)').forEach(function (el) {
@@ -94,29 +96,99 @@
     });
   }
 
+  // Run immediately on every page load
+  restorePage();
   window.addEventListener('pageshow', restorePage);
   window.addEventListener('popstate', restorePage);
 
-  // ── Smooth page transitions ──
-  // Fade out before navigating to internal links
+  // ── Suppress nav transitions while user is resizing the window ──
+  // Prevents the mobile dropdown from animating itself open/closed when
+  // the viewport crosses the mobile breakpoint (768px). Adds an
+  // .is-resizing class to <html> for ~150ms after the last resize event;
+  // CSS uses this class to disable transitions on the nav.
+  (function () {
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      document.documentElement.classList.add('is-resizing');
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        document.documentElement.classList.remove('is-resizing');
+      }, 150);
+    }, { passive: true });
+  })();
+
+  // ── Nav scroll-shrink behavior ──
+  var nav = document.querySelector('.nav');
+  if (nav) {
+    var navTicking = false;
+    function updateNav() {
+      if (window.scrollY > 100) {
+        nav.classList.add('nav--scrolled');
+      } else {
+        nav.classList.remove('nav--scrolled');
+      }
+      navTicking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!navTicking) {
+        requestAnimationFrame(updateNav);
+        navTicking = true;
+      }
+    }, { passive: true });
+    updateNav();
+  }
+
+  // ── Smooth page transitions via overlay ──
+  // Auto-create overlay if not in HTML
+  var overlay = document.querySelector('.page-transition-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    document.body.insertBefore(overlay, document.body.firstChild);
+  }
+
+  // Fade out the overlay shortly after page load
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      overlay.classList.add('is-loaded');
+    });
+  });
+
+  // On link click — fade overlay back in, then navigate
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href]');
     if (!link) return;
 
     var href = link.getAttribute('href');
-    // Skip external links, anchors, and special links
     if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || link.target === '_blank') return;
 
-    // Close mobile menu immediately if open
+    var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    var linkUrl = new URL(href, window.location.origin);
+    var linkPath = linkUrl.pathname.replace(/\/$/, '') || '/';
+    if (linkPath === currentPath && linkUrl.hash) {
+      e.preventDefault();
+      var target = document.querySelector(linkUrl.hash);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
     var openMenu = document.querySelector('.nav__links--open');
     if (openMenu) openMenu.classList.remove('nav__links--open');
 
     e.preventDefault();
-    document.body.classList.add('page-exit');
+    overlay.classList.remove('is-loaded');
+    overlay.classList.add('is-leaving');
 
-    // Shorter delay for snappier feel
     setTimeout(function () {
       window.location.href = href;
-    }, 180);
+    }, 220);
+  });
+
+  // When using browser back/forward, ensure overlay fades out
+  window.addEventListener('pageshow', function () {
+    overlay.classList.remove('is-leaving');
+    requestAnimationFrame(function () {
+      overlay.classList.add('is-loaded');
+    });
   });
 })();

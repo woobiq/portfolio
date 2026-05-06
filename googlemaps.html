@@ -3,18 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Assistant for Google Maps — Ruby Qian Portfolio</title>
+  <title>AI Assistant for Google Maps · Ruby Qian Portfolio</title>
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Inline floral on <html> so it paints BEFORE any other CSS, prevents white flash on page load -->
+  <style>
+    html {
+      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    }
+  </style>
 </head>
 <body class="case-study-page case-study-page--gmaps">
 
+  <!-- Page transition overlay, covers screen at first paint, fades out via JS -->
+  <div class="page-transition-overlay"></div>
+
+  <!-- Floral background layer -->
+  <div class="bg-layer" id="bgLayer"></div>
+
   <!-- Navigation -->
   <nav class="nav">
-    <div class="container nav__inner">
+    <div class="nav__inner">
       <a href="/" class="nav__logo">
-        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="28" height="28">
-        Ruby Qian
+        <img src="images/gem-logo-2.png" alt="Ruby Qian logo" class="nav__logo-icon" width="24" height="24">
       </a>
       <button class="nav__toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav__links').classList.toggle('nav__links--open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -24,350 +38,593 @@
         </svg>
       </button>
       <ul class="nav__links">
-        <li><a href="/projects" class="nav__link nav__link--active">Projects</a></li>
+        <li><a href="/" class="nav__link">Home</a></li>
+        <li><a href="/#projects" class="nav__link">Projects</a></li>
         <li><a href="/fun" class="nav__link">Fun</a></li>
         <li><a href="/about" class="nav__link">About me</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Sidebar Nav -->
-  <aside class="case-study-sidebar">
-    <nav class="case-study-nav">
-      <a href="#introduction" class="case-study-nav__link">Introduction</a>
-      <a href="#stage-1" class="case-study-nav__link">Stage 1: Research</a>
-      <a href="#stage-2" class="case-study-nav__link">Stage 2: User Flows</a>
-      <a href="#stage-3" class="case-study-nav__link">Stage 3: Hi-Fi Design</a>
-      <a href="#outcome" class="case-study-nav__link">The Outcome</a>
-      <a href="#reflection" class="case-study-nav__link">Reflection</a>
-    </nav>
-  </aside>
+  <!-- Case study shell: TOC | card | spacer -->
+  <div class="case-shell">
 
-  <!-- Case Study Hero -->
-  <div class="container">
-    <section class="case-study-hero">
-      <span class="case-study-hero__label">Personal Project</span>
-      <h1 class="case-study-hero__title">AI Assistant for Google Maps</h1>
-      <p class="case-study-hero__subtitle">Designing an AI assistant for place discovery in Google Maps to help reduce decision fatigue.</p>
-    </section>
+    <aside class="case-toc">
+      <div class="case-toc__header">Contents</div>
+      <a class="case-toc__item case-toc__item--active" href="#problem">Problem</a>
+      <a class="case-toc__item" href="#solution">Solution</a>
+      <a class="case-toc__item" href="#process">Process</a>
+      <a class="case-toc__item" href="#reflections">Reflections</a>
+    </aside>
 
-    <!-- Meta -->
-    <div class="case-study-meta-group">
-      <div class="case-study-meta">
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Role</span>
-          <span class="case-study-meta__value">Product Designer</span>
+    <main class="case-card">
+
+      <!-- Hero: text left, image right -->
+      <header class="case-hero">
+        <div class="case-hero__text">
+          <h1 class="case-hero__title">AI Assistant for Google Maps</h1>
+          <p class="case-hero__glance">
+            <span class="case-hero__glance-label">At a glance</span>
+            A personal exploration of how an AI assistant could live inside Google Maps to help users <em>decide where to go</em> using <em>saved lists, reviews, and real-time context</em>.
+          </p>
+          <div class="case-hero__meta">
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Role</div>
+              <div class="case-hero__meta-value">Product Designer</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Timeline</div>
+              <div class="case-hero__meta-value">4 weeks</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Industry</div>
+              <div class="case-hero__meta-value">Technology</div>
+            </div>
+            <div class="case-hero__meta-item">
+              <div class="case-hero__meta-label">Tools</div>
+              <div class="case-hero__meta-value">Figma</div>
+            </div>
+          </div>
+          <a href="#solution" class="case-hero__jump">
+            <span class="case-hero__jump-arrow">↓</span>
+            Jump to solution
+          </a>
         </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Industry</span>
-          <span class="case-study-meta__value">Technology</span>
-        </div>
-        <div class="case-study-meta__item">
-          <span class="case-study-meta__label">Duration</span>
-          <span class="case-study-meta__value">4 weeks</span>
+        <img src="images/googlemaps/mockup-googlemaps.png" alt="Google Maps AI Assistant mockup showing chat and recommendation screens" class="case-hero__image">
+      </header>
+
+      <!-- Body -->
+      <div class="case-body">
+        <div class="case-content">
+
+          <!-- THE PROBLEM -->
+          <h2 id="problem">Problem</h2>
+          <p>Living in New York City, I rely on <strong>Google Maps' saved lists</strong> to keep track of places I want to try, organized by category (cafes, food, bookstores, and so on). Over time, those lists grew into <strong>hundreds of saved places</strong>, and instead of helping me decide where to go, they started <strong>creating decision fatigue</strong>. I'd scroll through long lists, forget why I saved certain places, and still end up manually checking reviews, ratings, and distance before deciding.</p>
+          <div class="problem-grid">
+            <div class="problem-grid__left">
+              <span class="problem-grid__eyebrow">This led me to ask</span>
+              <blockquote class="case-pullquote">"What if Google Maps had an AI assistant that could help me decide where to go in the moment?"</blockquote>
+            </div>
+            <div class="problem-grid__right">
+              <p>Through a mix of <strong>AI interaction testing, Maps interface analysis, user conversations, and competitive review</strong>, four core insights emerged:</p>
+              <ul>
+                <li><strong>Decision fatigue inside saved lists:</strong> Users see walls of saved places with no way to compare across them.</li>
+                <li><strong>Discovery, not decision-making:</strong> Maps surfaces new places well but doesn't help users choose between multiple saved ones.</li>
+                <li><strong>Forgotten saves:</strong> Users save places, then forget why. Newer saves quickly bury older ones.</li>
+                <li><strong>Untapped opportunity:</strong> Saved lists could anchor a more contextual, explainable AI experience.</li>
+              </ul>
+            </div>
+          </div>
+          <img src="images/googlemaps/problem-solution.png" alt="Problem statement, solution, use cases, and constraints overview" class="case-image" loading="lazy" decoding="async">
+
+          <div class="case-callout">
+            <strong>Note:</strong> After completing this project, <a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener">Google introduced "Ask Maps,"</a> an AI assistant within Google Maps that supports natural language queries and personalized recommendations. This project explores a similar problem space, with a focus on saved lists and explainable decision-making.
+          </div>
+
+          <!-- THE SOLUTION -->
+          <h2 id="solution">Solution</h2>
+          <p>An AI assistant inside Google Maps that helps users make faster, more confident decisions about where to go. The assistant supports <strong>three distinct entry flows</strong> that meet users where they already are in Maps and converge into the same AI experience.</p>
+
+          <div class="case-study-flow-row">
+            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
+              <source src="images/googlemaps/flow-general.mp4" type="video/mp4">
+            </video>
+            <div class="case-study-flow-row__text">
+              <h3>Flow 1: General Query</h3>
+              <p>From the main Maps screen, with a general topic in mind but no specific place picked yet.</p>
+              <div class="case-flow-exchange">
+                <div class="case-flow-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Taps the AI assistant</div>
+                  <div class="case-flow-exchange__ai">Shows <strong>contextual prompts</strong> based on time and location</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Types "Asian cuisine restaurants nearby"</div>
+                  <div class="case-flow-exchange__ai">Returns <strong>recommendation cards</strong> with rating, distance, and a review summary</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Scans the cards</div>
+                  <div class="case-flow-exchange__ai">Highlights a <strong>top pick</strong> with reasoning for why it's the best match</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-study-flow-row">
+            <div class="case-study-flow-row__text">
+              <h3>Flow 2: Saved Lists</h3>
+              <p>The user wants somewhere to study and eat, with a few saved lists that could help.</p>
+              <div class="case-flow-exchange">
+                <div class="case-flow-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Taps the AI assistant from the saved lists screen</div>
+                  <div class="case-flow-exchange__ai">Prompts the user to <strong>select which lists to search across</strong></div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Selects multiple saved lists</div>
+                  <div class="case-flow-exchange__ai"><strong>Compares places across multiple lists at once</strong> and surfaces the best matches</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Asks a follow-up question</div>
+                  <div class="case-flow-exchange__ai">Refines results and narrows down to a final pick</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Decides which places to visit</div>
+                  <div class="case-flow-exchange__ai">Pulls together an <strong>itinerary with stops in Maps</strong>, ready to navigate</div>
+                </div>
+              </div>
+            </div>
+            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
+              <source src="images/googlemaps/flow-saved-lists.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="case-study-flow-row">
+            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
+              <source src="images/googlemaps/flow-specific-list.mp4" type="video/mp4">
+            </video>
+            <div class="case-study-flow-row__text">
+              <h3>Flow 3: Specific Saved List</h3>
+              <p>Already inside a saved list, looking to narrow down within it. This flow shows how the AI can <strong>sort through list tags</strong> within a saved list to surface the right pick.</p>
+              <div class="case-flow-exchange">
+                <div class="case-flow-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Taps the AI assistant from inside a saved list</div>
+                  <div class="case-flow-exchange__ai">List is already in context, so the user can ask immediately, no cold start</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Asks "cafes I've never been to"</div>
+                  <div class="case-flow-exchange__ai"><strong>Filters by list tags</strong> to surface matching places</div>
+                </div>
+                <div class="case-flow-exchange__row">
+                  <div class="case-flow-exchange__user">Reviews the results</div>
+                  <div class="case-flow-exchange__ai">Highlights top picks from the filtered set</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Three core design moves</h3>
+          <p>Across all three flows, three design decisions shaped how the assistant feels native to Maps:</p>
+
+          <div class="feature-row">
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">01</div>
+                <div class="feature-card__title">Familiar UI, new capability</div>
+              </div>
+              <div class="feature-card__desc">A dedicated chat screen modeled after <strong>Gemini's conversational UI</strong>, with Maps' card styles, iconography, and palette so the assistant feels native, not bolted on.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">02</div>
+                <div class="feature-card__title">List chips in the chat</div>
+              </div>
+              <div class="feature-card__desc">Selected saved lists appear as <strong>chips inside the text input</strong>, keeping the AI's search context visible throughout a multi-turn conversation, no scrolling back.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card__head">
+                <div class="feature-card__num">03</div>
+                <div class="feature-card__title">Recommendation cards</div>
+              </div>
+              <div class="feature-card__desc">At-a-glance cards with <strong>name, rating, distance, and an AI summary from reviews</strong>, so users can evaluate and decide without leaving the conversation.</div>
+            </div>
+          </div>
+
+          <div class="case-callout">
+            <span class="case-callout__title">Why it works:</span> Each flow shares the same core pattern, <strong>ask, refine, recommend, act</strong>, but the starting context shapes what the AI asks first and how recommendations are framed.
+          </div>
+
+          <!-- PROCESS -->
+          <h2 id="process">Process</h2>
+
+          <h3><span class="stage-prefix">Research:</span> AI patterns, Maps analysis, and user insights</h3>
+          <p>I started from a personal pain point and grounded it in <strong>four parallel investigations</strong>, focusing on what users do today and where AI could plug in.</p>
+          <div class="case-research-grid">
+            <div class="case-research-card">
+              <div class="case-research-card__head">
+                <span class="case-research-card__num">01</span>
+                <div class="case-research-card__area">AI Interaction Patterns</div>
+              </div>
+              <div class="case-research-card__action">Tested ChatGPT, Claude, and Gemini with real-world queries (e.g., "quiet caf&eacute; with Wi-Fi", "lunch in Soho").</div>
+              <div class="case-research-card__insight">AI is strong at generating options, but <strong>lacks structured, actionable outputs</strong> for quick decisions.</div>
+            </div>
+            <div class="case-research-card">
+              <div class="case-research-card__head">
+                <span class="case-research-card__num">02</span>
+                <div class="case-research-card__area">Google Maps Analysis</div>
+              </div>
+              <div class="case-research-card__action">Analyzed Maps UI, search flow, place details, and saved lists.</div>
+              <div class="case-research-card__insight">Maps supports discovery well, but <strong>not decision-making across multiple saved places</strong>.</div>
+            </div>
+            <div class="case-research-card">
+              <div class="case-research-card__head">
+                <span class="case-research-card__num">03</span>
+                <div class="case-research-card__area">User Insights</div>
+              </div>
+              <div class="case-research-card__action">Spoke with friends and peers who frequently use Google Maps and the saved lists feature.</div>
+              <div class="case-research-card__insight">Users <strong>forget why they saved places</strong>, and <strong>newer saves bury older ones</strong>.</div>
+            </div>
+            <div class="case-research-card">
+              <div class="case-research-card__head">
+                <span class="case-research-card__num">04</span>
+                <div class="case-research-card__area">Competitive Insight</div>
+              </div>
+              <div class="case-research-card__action">Reviewed Google Maps' experimental AI feature for Local Guides (2024).</div>
+              <div class="case-research-card__insight">Early AI features exist, but lack <strong>deep integration with saved lists</strong> and explainability.</div>
+            </div>
+          </div>
+          <p>Synthesizing the findings, the goal became designing an AI assistant that supports <strong>contextual, explainable decision-making</strong> using saved lists, reviews, and real-time user needs.</p>
+
+          <h3><span class="stage-prefix">Ideation:</span> Entry flows, user flow diagrams, and lo-fi sketches</h3>
+          <p>Research showed that <strong>users don't start a decision the same way every time</strong>. To support this, I mapped <strong>three distinct entry flows</strong>, each meeting users where they already are in Maps, with no new navigation patterns required. From there, I drew flow diagrams and lo-fi sketches to make sure the conversation pattern, <strong>ask, refine, recommend, act</strong>, held up across all three entry points.</p>
+          <div class="case-flow-list">
+            <div class="case-flow-list__item">
+              <span class="case-flow-list__num">01</span>
+              <div>
+                <h4 class="case-flow-list__title">General Query (Main Maps screen)</h4>
+                <p class="case-flow-list__desc">Open-ended exploration with no specific place in mind. The AI button lives on the main Maps screen, <strong>lowering the barrier to first use</strong>.</p>
+              </div>
+            </div>
+            <div class="case-flow-list__item">
+              <span class="case-flow-list__num">02</span>
+              <div>
+                <h4 class="case-flow-list__title">Saved Lists screen</h4>
+                <p class="case-flow-list__desc">Multiple saved lists, not sure which has what they need. Where <strong>decision fatigue is highest</strong>, and the AI bridges the gap across lists.</p>
+              </div>
+            </div>
+            <div class="case-flow-list__item">
+              <span class="case-flow-list__num">03</span>
+              <div>
+                <h4 class="case-flow-list__title">Inside a Saved List</h4>
+                <p class="case-flow-list__desc">Already in a list, narrowing down. The <strong>most context-rich entry point</strong>, the AI knows the list scope and can refine immediately.</p>
+              </div>
+            </div>
+          </div>
+          <div class="case-image-pair">
+            <img src="images/googlemaps/user-flows.png" alt="User flow diagrams showing General Query Flow, Saved List Flow, and Specific Saved List Flow" loading="lazy" decoding="async">
+            <img src="images/googlemaps/lofi-sketches.jpg" alt="Hand-drawn lo-fi wireframe drafts and brainstorming notes" loading="lazy" decoding="async">
+          </div>
+
+          <h3><span class="stage-prefix">Design:</span> Hi-fi prototype</h3>
+          <p>With the flows validated, I moved into <strong>Figma</strong> to build the hi-fi designs and an interactive prototype. The goal was to make the assistant <strong>feel like it belongs inside Google Maps</strong>: borrowing existing card styles, iconography, and palette throughout, so the chat reads as a Maps capability rather than a separate product.</p>
+          <img src="images/googlemaps/hifi-screens.png" alt="Hi-fi screens showing all three flows: General Query, Saved Lists Query, and Specific Saved List Query" class="case-image" loading="lazy" decoding="async">
+
+          <!-- REFLECTIONS -->
+          <h2 id="reflections">Reflections</h2>
+          <div class="reflections-grid">
+            <div class="reflection-card">
+              <h3>Learnings</h3>
+              <p>This project pushed me to think deeply about <strong>how AI-powered features actually work</strong>, not just how they look, but how a conversational assistant should respond, surface information, and guide decisions. I also learned a lot about <strong>integrating AI into familiar UI patterns</strong> so the experience feels native, not like a separate product.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>Challenges</h3>
+              <p>The biggest challenge was finding the right <strong>balance between useful information and simplicity</strong>. I wanted recommendation cards to be rich enough to help users decide, but not so dense that they felt overwhelming. The same tension came up with explainability, <strong>how much reasoning is helpful</strong> versus how much just adds clutter.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>If I had more time</h3>
+              <p>I'd expand the assistant beyond single decisions to <strong>full trip planning</strong>, going from "where should I eat tonight" to "plan my day in Tokyo using my Japan saved list." I'd also flesh out <strong>chat history, the ability to edit queries after submitting</strong>, and other interaction refinements.</p>
+            </div>
+            <div class="reflection-card">
+              <h3>Takeaway</h3>
+              <p>Conversational AI could help Maps evolve from a <strong>navigation tool into a decision assistant</strong>, one that doesn't just show you where things are, but helps you decide where to go. Google's release of <strong>Ask Maps</strong> validated that this is a real problem space worth designing for.</p>
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="case-study-meta__item">
-        <span class="case-study-meta__label">About</span>
-        <span class="case-study-meta__value">This project explores how an AI assistant could be integrated into Google Maps to help users decide where to go based on their context, preferences, and saved lists. The result is a conversational experience that reduces decision fatigue and helps users move from discovery to action more quickly.</span>
-      </div>
-    </div>
 
-    <!-- Case Study Body -->
-    <div class="case-study-layout">
-      <article class="case-study-body">
-
-        <img src="images/googlemaps/mockup-googlemaps.png" alt="Google Maps AI Assistant mockup showing chat and recommendation screens" class="case-study-image" style="border: none; margin-top: 0;">
-
-        <h2 id="introduction">Introduction</h2>
-        <p>Living in New York City, there are endless restaurants, cafes, and shops to discover. To keep track of places I want to try, I frequently use <strong>Google Maps' saved lists</strong> and organize them by category (cafes, food, bookstores, etc.).</p>
-        <p>Over time, however, these lists grew into <strong>hundreds of saved places</strong>, making them difficult to use when I actually needed them. Instead of helping me decide where to go, they often <strong>created decision fatigue</strong>. I would scroll through long lists, forget why I saved certain places, and still end up manually checking reviews, ratings, and distance before deciding.</p>
-        <p>This led me to think: <strong><em>"What if Google Maps had an AI assistant that could help me decide where to go in the moment?"</em></strong></p>
-
-        <img src="images/googlemaps/problem-solution.png" alt="Problem statement, solution, use cases, and constraints overview" class="case-study-image">
-
-        <div class="case-study-note">
-          <strong>Note:</strong> After completing this project, <a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" style="color: #3d7cc9; text-decoration: underline;">Google introduced "Ask Maps,"</a> an AI assistant within Google Maps that supports natural language queries and personalized recommendations. This project explores a similar problem space, with a focus on saved lists and explainable decision-making.
+      <!-- Other Projects -->
+      <section class="case-more-projects">
+        <h2 class="case-more-projects__heading">Other Projects</h2>
+        <div class="case-more-projects__grid">
+          <a href="/phia" class="case-more-projects__card">
+            <img src="images/phia/mockup-phia.jpg" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">Phia: Designathon Finalist</h3>
+              <p class="case-more-projects__desc">Designing for Phia, a shopping app. Finalist work from the semifinals and finals.</p>
+            </div>
+          </a>
+          <a href="/yammii" class="case-more-projects__card">
+            <img src="images/yammii/mockup-yammii.jpg" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">Yammii: Online Order Revamp</h3>
+              <p class="case-more-projects__desc">Simplifying and modernizing Yammii's mobile order flow.</p>
+            </div>
+          </a>
+          <a href="/hemi" class="case-more-projects__card">
+            <img src="images/hemi/hemi_skygarden.jpg" alt="" loading="lazy" decoding="async">
+            <div class="case-more-projects__body">
+              <div class="case-more-projects__label">Case Study</div>
+              <h3 class="case-more-projects__title">Hemi: A Personal Reflection Journal</h3>
+              <p class="case-more-projects__desc">Designing and vibe coding a digital journal, from sketch to deployed web app.</p>
+            </div>
+          </a>
         </div>
+      </section>
 
-        <!-- Stage 1 -->
-        <span class="stage-label" id="stage-1">Stage 1</span>
-        <h2>Ideation &amp; Research</h2>
-        <p>I began this project from a <strong>personal pain point</strong>: having a <strong>large number of saved places</strong> in Google Maps, but still <strong>struggling to decide where to go</strong> in the moment.</p>
-        <p>To explore this further, I focused on the following areas:</p>
+    </main>
 
-        <div class="case-study-table-wrap"><table class="case-study-table">
-          <thead>
-            <tr>
-              <th>Area</th>
-              <th>What I Did</th>
-              <th>Key Insight</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>AI Interaction Patterns</strong></td>
-              <td>Tested ChatGPT, Claude, and Gemini with real-world queries (e.g., "quiet caf&eacute; with Wi-Fi", "lunch in Soho")</td>
-              <td>AI is strong at generating options, but <strong>lacks structured, actionable outputs</strong> for quick decisions</td>
-            </tr>
-            <tr>
-              <td><strong>Google Maps Analysis</strong></td>
-              <td>Analyzed Maps UI, search flow, place details, and saved lists</td>
-              <td>Maps supports discovery well, but <strong>not decision-making across multiple saved places</strong></td>
-            </tr>
-            <tr>
-              <td><strong>User Insights</strong></td>
-              <td>Spoke with friends and peers who frequently use Google Maps and the saved lists feature</td>
-              <td>Users accumulate too many saved places and <strong>forget why they saved them</strong> — and even when they do remember, <strong>newer saves bury older ones</strong>, making it easy to lose track of places added just days ago</td>
-            </tr>
-            <tr>
-              <td><strong>Competitive Insight</strong></td>
-              <td>Reviewed Google Maps' experimental AI feature for Local Guides (2024)</td>
-              <td>Early AI features exist, but lack <strong>deep integration with saved lists</strong> and explainability</td>
-            </tr>
-          </tbody>
-        </table></div>
-
-        <p>Synthesizing my research findings, the goal of this project is to design an AI assistant that supports <strong>contextual, explainable decision-making</strong> using saved lists, reviews, and real-time user needs.</p>
-
-        <!-- Stage 2 -->
-        <span class="stage-label" id="stage-2">Stage 2</span>
-        <h2>User Flow Mapping &amp; Wireframing</h2>
-        <p>Research showed that <strong>users don't start a decision the same way every time</strong>. Sometimes they're browsing the map with no specific plan. Sometimes they open a saved list looking for a place they added weeks ago. And sometimes they're already inside a list, staring at too many options.</p>
-        <p>To support these different starting points, I mapped <strong>three distinct entry flows</strong> that all converge into the same AI-assisted experience. Each flow meets users where they already are in Google Maps — no new navigation patterns required.</p>
-
-        <h3>Entry Flows</h3>
-        <div class="case-study-table-wrap"><table class="case-study-table">
-          <thead>
-            <tr>
-              <th>Entry Point</th>
-              <th>User Intent</th>
-              <th>Design Rationale</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>General Query</strong> (Main Maps Screen)</td>
-              <td>Open-ended exploration. The user doesn't have a specific place in mind — they want the AI to help them discover and decide based on context (location, time, mood).</td>
-              <td>The AI button lives on the main Maps screen so it's accessible without any prior setup — <strong>lowering the barrier to first use</strong>.</td>
-            </tr>
-            <tr>
-              <td><strong>Saved Lists</strong> (Saved Lists Screen)</td>
-              <td>The user has multiple saved lists and wants help choosing across them. They're not sure which list has what they need right now.</td>
-              <td>This is where <strong>decision fatigue is highest</strong>. Users see a wall of lists but no way to compare across them. The AI bridges that gap.</td>
-            </tr>
-            <tr>
-              <td><strong>Specific Saved List</strong> (Inside a Saved List)</td>
-              <td>The user is already looking at a specific list and wants help narrowing down within it. They know roughly what they want but need the AI to surface the best match.</td>
-              <td>The <strong>most context-rich entry point</strong>. The AI already knows the list scope, so it can offer refining questions immediately — no cold start.</td>
-            </tr>
-          </tbody>
-        </table></div>
-
-        <h3>User Flow Diagrams</h3>
-        <p>The diagrams below show how each entry point moves through the AI experience. All three flows share the same core interaction pattern — <strong>ask, refine, recommend, act</strong> — but the starting context shapes what the AI asks first and how recommendations are framed.</p>
-
-        <img src="images/googlemaps/user-flows.png" alt="User flow diagrams showing General Query Flow, Saved List Flow, and Specific Saved List Flow" class="case-study-image">
-
-        <h3>Lo-Fi Sketches</h3>
-        <p>Here are the lo-fi sketches where I started ideating the AI chat flow, from the initial entry points to the recommendation and place detail screens.</p>
-
-        <img src="images/googlemaps/lofi-sketches.jpg" alt="Hand-drawn lo-fi wireframe drafts and brainstorming notes" class="case-study-image">
-
-        <!-- Stage 3 -->
-        <span class="stage-label" id="stage-3">Stage 3</span>
-        <h2>Hi-Fi Design &amp; Prototype</h2>
-        <p>With the flows validated through wireframes and sketches, I moved into <strong>Figma</strong> to build out the full hi-fi designs and prototype. The goal was to make the AI assistant <strong>feel like it belongs inside Google Maps</strong> — not like a separate feature bolted on.</p>
-        <p>A few key design decisions shaped the final execution:</p>
-
-        <div class="case-study-table-wrap"><table class="case-study-table">
-          <thead>
-            <tr>
-              <th>Design Decision</th>
-              <th>Rationale</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Familiar UI, new capability</strong></td>
-              <td>The AI chat interface is modeled after <strong>Gemini's conversational UI</strong> — once a user taps the AI assistant button, they enter a dedicated chat screen. The visual language (card styles, iconography, color palette) <strong>stays consistent with Google Maps</strong> so the experience feels integrated, even though the chat itself is a separate view. If the assistant looked or behaved differently from the rest of Maps, it would feel disconnected.</td>
-            </tr>
-            <tr>
-              <td><strong>List chips in the chat input</strong></td>
-              <td>When a user selects saved lists to search within, the list names appear as <strong>chips inside the text input</strong>. In a multi-turn conversation, it's easy to lose track of what the AI is searching across. The chips keep that context visible throughout the entire chat, so <strong>the user always knows which lists are active without scrolling back</strong>.</td>
-            </tr>
-            <tr>
-              <td><strong>Recommendation cards over list results</strong></td>
-              <td>Users need to <strong>compare places quickly</strong> without tapping into each one. Recommendation cards <strong>surface the key info at a glance</strong> — name, rating, distance, and an AI-generated summary from reviews — so users can evaluate and decide without leaving the conversation.</td>
-            </tr>
-          </tbody>
-        </table></div>
-
-        <h3>Hi-Fi Screens</h3>
-        <img src="images/googlemaps/hifi-screens.png" alt="Hi-fi screens showing all three flows: General Query, Saved Lists Query, and Specific Saved List Query" class="case-study-image">
-
-        <h2 id="outcome">The Outcome</h2>
-        <p>The final design is my take on what an <strong>AI assistant inside Google Maps</strong> could look like — one that <strong>helps users make faster, more confident decisions about where to go</strong>. Instead of endlessly scrolling through saved lists, scanning reviews, and second-guessing, users can have a conversation that surfaces the right place based on what they actually need in the moment.</p>
-        <div class="case-study-flow-row">
-          <video class="case-study-flow-row__video" autoplay loop muted playsinline>
-            <source src="images/googlemaps/flow-general.mp4" type="video/mp4">
-          </video>
-          <div class="case-study-flow-row__text">
-            <h3>Flow 1: General Query</h3>
-            <p>Starting from the main Maps screen with no particular place in mind:</p>
-            <ul>
-              <li>The user taps the AI assistant and is greeted with <strong>contextual prompts</strong>.</li>
-              <li>The user types a query like "Asian cuisine restaurants nearby."</li>
-              <li>The assistant responds with <strong>recommendation cards</strong> — each showing ratings, distance, and a summary from reviews.</li>
-              <li>A <strong>top pick</strong> is highlighted with reasoning for why it's the best match.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="case-study-flow-row">
-          <div class="case-study-flow-row__text">
-            <h3>Flow 2: Saved Lists</h3>
-            <p>The user wants to find a place to study and eat, and has a few saved lists that could help:</p>
-            <ul>
-              <li>The user taps the AI assistant from the saved lists screen.</li>
-              <li>The user <strong>selects which lists to search across</strong>.</li>
-              <li>The assistant <strong>compares places from multiple lists at once</strong> and surfaces the best matches.</li>
-              <li>The user asks <strong>follow-up questions</strong> to compare options and make their final decision.</li>
-            </ul>
-          </div>
-          <video class="case-study-flow-row__video" autoplay loop muted playsinline>
-            <source src="images/googlemaps/flow-saved-lists.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <div class="case-study-flow-row">
-          <video class="case-study-flow-row__video" autoplay loop muted playsinline>
-            <source src="images/googlemaps/flow-specific-list.mp4" type="video/mp4">
-          </video>
-          <div class="case-study-flow-row__text">
-            <h3>Flow 3: Specific Saved List</h3>
-            <p>The user is already inside a specific saved list:</p>
-            <ul>
-              <li>The user taps the AI assistant from within the list.</li>
-              <li>Since the list is already selected, <strong>there's no need to filter for a list</strong> — the user goes straight to asking their question.</li>
-              <li>The assistant can also <strong>filter by list tags</strong> — for example, if the user asks for "cafes I've never been to," it pulls from places tagged "never been."</li>
-              <li>The user reviews the results and makes their final decision.</li>
-            </ul>
-          </div>
-        </div>
-
-        <h2 id="reflection">Reflection</h2>
-
-        <div class="case-study-reflections">
-          <div class="case-study-reflection">
-            <h3>Learnings</h3>
-            <p>This project pushed me to think deeply about <strong>how AI-powered features actually work</strong> — not just how they look, but how a conversational assistant should respond, surface information, and guide decisions. I also learned a lot about <strong>integrating AI into familiar UI patterns</strong> so the experience feels native, not like a separate product.</p>
-          </div>
-          <div class="case-study-reflection">
-            <h3>Challenges</h3>
-            <p>The biggest challenge was finding the right <strong>balance between useful information and simplicity</strong>. I wanted recommendation cards to be rich enough to help users decide, but not so dense that they felt overwhelming. The same tension came up with explainability — <strong>how much reasoning is helpful</strong> versus how much just adds clutter.</p>
-          </div>
-          <div class="case-study-reflection">
-            <h3>If I Had More Time</h3>
-            <p>I'd expand the assistant beyond single decisions to <strong>full trip planning</strong> — going from "where should I eat tonight" to "plan my day in Tokyo using my Japan saved list." I'd also flesh out additional features like <strong>chat history, the ability to edit queries after submitting</strong>, and other interaction refinements that would make the assistant feel more complete.</p>
-          </div>
-          <div class="case-study-reflection">
-            <h3>Takeaway</h3>
-            <p>Conversational AI could help Google Maps evolve from a <strong>navigation tool into a decision assistant</strong> — one that doesn't just show you where things are, but helps you decide where to go. Near the end of this project, Google released <strong>Ask Maps</strong> — validating that this was a real problem space worth designing for, and reinforcing the growing need for <strong>AI-powered decision-making within Maps</strong>.</p>
-          </div>
-        </div>
-
-        <!-- Other Projects -->
-        <div class="other-projects">
-          <h3 class="other-projects__heading">Other projects</h3>
-          <div class="other-projects__grid">
-            <a href="/yammii" class="other-projects__card">
-              <img src="images/yammii/mockup-yammii.png" alt="Yammii Online Order Revamp" class="other-projects__image">
-              <div class="other-projects__body">
-                <h4 class="other-projects__title">Yammii — Online Order Revamp</h4>
-                <p class="other-projects__desc">Simplifying and modernizing Yammii's mobile order flow.</p>
-              </div>
-            </a>
-            <a href="/hemi" class="other-projects__card">
-              <img src="images/hemi/hemi_skygarden.png" alt="Hemi sky garden view" class="other-projects__image">
-              <div class="other-projects__body">
-                <h4 class="other-projects__title">Hemi: A Personal Reflection Journal</h4>
-                <p class="other-projects__desc">A digital journal, from sketch to deployed web app.</p>
-              </div>
-            </a>
-          </div>
-        </div>
-
-      </article>
-    </div>
+    <div class="case-shell__spacer" aria-hidden="true"></div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__left">
-          <span class="footer__logo">Ruby Qian</span>
-          <ul class="footer__links">
-            <li><a href="/projects" class="footer__link">Projects</a></li>
-            <li><a href="/fun" class="footer__link">Fun</a></li>
-            <li><a href="/about" class="footer__link">About me</a></li>
-          </ul>
-        </div>
-        <div class="footer__socials">
-          <a href="https://www.instagram.com/ruby.qian/?hl=en" target="_blank" class="footer__social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank" class="footer__social" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="mailto:rubyqian1201@gmail.com" class="footer__social" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer__divider"></div>
-      <p class="footer__copyright">Copyright 2026 by Ruby Qian</p>
+  <!-- Footer (matches home page minimal style) -->
+  <footer class="footer-minimal">
+    <div class="footer-minimal__divider"></div>
+    <div class="footer-minimal__content">
+      <span class="footer-minimal__links">
+        <a href="/">Home</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/#projects">Projects</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/fun">Fun</a>
+        <span class="footer-minimal__dot">·</span>
+        <a href="/about">About me</a>
+      </span>
+      <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
     </div>
   </footer>
 
+  <!-- Pill cursor for project card hover -->
+  <div class="pill-cursor" id="pillCursor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View project</div>
+
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="smooth-scroll.js"></script>
   <script src="reveal.js"></script>
   <script>
+    // Drifting bokeh petals on the bg layer (same style as home page)
     (function() {
-      const links = document.querySelectorAll('.case-study-nav__link');
-      const sections = Array.from(links).map(link => {
-        const id = link.getAttribute('href').slice(1);
-        return document.getElementById(id);
-      }).filter(Boolean);
+      var bgLayer = document.getElementById('bgLayer');
+      if (!bgLayer) return;
+      var bokehColors = [
+        'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
+        'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
+      ];
+      for (var i = 0; i < 12; i++) {
+        var p = document.createElement('div');
+        p.className = 'bg-petal';
+        var size = 30 + Math.random() * 45;
+        var blur = 2 + Math.random() * 6;
+        var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
+        var top = Math.random() * 85;
+        var delay = -(Math.random() * 30);
+        var dur = 10 + Math.random() * 8;
+        var opacity = 0.5 + Math.random() * 0.4;
+        var driftY = -40 + Math.random() * 80;
+        var rot = Math.random() * 360;
+        p.style.cssText =
+          'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
+          'background:' + color + ';' +
+          'border-radius:50% 50% 50% 50%/60% 60% 40% 40%;' +
+          'left:-30px;top:' + top + '%;' +
+          'filter:blur(' + blur + 'px);' +
+          '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
+          'animation:petalDrift ' + dur + 's ' + delay + 's infinite linear;';
+        bgLayer.appendChild(p);
+      }
+    })();
 
-      links.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const id = this.getAttribute('href').slice(1);
-          const target = document.getElementById(id);
-          if (!target) return;
-          let el = target;
-          for (let i = 0; i < 6 && el; i++) {
-            el.classList.add('reveal--visible');
-            el = el.nextElementSibling;
-          }
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+    // Smooth scroll + active TOC tracking (immediate on click)
+    (function() {
+      var tocItems = document.querySelectorAll('.case-toc__item');
+      var allLinks = document.querySelectorAll('.case-toc__item, .case-hero__jump');
+      var tocIds = Array.prototype.map.call(tocItems, function(item) {
+        return item.getAttribute('href').slice(1);
       });
+      var sections = Array.prototype.filter.call(
+        document.querySelectorAll('.case-content [id]'),
+        function(el) { return tocIds.indexOf(el.id) !== -1; }
+      );
+      var allIdEls = Array.prototype.slice.call(
+        document.querySelectorAll('.case-content [id]')
+      );
+      var lockedToClick = false;
 
-      function updateActive() {
-        let current = sections[0];
-        for (const section of sections) {
-          if (section.getBoundingClientRect().top <= 120) current = section;
-        }
-        links.forEach(link => {
-          const id = link.getAttribute('href').slice(1);
-          link.classList.toggle('case-study-nav__link--active', id === current.id);
+      function setActive(id) {
+        tocItems.forEach(function(link) {
+          var linkId = link.getAttribute('href').slice(1);
+          link.classList.toggle('case-toc__item--active', linkId === id);
         });
       }
 
-      window.addEventListener('scroll', updateActive, { passive: true });
-      updateActive();
+      function findParentTocId(id) {
+        if (tocIds.indexOf(id) !== -1) return id;
+        var idx = -1;
+        for (var i = 0; i < allIdEls.length; i++) {
+          if (allIdEls[i].id === id) { idx = i; break; }
+        }
+        if (idx === -1) return null;
+        for (var j = idx; j >= 0; j--) {
+          if (tocIds.indexOf(allIdEls[j].id) !== -1) return allIdEls[j].id;
+        }
+        return null;
+      }
+
+      function applyCurrent() {
+        if (!sections.length) return;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top <= 140) current = sections[i];
+        }
+        if (current) setActive(current.id);
+      }
+
+      allLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (!href || !href.startsWith('#')) return;
+          e.preventDefault();
+          var id = href.slice(1);
+          var parentId = findParentTocId(id);
+          if (parentId) {
+            setActive(parentId);
+            lockedToClick = true;
+          }
+          var target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      function unlockOnUserScroll() { lockedToClick = false; }
+      window.addEventListener('wheel', unlockOnUserScroll, { passive: true });
+      window.addEventListener('touchstart', unlockOnUserScroll, { passive: true });
+      window.addEventListener('keydown', function(e) {
+        var k = e.key;
+        if (k === 'ArrowUp' || k === 'ArrowDown' || k === 'PageUp' ||
+            k === 'PageDown' || k === 'Home' || k === 'End' || k === ' ') {
+          unlockOnUserScroll();
+        }
+      });
+
+      function onScroll() {
+        if (lockedToClick) return;
+        applyCurrent();
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      applyCurrent();
+    })();
+
+    // Cursor sparkle trail, only on hover devices, only outside the card
+    (function() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      var card = document.querySelector('.case-card');
+      var POOL_SIZE = 30;
+      var pool = [];
+      for (var i = 0; i < POOL_SIZE; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'trail-sparkle';
+        dot.style.cssText = 'opacity:0;left:-50px;top:-50px;width:8px;height:8px;display:block;';
+        document.body.appendChild(dot);
+        pool.push(dot);
+      }
+      var idx = 0;
+      var lastTime = 0;
+      document.addEventListener('mousemove', function(e) {
+        if (card) {
+          var rect = card.getBoundingClientRect();
+          if (e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom) return;
+        }
+        var now = performance.now();
+        if (now - lastTime < 25) return;
+        lastTime = now;
+        var dot = pool[idx];
+        idx = (idx + 1) % POOL_SIZE;
+        var size = 10 + Math.random() * 12;
+        dot.style.animation = 'none';
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        dot.style.left = (e.clientX + (-5 + Math.random() * 10)) + 'px';
+        dot.style.top = (e.clientY + (-5 + Math.random() * 10)) + 'px';
+        dot.offsetHeight;
+        dot.style.animation = 'trailFade 0.5s ease-out forwards';
+      }, { passive: true });
+    })();
+
+    // Click sparkle burst, matches home page exactly
+    (function() {
+      var sparkColors = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
+
+      function spawnSparkles(x, y) {
+        for (var c = 0; c < 7; c++) {
+          var spark = document.createElement('div');
+          spark.className = 'click-sparkle';
+          var angle = (c / 7) * Math.PI * 2 + (Math.random() * 0.4);
+          var dist = 35 + Math.random() * 55;
+          var size = 10 + Math.random() * 12;
+          var color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+          var dx = Math.cos(angle) * dist;
+          var dy = Math.sin(angle) * dist;
+
+          spark.style.left = (x - size / 2) + 'px';
+          spark.style.top = (y - size / 2) + 'px';
+          spark.style.width = size + 'px';
+          spark.style.height = size + 'px';
+          spark.style.background = color;
+
+          document.body.appendChild(spark);
+
+          spark.animate(
+            [
+              { opacity: 1, transform: 'translate(0,0) scale(1)' },
+              { opacity: 0, transform: 'translate(' + dx + 'px, ' + dy + 'px) scale(0)' }
+            ],
+            { duration: 1200, easing: 'ease-out', fill: 'forwards' }
+          );
+
+          (function(s) {
+            setTimeout(function() {
+              if (s && s.parentNode) s.parentNode.removeChild(s);
+            }, 1300);
+          })(spark);
+        }
+      }
+
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.case-card, a, button, input, select, textarea, .case-toc, video')) return;
+        spawnSparkles(e.clientX, e.clientY);
+      });
+    })();
+
+    // Pill cursor for project card hover
+    (function() {
+      var pill = document.getElementById('pillCursor');
+      if (!pill) return;
+      var cards = document.querySelectorAll('.case-more-projects__card');
+      var visible = false;
+
+      document.addEventListener('mousemove', function(e) {
+        if (visible) {
+          pill.style.left = (e.clientX + 16) + 'px';
+          pill.style.top = (e.clientY + 16) + 'px';
+        }
+      }, { passive: true });
+
+      cards.forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+          pill.classList.add('pill-cursor--visible');
+          visible = true;
+        });
+        card.addEventListener('mouseleave', function() {
+          pill.classList.remove('pill-cursor--visible');
+          visible = false;
+        });
+      });
     })();
   </script>
 </body>
