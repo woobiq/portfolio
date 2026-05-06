@@ -156,8 +156,38 @@
   @media (max-width: 768px) {
     .page-bg { padding: 80px 16px 24px; }
     .page-card { padding: 32px 24px 40px; border-radius: 16px; }
-    .page-card .animation-row--1 .gallery-item--animation video { height: 150px; }
-    .page-card .animation-row--2 .gallery-item--animation video { height: 130px; }
+
+    /* Doodles: stack single-column so wide images can't overflow the card */
+    .doodles-grid .doodles-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .doodles-grid .doodles-row .gallery-item {
+      width: 100%;
+      height: auto !important;
+      max-width: 100%;
+    }
+    .doodles-grid .doodles-row .gallery-item img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+    }
+
+    /* Animations: 2-column flex layout; video fills its cell at natural aspect */
+    .page-card .animation-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .page-card .gallery-item--animation {
+      flex: 1 1 calc(50% - 5px);
+      min-width: 0;
+      max-width: 100%;
+    }
+    .page-card .gallery-item--animation video {
+      width: 100%;
+      height: auto !important;
+      max-width: 100%;
+    }
   }
 </style>
 </head>
