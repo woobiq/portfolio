@@ -375,11 +375,12 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Lift tulips above Safari's bottom toolbar and scale to a phone-friendly size. */
+    /* Lift tulips above Safari's bottom toolbar and scale to a phone-friendly size.
+       left:-40px keeps the bigger upright tulip visible (was hidden offscreen at -100px). */
     .hero__tulips {
-      width: 1000px;
+      width: 1100px;
       bottom: 60px;
-      left: -100px;
+      left: -40px;
     }
     .projects { padding: 80px 0 100px; }
     .projects__inner { padding: 0 24px; }
