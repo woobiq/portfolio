@@ -3088,23 +3088,22 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   .case-more-projects { padding: 48px 24px 56px; }
   .case-more-projects__grid { grid-template-columns: 1fr; }
 
-  /* TOC: horizontal scroll-snap rail, full-bleed past the shell padding so
-     the first/last items sit flush with the screen edge. */
+  /* TOC: wrapped pills, centered, label hidden — reads as a tidy
+     two-row tab cluster instead of a ragged left-aligned wrap. */
   .case-toc {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 6px;
-    margin: 0 -16px 12px;
-    padding: 0 16px 4px;
-    width: calc(100% + 32px);
+    margin: 0 0 14px;
+    padding: 0;
   }
-  .case-toc::-webkit-scrollbar { display: none; }
-  .case-toc__header { flex: none; padding: 0 6px 0 0; white-space: nowrap; }
-  .case-toc__item { flex: none; scroll-snap-align: center; white-space: nowrap; }
+  .case-toc__header { display: none; }
+  .case-toc__item {
+    flex: none;
+    white-space: nowrap;
+    padding: 7px 14px;
+    font-size: 12px;
+  }
 
   /* Stack hero action buttons full-width so long labels can't overflow. */
   .case-hero__actions {
