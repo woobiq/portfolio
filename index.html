@@ -375,16 +375,18 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Mobile tulips: scale, position, and disable tap-to-burst (touch only). */
+    /* Mobile tulips: anchor stems at the bottom-left corner, disable tap. */
     .hero__tulips {
       width: 1100px;
-      bottom: 20px;
-      left: 30px;
+      bottom: 50px;
+      left: -40px;
       pointer-events: none;
       cursor: default;
     }
     /* Keep "View my projects below ↓" on a single line on phones. */
     .hero__arrow { white-space: nowrap; }
+    /* Hide wind control on phones so it doesn't overlap the arrow. */
+    .wind-control { display: none; }
     .projects { padding: 80px 0 100px; }
     .projects__inner { padding: 0 24px; }
     .projects__heading { margin-bottom: 32px; }
@@ -946,9 +948,10 @@
   });
 
   /* ════════════════════════════════════
-     Petal Burst on Tulip Click
+     Petal Burst on Tulip Click (fine-pointer devices only)
   ════════════════════════════════════ */
   var heroTulips = document.getElementById('heroTulips');
+  if (heroTulips && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   var burstBokehColors = [
     'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
     'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
@@ -1012,6 +1015,7 @@
       setTimeout(function(el) { el.remove(); }, 2500, bPetal);
     }
   });
+  }
 
   /* ════════════════════════════════════
      Wind Speed Toggle
