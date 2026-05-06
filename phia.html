@@ -511,6 +511,10 @@
     (function() {
       var pill = document.getElementById('pillCursor');
       if (!pill) return;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        if (pill.parentNode) pill.parentNode.removeChild(pill);
+        return;
+      }
       var cards = document.querySelectorAll('.case-more-projects__card');
       var visible = false;
 
