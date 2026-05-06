@@ -14,7 +14,7 @@
     background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
   }
 </style>
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <style>
   /* ── Reset ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -376,11 +376,11 @@
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
     /* Mobile tulips: anchor stems at the bottom-left corner, disable tap.
-       2x scale from previous so the bouquet really lands as a hero element. */
+       Large scale so the bouquet really lands as a hero element on phones. */
     .hero__tulips {
-      width: 3300px;
+      width: 4500px;
       bottom: 50px;
-      left: -35px;
+      left: -40px;
       pointer-events: none;
       cursor: default;
     }
@@ -720,11 +720,11 @@
     'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
     'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
   ];
-  for (var i = 0; i < 12; i++) {
+  for (var i = 0; i < 8; i++) {
     var p = document.createElement('div');
     p.classList.add('hero__petal');
-    var size = 30 + Math.random() * 45;
-    var blur = 2 + Math.random() * 6;
+    var size = 50 + Math.random() * 50;
+    var blur = 3 + Math.random() * 7;
     var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
     var top = Math.random() * 85;
     var delay = -(Math.random() * 30);
@@ -875,11 +875,11 @@
   var ctaSection = document.getElementById('ctaSection');
   if (ctaSection) {
     // CTA petals (Style A bokeh, matching hero)
-    for (var cp = 0; cp < 8; cp++) {
+    for (var cp = 0; cp < 6; cp++) {
       var cPetal = document.createElement('div');
       cPetal.classList.add('hero__petal');
-      var cSize = 30 + Math.random() * 45;
-      var cBlur = 2 + Math.random() * 6;
+      var cSize = 50 + Math.random() * 50;
+      var cBlur = 3 + Math.random() * 7;
       var cColor = bokehColors[Math.floor(Math.random() * bokehColors.length)];
       var cTop = Math.random() * 80;
       var cDelay = -(Math.random() * 25);
