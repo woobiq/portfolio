@@ -14,7 +14,7 @@
     background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
   }
 </style>
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
 <style>
   /* ── Reset ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -375,11 +375,13 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Mobile tulips: anchor stems at the bottom-left corner, disable tap.
-       Large scale so the bouquet really lands as a hero element on phones. */
+    /* Mobile tulips: large bouquet, anchored bottom-left, disable tap.
+       At larger widths the image height grows too — so push down with a
+       negative bottom so the flower heads stay in view instead of
+       scaling out the top of the hero. */
     .hero__tulips {
-      width: 4500px;
-      bottom: 50px;
+      width: 2200px;
+      bottom: -150px;
       left: -40px;
       pointer-events: none;
       cursor: default;
