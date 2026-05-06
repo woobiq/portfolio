@@ -2972,6 +2972,22 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   text-shadow: 0 2px 10px rgba(20,40,70,0.3), 0 1px 3px rgba(20,40,70,0.2);
 }
 
+/* Mobile footer: stack vertically + center, so links + copyright don't crash into each other */
+@media (max-width: 600px) {
+  .footer-minimal { padding: 0 20px 24px; }
+  .footer-minimal__content {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+  .footer-minimal__links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 8px;
+  }
+}
+
 /* More projects */
 .case-more-projects {
   padding: 40px 0 64px;
