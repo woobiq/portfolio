@@ -1,0 +1,13 @@
+{
+  "baseUrl": "http://localhost:8080",
+  "timestamp": "2026-05-07T03:25:30Z",
+  "viewport": "1440x900",
+  "tool": "playwright headless chromium, programmatic scroll @ 8px/frame, Lenis disabled",
+  "note": "After Round 1 perf fixes (no visual changes): video re-encode, image resize, IO-pause autoplay videos, rAF-throttle TOC handlers, delete unused assets.",
+  "results": [
+    { "page": "/",       "avgFps": 55.9, "p95": 33.3, "p99": 33.4, "jankPct": 50.0, "totalKB": 238,   "videoKB": 0,     "imageKB": 236 },
+    { "page": "/hemi",   "avgFps": 50.3, "p95": 33.4, "p99": 33.4, "jankPct": 60.0, "totalKB": 1244,  "videoKB": 0,     "imageKB": 1141 },
+    { "page": "/yammii", "avgFps": 47.8, "p95": 33.4, "p99": 50.0, "jankPct": 61.9, "totalKB": 909,   "videoKB": 0,     "imageKB": 908 },
+    { "page": "/fun",    "avgFps": 39.8, "p95": 33.4, "p99": 33.4, "jankPct": 70.2, "totalKB": 12500, "videoKB": 11247, "imageKB": 1253 }
+  ]
+}
