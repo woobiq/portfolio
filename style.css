@@ -312,10 +312,6 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
 .hero {
   padding: 0;
   background-color: var(--color-bg-hero);
-  background-image: url('images/bg/hero-flowers.png');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   border-radius: 0 0 60px 60px;
   display: flex;
   flex-direction: column;
