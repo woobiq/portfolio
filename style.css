@@ -145,8 +145,8 @@ h1, h2, h3, h4, h5 {
 .nav--scrolled {
   height: 52px;
   background: rgba(216, 232, 243, 0.72);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
   border-bottom: 1px solid rgba(26, 26, 26, 0.06);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
 }
@@ -208,8 +208,8 @@ body.page-about .nav:not(.nav--scrolled) .nav__logo {
   top: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
   border: 1px solid rgba(26, 26, 26, 0.08);
   padding: 5px 6px;
   border-radius: 100px;
@@ -264,8 +264,8 @@ body.page-home .nav:not(.nav--scrolled) .nav__links,
 body.case-study-page .nav:not(.nav--scrolled) .nav__links,
 body.page-about .nav:not(.nav--scrolled) .nav__links {
   background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.2) 100%);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(8px) saturate(1.5);
+  -webkit-backdrop-filter: blur(8px) saturate(1.5);
   border-color: rgba(255,255,255,0.4);
   border-top-color: rgba(255,255,255,0.6);
   box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.3);
@@ -3545,8 +3545,8 @@ body.page-about {
   .nav--scrolled {
     height: 52px;
     background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(8px) saturate(1.4);
+    -webkit-backdrop-filter: blur(8px) saturate(1.4);
     border-bottom: 1px solid rgba(20, 40, 70, 0.06);
     box-shadow: 0 1px 8px rgba(20, 40, 70, 0.04);
   }
