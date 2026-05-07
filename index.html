@@ -14,7 +14,7 @@
     background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
   }
 </style>
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=14">
 <style>
   /* ── Reset ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -375,11 +375,9 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Mobile tulips: 2x scale, lifted up, nudged right.
-       Note: at width 3200, image height is ~1800px — taller than the
-       viewport — so flower heads may scale above the visible area. */
+    /* Mobile tulips: 4x base scale, position locked. */
     .hero__tulips {
-      width: 3200px;
+      width: 6400px;
       bottom: 30px;
       left: -10px;
       pointer-events: none;
