@@ -14,7 +14,7 @@
     background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
   }
 </style>
-<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="style.css?v=25">
 <style>
   /* ── Reset ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -375,15 +375,16 @@
     .hero__name { font-size: clamp(56px, 18vw, 120px); margin-bottom: 24px; }
     .hero__tag { font-size: clamp(17px, 4.5vw, 26px); }
     .hero__tag em { font-size: clamp(20px, 5vw, 30px); }
-    /* Mobile tulips: natural aspect, sized to fit fully in the hero
-       (flowers AND stems visible without clipping). */
+    /* Mobile tulips: object-fit cover. The container size IS the
+       visible bouquet — width/height % directly scale it up without
+       the height-overflow problem of pixel widths. */
     .hero__tulips {
-      width: 4000px;
-      height: auto;
+      width: 95%;
+      height: 75%;
       bottom: 0;
-      left: -30px;
-      object-fit: initial;
-      object-position: initial;
+      left: 0;
+      object-fit: cover;
+      object-position: 0% 100%;
       pointer-events: none;
       cursor: default;
     }
