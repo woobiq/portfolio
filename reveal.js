@@ -183,6 +183,28 @@
   // mouseover for desktop hover
   document.addEventListener('mouseover', maybePrefetchFromEvent, { passive: true, capture: true });
 
+  // ── Pause autoplay videos when off-screen ──
+  // Browsers happily decode <video autoplay loop> even when scrolled out of
+  // view, which on /fun (6 videos) burns frames during scroll. Pause when
+  // off-screen, resume when intersecting. Visually identical (paused content
+  // is off-screen by definition).
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var videos = document.querySelectorAll('video[autoplay]');
+    if (!videos.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          v.play().catch(function () {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    videos.forEach(function (v) { io.observe(v); });
+  })();
+
   // ── On link click, fade overlay back in, then navigate ──
   // Mobile gets a shorter outgoing fade so the perceived navigation feels snappier.
   var FADE_OUT_MS = window.innerWidth < 768 ? 120 : 220;
