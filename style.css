@@ -186,8 +186,8 @@ body.page-about .nav:not(.nav--scrolled) .nav__logo {
 }
 
 .nav__logo-icon {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
   flex-shrink: 0;
   aspect-ratio: 1;
@@ -195,7 +195,7 @@ body.page-about .nav:not(.nav--scrolled) .nav__logo {
               height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.nav--scrolled .nav__logo-icon { width: 24px; height: 24px; }
+.nav--scrolled .nav__logo-icon { width: 28px; height: 28px; }
 
 /* Pill nav: links sit in a centered floating pill */
 .nav__links {
