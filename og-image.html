@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OG Image — Ruby Qian Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=Libre+Caslon+Display&family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .og {
+    width: 1200px;
+    height: 630px;
+    position: relative;
+    background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
+    overflow: hidden;
+  }
+  .og__tulips {
+    position: absolute;
+    left: -60px;
+    bottom: -40px;
+    width: 720px;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+  }
+  .og__content {
+    position: absolute;
+    top: 50%;
+    right: 70px;
+    transform: translateY(-50%);
+    text-align: right;
+    color: #ffffff;
+    max-width: 620px;
+  }
+  .og__name {
+    font-family: 'Libre Caslon Display', serif;
+    font-weight: 400;
+    font-size: 132px;
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+    text-shadow:
+      0 4px 32px rgba(20, 40, 70, 0.22),
+      0 2px 8px rgba(20, 40, 70, 0.16),
+      0 1px 2px rgba(20, 40, 70, 0.1);
+  }
+  .name__initial {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.3em;
+    line-height: 0.8;
+  }
+  .og__tag {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.45;
+    text-shadow:
+      0 2px 16px rgba(20, 40, 70, 0.28),
+      0 1px 4px rgba(20, 40, 70, 0.18);
+  }
+  .og__tag em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 31px;
+  }
+</style>
+</head>
+<body>
+  <div class="og">
+    <img src="images/bg/tulips-cutout.png" alt="" class="og__tulips">
+    <div class="og__content">
+      <h1 class="og__name"><span class="name__initial">R</span>uby <span class="name__initial">Q</span>ian</h1>
+      <p class="og__tag">A product designer based in New York City, designing experiences that are <em>intuitive, refined, and purposeful</em>.</p>
+    </div>
+  </div>
+</body>
+</html>
