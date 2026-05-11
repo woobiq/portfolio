@@ -30,23 +30,11 @@
   </style>
   <link rel="stylesheet" href="style.css?v=31">
 <style>
-  body { background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%); }
   .page-bg {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
     padding: 100px 48px 48px;
-  }
-  /* Floating petals */
-  .page-petal {
-    position: fixed;
-    pointer-events: none;
-    z-index: -1;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  }
-  @keyframes petalDriftPage {
-    0% { opacity: var(--pp-opacity); transform: translateX(-60px) translateY(-4vh) rotate(0deg); }
-    100% { opacity: var(--pp-opacity); transform: translateX(calc(100vw + 80px)) translateY(calc(8vh + var(--pp-dy))) rotate(var(--pp-rot)); }
   }
   .page-card {
     background: #ffffff;
@@ -212,6 +200,9 @@
 
   <!-- Page transition overlay -->
   <div class="page-transition-overlay"></div>
+
+  <!-- Floral background layer (gradient + drifting petals) -->
+  <div class="bg-layer" id="bgLayer"></div>
 
   <!-- Navigation -->
   <nav class="nav">
@@ -461,19 +452,20 @@
     }
   })();
 
-  // Floating petals on the gradient background
+  // Drifting bokeh petals on the bg layer (matches home + case study + about)
   (function() {
-    var pageBg = document.querySelector('.page-bg');
-    if (!pageBg) return;
+    var bgLayer = document.getElementById('bgLayer');
+    if (!bgLayer) return;
     var bokehColors = [
       'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
       'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
       'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
       'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
+      'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
     ];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 12; i++) {
       var p = document.createElement('div');
-      p.classList.add('page-petal');
+      p.className = 'bg-petal';
       var size = 30 + Math.random() * 45;
       var blur = 2 + Math.random() * 6;
       var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
@@ -481,16 +473,17 @@
       var delay = -(Math.random() * 30);
       var dur = 10 + Math.random() * 8;
       var opacity = 0.5 + Math.random() * 0.4;
-      var dy = -30 + Math.random() * 60;
+      var driftY = -40 + Math.random() * 80;
       var rot = Math.random() * 360;
       p.style.cssText =
         'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
         'background:' + color + ';' +
+        'border-radius:50% 50% 50% 50%/60% 60% 40% 40%;' +
         'left:-30px;top:' + top + '%;' +
         'filter:blur(' + blur + 'px);' +
-        '--pp-opacity:' + opacity + ';--pp-dy:' + dy + 'px;--pp-rot:' + rot + 'deg;' +
-        'animation:petalDriftPage ' + dur + 's ' + delay + 's infinite linear;';
-      document.body.appendChild(p);
+        '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
+        'animation:petalDrift ' + dur + 's ' + delay + 's infinite linear;';
+      bgLayer.appendChild(p);
     }
   })();
   </script>
