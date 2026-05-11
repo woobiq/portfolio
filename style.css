@@ -2111,8 +2111,8 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
 .case-toc__item {
   padding: 8px 14px;
   background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 100px;
   font-size: 12px;
