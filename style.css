@@ -2969,11 +2969,22 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   font-weight: 500;
 }
 .footer-minimal__links a {
+  display: inline-block;
   color: rgba(255,255,255,0.95);
   text-shadow: 0 2px 10px rgba(20,40,70,0.35), 0 1px 3px rgba(20,40,70,0.2);
-  transition: color 0.2s;
+  transition: color 0.5s ease,
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              text-shadow 0.5s ease;
 }
-.footer-minimal__links a:hover { color: #ffffff; }
+.footer-minimal__links a:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  text-shadow:
+    0 4px 14px rgba(20, 40, 70, 0.28),
+    0 2px 5px rgba(20, 40, 70, 0.18),
+    0 0 22px rgba(255, 255, 255, 0.75),
+    0 0 12px rgba(255, 255, 255, 0.6);
+}
 .footer-minimal__dot { color: rgba(255, 255, 255, 0.5); }
 .footer-minimal__copyright {
   font-size: 13px;
