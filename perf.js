@@ -85,7 +85,7 @@ const PERF_FN = `async () => {
     process.stdout.write(`Measuring ${path} ... `);
     await page.goto(url, { waitUntil: 'load' });
     await page.waitForTimeout(3000);
-    const r = await page.evaluate(PERF_FN);
+    const r = await page.evaluate(`(${PERF_FN})()`);
     results.push({ page: path, ...r });
     console.log(`fps=${r.avgFps} p95=${r.p95FrameMs}ms jank=${r.jankPct}%`);
   }
