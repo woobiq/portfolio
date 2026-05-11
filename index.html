@@ -587,6 +587,22 @@
     100% { opacity: 0; transform: scale(0) translateY(-10px); }
   }
 
+  /* Pause decorative animations when their containing section scrolls off
+     screen. The petals/sparkles/shooting-stars are spawned with inline
+     animation styles, so the pause rule needs !important to win specificity. */
+  .hero.is-paused .hero__petal,
+  .hero.is-paused .hero__sparkle,
+  .hero.is-paused .hero__shooting-star,
+  .hero.is-paused .hero__shooting-star-streak,
+  .hero.is-paused .hero__tulips,
+  .cta-section.is-paused .hero__petal,
+  .cta-section.is-paused .hero__sparkle,
+  .cta-section.is-paused .hero__shooting-star,
+  .cta-section.is-paused .hero__shooting-star-streak {
+    animation-play-state: paused !important;
+  }
+  .hero.is-paused::before { animation-play-state: paused; }
+
   /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
     .hero__scroll { animation: none; }
@@ -731,6 +747,29 @@
      Floating elements, Hemi-style
   ════════════════════════════════════ */
   var hero = document.getElementById('hero');
+
+  /* Pause hero + CTA decorative animations when their section is
+     off-screen. Eliminates per-frame paint cost for petals/sparkles/
+     shooting-stars/tulip-sway/bokeh-drift once the user has scrolled past.
+     Wait until DOMContentLoaded so #ctaSection exists. */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    function arm() {
+      var sections = document.querySelectorAll('.hero, .cta-section');
+      if (!sections.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          entry.target.classList.toggle('is-paused', !entry.isIntersecting);
+        });
+      }, { threshold: 0, rootMargin: '200px' });
+      sections.forEach(function (el) { io.observe(el); });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', arm);
+    } else {
+      arm();
+    }
+  })();
 
   // ── Style A: Soft Bokeh Ovals ──
   var petalSVGs = [];
