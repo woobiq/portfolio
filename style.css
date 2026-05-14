@@ -3094,6 +3094,17 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   color: #888;
   margin-bottom: 6px;
 }
+/* Homepage project card tag (on white card body) — matches case-more-projects label style */
+.project-card__tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  color: #888;
+  align-self: flex-start;
+}
 .case-more-projects__title {
   font-family: var(--font-heading);
   font-size: 17px;
