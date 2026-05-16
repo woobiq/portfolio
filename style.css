@@ -2070,7 +2070,7 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   gap: 28px;
   max-width: 1500px;
   margin: 130px auto 60px;
-  padding: 0 20px;
+  padding: 0 60px;
 }
 .case-shell__spacer {
   width: 160px;
@@ -2148,9 +2148,9 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: 48px;
-  max-width: 920px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 56px 0 48px;
+  padding: 56px 40px 48px;
   align-items: center;
 }
 .case-hero__text {
@@ -2307,7 +2307,7 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   max-width: 920px;
   margin: 0 auto;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 60px;
 }
 .case-content h2 {
   font-family: var(--font-heading);
@@ -2591,8 +2591,13 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
 }
 .case-content .case-callout__section > p { margin-bottom: 8px; }
 .case-content .case-callout__section > p:last-child { margin-bottom: 0; }
-.case-study-page--phia .case-hero__actions { flex-wrap: nowrap; }
-.case-study-page--phia .case-hero__actions .case-hero__jump {
+.hemi-page .case-hero__image {
+  box-shadow: 0 18px 44px rgba(20, 40, 70, 0.18), 0 6px 16px rgba(20, 40, 70, 0.10);
+}
+.case-study-page--phia .case-hero__actions,
+.hemi-page .case-hero__actions { flex-wrap: nowrap; }
+.case-study-page--phia .case-hero__actions .case-hero__jump,
+.hemi-page .case-hero__actions .case-hero__jump {
   font-size: 12px;
   padding: 8px 14px;
   white-space: nowrap;
@@ -3124,9 +3129,13 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   /* Drop the desktop-only 60px side margin so cards fill the case-card width. */
   .case-more-projects { padding: 56px 40px 64px; margin: 24px 0 0; }
 }
+/* Hero stacks below 1300px so the phone mockup doesn't get squeezed
+   below ~340px next to the text column. */
+@media (max-width: 1300px) {
+  .case-hero { grid-template-columns: 1fr; gap: 32px; }
+}
 @media (max-width: 800px) {
-  .case-hero { grid-template-columns: 1fr; gap: 24px; padding: 36px 32px 28px; }
-  .case-hero__image { aspect-ratio: 16/10; }
+  .case-hero { gap: 24px; padding: 36px 32px 28px; }
   .solution-metrics, .feature-row, .reflections-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
