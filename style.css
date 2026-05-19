@@ -448,6 +448,11 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   background: var(--color-bg-section);
 }
 
+.project-card__image--video {
+  display: block;
+  pointer-events: none;
+}
+
 .project-card__image-placeholder {
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -3083,13 +3088,15 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
 @media (hover: hover) {
   .case-more-projects__card { cursor: none; }
 }
-.case-more-projects__card img {
+.case-more-projects__card img,
+.case-more-projects__card video {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   background: #f0f0f0;
   display: block;
 }
+.case-more-projects__card video { pointer-events: none; }
 .case-more-projects__body { padding: 20px 24px 22px; }
 .case-more-projects__label {
   font-size: 10px;
@@ -3297,6 +3304,36 @@ body.page-about {
   transition: border-color 0.2s ease;
 }
 .about-card__text a:hover { border-bottom-color: currentColor; }
+
+/* View Resume button sits inline with the LinkedIn/email icons in the
+   same contact row. Matches their frosted-glass treatment and 44px
+   height so all three controls read as one visual set. */
+.about-contact__resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  min-height: 44px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px rgba(20, 40, 70, 0.22);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.about-contact__resume:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #ffffff;
+  color: #1a1a1a;
+  text-shadow: none;
+  transform: translateY(-2px);
+}
 
 @media (max-width: 800px) {
   .about-shell { flex-direction: column; gap: 32px; padding: 0 24px; margin: 110px auto 40px; }
