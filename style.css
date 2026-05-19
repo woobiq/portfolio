@@ -448,11 +448,6 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   background: var(--color-bg-section);
 }
 
-.project-card__image--video {
-  display: block;
-  pointer-events: none;
-}
-
 .project-card__image-placeholder {
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -3088,15 +3083,13 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
 @media (hover: hover) {
   .case-more-projects__card { cursor: none; }
 }
-.case-more-projects__card img,
-.case-more-projects__card video {
+.case-more-projects__card img {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   background: #f0f0f0;
   display: block;
 }
-.case-more-projects__card video { pointer-events: none; }
 .case-more-projects__body { padding: 20px 24px 22px; }
 .case-more-projects__label {
   font-size: 10px;
