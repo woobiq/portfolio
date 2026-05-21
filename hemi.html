@@ -44,7 +44,13 @@
     /* Case card styling inlined so the white panel paints before
        style.css loads. Without this, slow mobile loads briefly show
        case-study text directly on the gradient (FOUC). */
-    .case-card { background: #F8FBFD; border-radius: 32px; box-shadow: 0 24px 60px rgba(20, 40, 70, 0.12), 0 8px 24px rgba(20, 40, 70, 0.06); }
+    .case-card { background: #F8FBFD; border-radius: 32px; box-shadow: 0 24px 60px rgba(20, 40, 70, 0.12), 0 8px 24px rgba(20, 40, 70, 0.06); position: relative; z-index: 10; flex: 1; max-width: 1280px; }
+    /* case-shell flex layout inlined too so the card has proper context
+       at first paint on iOS Safari, which can render before style.css
+       is fully applied. */
+    .case-shell { display: flex; align-items: flex-start; gap: 28px; max-width: 1500px; margin: 130px auto 60px; padding: 0 60px; }
+    @media (max-width: 1200px) { .case-shell { flex-direction: column; padding: 0 32px; max-width: 1280px; margin: 110px auto 60px; } }
+    @media (max-width: 700px) { .case-shell { padding: 0 16px; margin: 80px auto 40px; } .case-card { border-radius: 24px; } }
   </style>
   <link rel="stylesheet" href="style.css?v=73">
 </head>
