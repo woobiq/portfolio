@@ -52,7 +52,7 @@
     @media (max-width: 1200px) { .case-shell { flex-direction: column; padding: 0 32px; max-width: 1280px; margin: 110px auto 60px; } }
     @media (max-width: 700px) { .case-shell { padding: 0 16px; margin: 80px auto 40px; } .case-card { border-radius: 24px; } }
   </style>
-  <link rel="stylesheet" href="style.css?v=73">
+  <link rel="stylesheet" href="style.css?v=84">
 </head>
 <body class="case-study-page hemi-page">
 
@@ -97,48 +97,54 @@
 
     <main class="case-card">
 
-      <!-- Hero: text left, image right -->
+      <!-- Hero: title spans, then text + video side-by-side -->
       <header class="case-hero">
-        <div class="case-hero__text">
-          <h1 class="case-hero__title">Hemi: A Personal Reflection Journal</h1>
-          <p class="case-hero__glance">
-            <span class="case-hero__glance-label">At a glance</span>
-            A personal product I designed and built end-to-end using <em>Claude Code</em>: a <em>digital reflection journal</em> that pairs <em>structured tracking</em> on the left page with <em>expressive content</em> on the right.
-          </p>
-          <div class="case-hero__meta">
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Role</div>
-              <div class="case-hero__meta-value">Creator &amp; Product Designer</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Timeline</div>
-              <div class="case-hero__meta-value">3 weeks</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Category</div>
-              <div class="case-hero__meta-value">Personal / Lifestyle</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Built with</div>
-              <div class="case-hero__meta-value">Claude Code</div>
+        <h1 class="case-hero__title">Hemi: A Personal Reflection Journal</h1>
+        <div class="case-hero__intro-row">
+          <div class="case-hero__text">
+            <p class="case-hero__glance">
+              <span class="case-hero__glance-label">At a glance</span>
+              A personal product I designed and built end-to-end using <em>Claude Code</em>: a <em>digital reflection journal</em> that pairs <em>structured tracking</em> on the left page with <em>expressive content</em> on the right.
+            </p>
+            <div class="case-hero__meta">
+              <div class="case-hero__meta-item">
+                <div class="case-hero__meta-label">Role</div>
+                <div class="case-hero__meta-value">Creator &amp; Product Designer</div>
+              </div>
+              <div class="case-hero__meta-item">
+                <div class="case-hero__meta-label">Timeline</div>
+                <div class="case-hero__meta-value">3 weeks</div>
+              </div>
+              <div class="case-hero__meta-item">
+                <div class="case-hero__meta-label">Category</div>
+                <div class="case-hero__meta-value">Personal / Lifestyle</div>
+              </div>
+              <div class="case-hero__meta-item">
+                <div class="case-hero__meta-label">Built with</div>
+                <div class="case-hero__meta-value">Claude Code</div>
+              </div>
             </div>
           </div>
-          <div class="case-hero__actions">
-            <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener" class="case-hero__jump case-hero__jump--solid">
-              <span class="case-hero__jump-arrow">↗</span>
-              Visit site
-            </a>
-            <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener" class="case-hero__jump">
-              <span class="case-hero__jump-arrow">↗</span>
-              Visit demo
-            </a>
-            <a href="#outcome" class="case-hero__jump">
-              <span class="case-hero__jump-arrow">↓</span>
-              Jump to outcome
-            </a>
+          <div class="case-hero__visual">
+            <video class="case-hero__image" autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi_skygarden.jpg" aria-label="Hemi sky garden view with floating journals in a dreamy cloud scene">
+              <source src="images/hemi/hemi-card.mp4?v=2" type="video/mp4">
+            </video>
+            <div class="case-hero__actions">
+              <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener" class="case-hero__jump case-hero__jump--solid">
+                <span class="case-hero__jump-arrow">↗</span>
+                Visit site
+              </a>
+              <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener" class="case-hero__jump">
+                <span class="case-hero__jump-arrow">↗</span>
+                Visit demo
+              </a>
+              <a href="#outcome" class="case-hero__jump">
+                <span class="case-hero__jump-arrow">↓</span>
+                Jump to outcome
+              </a>
+            </div>
           </div>
         </div>
-        <img src="images/hemi/hemi_skygarden.jpg" alt="Hemi sky garden view with floating journals in a dreamy cloud scene" class="case-hero__image">
       </header>
 
       <!-- Body -->
