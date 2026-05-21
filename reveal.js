@@ -147,12 +147,25 @@
     document.body.insertBefore(overlay, document.body.firstChild);
   }
 
-  // Fade out the overlay shortly after page load
-  requestAnimationFrame(function () {
+  // Fade out the overlay only after the page has fully loaded (CSS,
+  // images, fonts). Double rAF wasn't enough on iOS Safari, which
+  // could fire DOMContentLoaded before the first styled paint and
+  // briefly expose unstyled text during the fade. Fallback at 1000ms
+  // so the overlay never gets stuck if some resource hangs.
+  var faded = false;
+  function safeFade() {
+    if (faded) return;
+    faded = true;
     requestAnimationFrame(function () {
       overlay.classList.add('is-loaded');
     });
-  });
+  }
+  if (document.readyState === 'complete') {
+    safeFade();
+  } else {
+    window.addEventListener('load', safeFade);
+    setTimeout(safeFade, 1000);
+  }
 
   // ── Prefetch on hover/touch so HTML is in cache by the time of click ──
   // Prefetch a same-origin URL (HTML page) once. The browser stores the
