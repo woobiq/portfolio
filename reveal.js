@@ -226,7 +226,7 @@
 
   // ── On link click, fade overlay back in, then navigate ──
   // Mobile gets a shorter outgoing fade so the perceived navigation feels snappier.
-  var FADE_OUT_MS = window.innerWidth < 768 ? 120 : 220;
+  var FADE_OUT_MS = window.innerWidth < 768 ? 120 : 150;
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href]');
     if (!link) return;
