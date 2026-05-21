@@ -1991,10 +1991,10 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   will-change: opacity;
 }
 .page-transition-overlay.is-loaded {
-  opacity: 0;
+  opacity: 0 !important;
 }
 .page-transition-overlay.is-leaving {
-  opacity: 1;
+  opacity: 1 !important;
   transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
