@@ -147,11 +147,11 @@
     document.body.insertBefore(overlay, document.body.firstChild);
   }
 
-  // Fade out the overlay only after the page has fully loaded (CSS,
-  // images, fonts). Double rAF wasn't enough on iOS Safari, which
-  // could fire DOMContentLoaded before the first styled paint and
-  // briefly expose unstyled text during the fade. Fallback at 1000ms
-  // so the overlay never gets stuck if some resource hangs.
+  // Fade out the overlay. On mobile (iOS Safari specifically) the
+  // browser can paint before CSS is fully applied, so we wait for
+  // window.load + 1s fallback to be safe. Desktop has no FOUC issue
+  // and a window.load wait just adds perceived lag, so keep the
+  // original double-rAF on desktop.
   var faded = false;
   function safeFade() {
     if (faded) return;
@@ -160,11 +160,17 @@
       overlay.classList.add('is-loaded');
     });
   }
-  if (document.readyState === 'complete') {
-    safeFade();
+  if (window.innerWidth < 768) {
+    if (document.readyState === 'complete') {
+      safeFade();
+    } else {
+      window.addEventListener('load', safeFade);
+      setTimeout(safeFade, 1000);
+    }
   } else {
-    window.addEventListener('load', safeFade);
-    setTimeout(safeFade, 1000);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(safeFade);
+    });
   }
 
   // ── Prefetch on hover/touch so HTML is in cache by the time of click ──
