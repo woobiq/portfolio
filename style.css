@@ -3136,6 +3136,17 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   .case-toc { position: static; width: auto; flex-direction: row; flex-wrap: wrap; gap: 4px; align-self: stretch; margin-bottom: 8px; padding: 0 8px; }
   .case-shell__spacer { display: none; }
   .case-body { padding: 40px 60px 60px; }
+  /* case-body now provides the horizontal padding, so case-content
+     doesn't double up. Keeps body text full-width inside the card. */
+  .case-content { padding: 0; }
+  /* Bullets align with paragraph text instead of jutting out into the
+     case-body padding on mobile. */
+  .case-content ul,
+  .case-content ol {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-position: inside;
+  }
   .case-hero { padding: 40px 40px 32px; gap: 32px; }
   /* Drop the desktop-only 60px side margin so cards fill the case-card width. */
   .case-more-projects { padding: 56px 40px 64px; margin: 24px 0 0; }
