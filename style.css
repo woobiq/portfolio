@@ -208,12 +208,12 @@ body.page-about .nav:not(.nav--scrolled) .nav__logo {
   top: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(8px) saturate(1.4);
-  -webkit-backdrop-filter: blur(8px) saturate(1.4);
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  backdrop-filter: blur(10px) saturate(1.5);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   padding: 5px 6px;
   border-radius: 100px;
-  box-shadow: 0 4px 18px rgba(20, 40, 70, 0.06);
+  box-shadow: 0 6px 22px rgba(20, 40, 70, 0.12);
   transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -252,46 +252,16 @@ body.page-about .nav:not(.nav--scrolled) .nav__logo {
   text-shadow: 0 1px 6px rgba(20, 40, 70, 0.12);
 }
 
-/* Home page hero: white nav links + low-opacity pill + pink-glow hover */
-body.page-home .nav:not(.nav--scrolled) .nav__link,
-body.case-study-page .nav:not(.nav--scrolled) .nav__link,
-body.page-about .nav:not(.nav--scrolled) .nav__link {
-  color: #ffffff;
-  text-shadow: 0 2px 12px rgba(20, 40, 70, 0.45), 0 1px 4px rgba(20, 40, 70, 0.3);
-}
+/* Nav links keep their default dark color across all pages and scroll
+   positions — no gradient-page-specific override, so no jarring text
+   color change between scroll states. */
 
-body.page-home .nav:not(.nav--scrolled) .nav__links,
-body.case-study-page .nav:not(.nav--scrolled) .nav__links,
-body.page-about .nav:not(.nav--scrolled) .nav__links {
-  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.2) 100%);
-  backdrop-filter: blur(8px) saturate(1.5);
-  -webkit-backdrop-filter: blur(8px) saturate(1.5);
-  border-color: rgba(255,255,255,0.4);
-  border-top-color: rgba(255,255,255,0.6);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.3);
-}
+/* Gradient-page-specific override removed — the pill uses the same
+   style at top and when scrolled so there's no jarring transition. */
 
-/* Letter-spacing expand hover (white text on the floral hero pill) */
-body.page-home .nav:not(.nav--scrolled) .nav__link,
-body.case-study-page .nav:not(.nav--scrolled) .nav__link,
-body.page-about .nav:not(.nav--scrolled) .nav__link {
-  letter-spacing: 0;
-  transition: letter-spacing 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              text-shadow 0.3s ease,
-              color 0.2s ease;
-}
-body.page-home .nav:not(.nav--scrolled) .nav__link:hover,
-body.page-home .nav:not(.nav--scrolled) .nav__link--active,
-body.case-study-page .nav:not(.nav--scrolled) .nav__link:hover,
-body.case-study-page .nav:not(.nav--scrolled) .nav__link--active,
-body.page-about .nav:not(.nav--scrolled) .nav__link:hover,
-body.page-about .nav:not(.nav--scrolled) .nav__link--active {
-  background: transparent;
-  box-shadow: none;
-  color: #ffffff;
-  letter-spacing: 0.06em;
-  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.55), 0 1px 6px rgba(20, 40, 70, 0.3);
-}
+/* Gradient-page hover/active override removed — base .nav__link:hover
+   and .nav__link--active rules (dark text, letter-spacing + soft
+   shadow) work across all pages now. */
 
 /* Mobile nav toggle */
 .nav__toggle {
@@ -2122,7 +2092,7 @@ body.page-about .nav:not(.nav--scrolled) .nav__link--active {
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px) saturate(1.4);
   -webkit-backdrop-filter: blur(8px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 100px;
   font-size: 12px;
   color: #ffffff;

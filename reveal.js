@@ -122,7 +122,7 @@
   if (nav) {
     var navTicking = false;
     function updateNav() {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 20) {
         nav.classList.add('nav--scrolled');
       } else {
         nav.classList.remove('nav--scrolled');
