@@ -25,11 +25,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=97">
+  <link rel="stylesheet" href="style.css?v=98">
   <!-- Inline floral on <html> so it paints BEFORE any other CSS, prevents white flash -->
   <style>
     html {
       background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    }
+
+    /* ── Little Joys · engraved corner motifs on the flip-card backs ── */
+    .hobby-polaroid__back-text { position: relative; z-index: 2; }
+    .joy-motif {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      /* engraved: pressed into the cream paper (tone-on-tone + shadow) */
+      filter: drop-shadow(-1px -1px 0.4px rgba(120, 85, 50, 0.5)) drop-shadow(1px 1px 0.4px rgba(255, 255, 255, 0.95));
+    }
+    .joy-motif svg { display: block; width: 48px; height: 48px; }
+    .joy-motif--sm svg { width: 38px; height: 38px; }
+    .joy-motif--tl { top: 6px; left: 5px; }
+    .joy-motif--tr { top: 6px; right: 5px; }
+    .joy-motif--bl { bottom: 6px; left: 5px; }
+    .joy-motif--br { bottom: 6px; right: 5px; }
+
+    /* Flip hint (↺): a bit larger, and bottom-aligned with the bottom-left motif. */
+    .hobby-polaroid__flip-icon { font-size: 18px; line-height: 1; bottom: 10px; right: 9px; }
+
+    @media (max-width: 800px) {
+      .joy-motif svg { width: 36px; height: 36px; }
+      .joy-motif--sm svg { width: 29px; height: 29px; }
     }
   </style>
 </head>
@@ -119,6 +143,8 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
+              <span class="joy-motif joy-motif--tr" data-icon="boombox"></span>
+              <span class="joy-motif joy-motif--bl" data-icon="shootingstar"></span>
               <div class="hobby-polaroid__back-text">in my free time, i dance hip-hop, street jazz, traditional chinese &amp; contemporary</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
@@ -132,6 +158,8 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
+              <span class="joy-motif joy-motif--tr" data-icon="teacup"></span>
+              <span class="joy-motif joy-motif--bl" data-icon="iced"></span>
               <div class="hobby-polaroid__back-text">some of my favorite cafes in nyc: kinfolk, remi flower coffee, and devoción</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
@@ -145,6 +173,8 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
+              <span class="joy-motif joy-motif--tr" data-icon="book"></span>
+              <span class="joy-motif joy-motif--bl" data-icon="pencil"></span>
               <div class="hobby-polaroid__back-text">hobonichi weeks user, perfect size for weekly planning + creative journaling</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
@@ -158,6 +188,8 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
+              <span class="joy-motif joy-motif--sm joy-motif--tr" data-icon="envelope"></span>
+              <span class="joy-motif joy-motif--sm joy-motif--bl" data-icon="letter"></span>
               <div class="hobby-polaroid__back-text">subscribed to aome, ever healing &amp; cozy mail clubs<br><br>love the analog joy of handmade letters in this increasingly digital world</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
@@ -171,6 +203,8 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
+              <span class="joy-motif joy-motif--tr" data-icon="washiStack"></span>
+              <span class="joy-motif joy-motif--bl" data-icon="smiley"></span>
               <div class="hobby-polaroid__back-text">obsessed with midliners, BGM washi tape, and stickers of all kinds</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
@@ -184,7 +218,9 @@
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
             <div class="hobby-polaroid__face hobby-polaroid__back">
-              <div class="hobby-polaroid__back-text">currently watching: yumi's cells s3 &amp; nana<br><br>all-time favorite anime movie: kimi no na wa (your name)</div>
+              <span class="joy-motif joy-motif--tr" data-icon="play"></span>
+              <span class="joy-motif joy-motif--bl" data-icon="torii"></span>
+              <div class="hobby-polaroid__back-text">latest watch: yumi's cells s3 &amp; blue lock<br><br>all-time favorite anime movie: kimi no na wa (your name)</div>
               <span class="hobby-polaroid__flip-icon">↺</span>
             </div>
           </div>
@@ -353,6 +389,34 @@
         card.addEventListener('mouseleave', function() {
           card.classList.remove('is-flipped');
         });
+      });
+    })();
+  </script>
+
+  <script>
+    // Little Joys — inject engraved corner motifs into the flip-card backs.
+    (function(){
+      var S='#fdfaf2', W=2.1;
+      function w(x){return 'stroke="'+S+'" stroke-width="'+x+'" fill="none" stroke-linecap="round" stroke-linejoin="round"';}
+      function heart(cx,cy,s){return '<path d="M'+cx+' '+cy+' c'+(-1.4*s)+'-'+(1.9*s)+' '+(-4.2*s)+'-'+(0.8*s)+' '+(-4.2*s)+' '+(1.4*s)+' 0 '+(1.7*s)+' '+(2.5*s)+' '+(3.1*s)+' '+(4.2*s)+' '+(4.5*s)+' '+(1.7*s)+'-'+(1.4*s)+' '+(4.2*s)+'-'+(2.8*s)+' '+(4.2*s)+'-'+(4.5*s)+' 0-'+(2.2*s)+'-'+(2.9*s)+'-'+(3.3*s)+'-'+(4.2*s)+'-'+(1.4*s)+' z" '+w(W*0.75)+'/>';}
+      function wave(x,y,n){var d='M'+x+' '+y;for(var i=0;i<n;i++)d+=' q3 -2 6 0 q3 2 6 0';return '<path d="'+d+'" '+w(W*0.8)+'/>';}
+      var ICONS = {
+        teacup:'<ellipse cx="31" cy="55" rx="20" ry="4" '+w(W)+'/><path d="M16 33 Q16 50 31 50 Q46 50 46 33 Z" '+w(W)+'/><path d="M15 33 L47 33" '+w(W)+'/><path d="M46 37 C54 37 54 47 45.5 46" '+w(W)+'/><path d="M26 27 q-2 -3 0 -6" '+w(W)+'/><path d="M35 27 q2 -3 0 -6" '+w(W)+'/>',
+        iced:'<path d="M17 23 L47 23 L43 61 Q43 63 41 63 L23 63 Q21 63 21 61 Z" '+w(W)+'/><ellipse cx="32" cy="23" rx="15" ry="3.5" '+w(W)+'/><path d="M40 9 L28 55" '+w(W)+'/><rect x="26" y="29" width="8" height="8" rx="1.5" '+w(W*0.8)+'/><rect x="33" y="40" width="7" height="7" rx="1.5" '+w(W*0.8)+'/>',
+        boombox:'<path d="M12 35 L52 35 L52 55 L12 55 Z" '+w(W)+'/><path d="M24 35 L24 30 Q24 28 26 28 L38 28 Q40 28 40 30 L40 35" '+w(W)+'/><circle cx="22" cy="45" r="6" '+w(W)+'/><circle cx="42" cy="45" r="6" '+w(W)+'/><path d="M29 42 L35 42" '+w(W*0.8)+'/>',
+        shootingstar:'<path d="M44 12 L47 21 L56 24 L47 27 L44 36 L41 27 L32 24 L41 21 Z" '+w(W)+'/><path d="M33 30 L18 46" '+w(W)+'/><path d="M38 32 L25 48" '+w(W)+'/><path d="M30 27 L17 39" '+w(W)+'/>',
+        book:'<path d="M20 17 L44 17 Q46 17 46 19 L46 53 Q46 55 44 55 L20 55 Z" '+w(W)+'/><path d="M26 17 L26 55" '+w(W)+'/><path d="M31 27 L41 27" '+w(W)+'/><path d="M31 33 L41 33" '+w(W)+'/><path d="M31 39 L38 39" '+w(W)+'/>',
+        pencil:'<g transform="rotate(45 32 37)"><path d="M26 20 L38 20 L38 47 L26 47 Z" '+w(W)+'/><path d="M26 47 L38 47 L32 58 Z" '+w(W)+'/><path d="M30 54 L34 54" '+w(W*0.8)+'/><path d="M26 20 L38 20 L38 16 Q38 15 37 15 L27 15 Q26 15 26 16 Z" '+w(W)+'/><path d="M26 25 L38 25" '+w(W*0.8)+'/></g>',
+        envelope:'<path d="M12 24 L52 24 Q53 24 53 25 L53 48 Q53 49 52 49 L12 49 Q11 49 11 48 L11 25 Q11 24 12 24 Z" '+w(W*1.15)+'/><path d="M11 25 L32 40 L53 25" '+w(W*1.15)+'/>',
+        letter:'<g transform="translate(6 0) rotate(-16 32 36)"><path d="M13 15 L51 15 L51 57 L13 57 Z" '+w(W)+'/>'+wave(19,24,2)+wave(19,32,2)+wave(19,40,2)+wave(19,48,2)+'</g>',
+        washiStack:'<ellipse cx="30" cy="26" rx="16" ry="5" '+w(W)+'/><ellipse cx="30" cy="26" rx="6" ry="1.8" '+w(W*0.8)+'/><path d="M14 26 L14 50" '+w(W)+'/><path d="M46 26 L46 50" '+w(W)+'/><path d="M14 34 Q30 39 46 34" '+w(W)+'/><path d="M14 42 Q30 47 46 42" '+w(W)+'/><path d="M14 50 Q30 56 46 50" '+w(W)+'/><path d="M46 43 L58 41.5 L55 44 L59 45.5 L55 47 L59 48.5 L56 50.5 L46 50 Z" '+w(W)+'/>',
+        smiley:'<circle cx="32" cy="35" r="18" '+w(W*0.9)+'/><circle cx="32" cy="35" r="15" '+w(W)+'/><circle cx="26" cy="32" r="1.7" '+w(W)+'/><circle cx="38" cy="32" r="1.7" '+w(W)+'/><path d="M25 39 Q32 46 39 39" '+w(W)+'/>',
+        play:'<circle cx="32" cy="37" r="16" '+w(W)+'/><path d="M28 29 L28 45 L43 37 Z" '+w(W)+'/>',
+        torii:'<path d="M10 28 Q12 24 16 25 L48 25 Q52 24 54 28" '+w(W)+'/><path d="M13 30 L51 30" '+w(W)+'/><path d="M22 30 L20 57" '+w(W)+'/><path d="M42 30 L44 57" '+w(W)+'/><path d="M17 37 L47 37" '+w(W)+'/><path d="M32 30 L32 37" '+w(W*0.8)+'/>'
+      };
+      document.querySelectorAll('.joy-motif[data-icon]').forEach(function(el){
+        var id = el.getAttribute('data-icon');
+        if (ICONS[id]) el.innerHTML = '<svg viewBox="0 0 64 72">'+ICONS[id]+'</svg>';
       });
     })();
   </script>
