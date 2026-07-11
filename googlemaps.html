@@ -15,52 +15,875 @@
   <meta property="og:image" content="https://rubyqian.com/images/og-image-v2.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Ruby Qian — product designer based in New York City">
+  <meta property="og:image:alt" content="Ruby Qian, product designer based in New York City">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AI Assistant for Google Maps · Ruby Qian Portfolio">
   <meta name="twitter:description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
   <meta name="twitter:image" content="https://rubyqian.com/images/og-image-v2.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
-  <!-- Critical first-paint styles, mask the brief moment before style.css loads -->
+  <link rel="stylesheet" href="style.css?v=98">
   <style>
-    html {
-      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    body.case-v2 {
+      background: #ffffff;
+      margin: 0;
+      font-family: 'Manrope', sans-serif;
+      color: #1a1a1a;
     }
-    body.case-study-page { background: transparent; margin: 0; }
-    .page-transition-overlay {
-      position: fixed;
+    body.case-v2 .bg-layer { display: none; }
+    body.case-v2 .page-transition-overlay { background: #ffffff; }
+
+    /* The nav pill is frosted glass, which has nothing to blur over the
+       white editorial page, so it blends in. Drop the (invisible white)
+       border and lift it with a soft neutral shadow so it floats as a
+       crisp pill above the page — no edge color to fight the warm palette. */
+    body.case-v2 .nav:not(.nav--scrolled) .nav__links {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: transparent;
+      padding: 4px 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+    body.case-v2 .nav:not(.nav--scrolled) .nav__link { padding: 6px 14px; }
+
+    /* ── MAIN SHELL ── */
+    .v2-shell {
+      margin: 110px auto 80px;
+      padding: 0 clamp(120px, 9vw, 240px) 0 72px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 80px;
+    }
+
+    /* TOC */
+    .v2-toc {
+      position: sticky;
+      top: 100px;
+      align-self: start;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+    .v2-toc__list { display: flex; flex-direction: column; gap: 10px; }
+    .v2-toc__link {
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(20, 40, 70, 0.5);
+      text-decoration: none;
+      padding: 2px 0;
+      transition: color 0.2s;
+    }
+    .v2-toc__link:hover { color: #1a1a1a; }
+    .v2-toc__link--active { color: #1a1a1a; font-weight: 600; }
+
+    .v2-main { width: 100%; max-width: 1200px; margin: 0 auto; color: #1a1a1a; }
+
+    /* ── HERO ── */
+    .v2-hero { margin-bottom: 112px; }
+    .v2-hero__title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(36px, 4.2vw, 56px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: #1a1a1a;
+      margin: 0 0 28px;
+      max-width: 1100px;
+    }
+    .v2-hero__glance {
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: rgba(26, 26, 26, 0.75);
+      letter-spacing: -0.005em;
+      margin: 0 0 40px;
+      max-width: 800px;
+    }
+    .v2-hero__glance a { color: #357E77; text-decoration: none; }
+    .v2-hero__glance a:hover { text-decoration: underline; }
+    .v2-hero__glance strong { color: #1a1a1a; font-weight: 600; }
+    .v2-hero__glance em { font-style: italic; color: #1a1a1a; }
+
+    .v2-hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px 80px;
+      margin-bottom: 40px;
+    }
+    .v2-hero__meta-item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .v2-hero__meta-label {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #4E978F; font-weight: 600;
+    }
+    .v2-hero__meta-value {
+      font-size: 14px;
+      color: #1a1a1a;
+      font-weight: 500;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    .v2-hero__media {
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .v2-hero__media video {
+      width: 100%; display: block;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    /* ── SECTIONS ── */
+    .v2-section { margin-bottom: 112px; }
+    .v2-section:last-child { margin-bottom: 0; }
+
+    .v2-eyebrow {
+      display: flex;
+      align-items: baseline;
+      gap: 22px;
+      margin: 0 0 28px;
+      /* Offset anchor jumps below the 80px fixed nav so the section
+         eyebrow stays visible when a TOC link is clicked. */
+      scroll-margin-top: 112px;
+    }
+    .v2-eyebrow__num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      font-weight: 500;
+      color: #4E978F;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .v2-eyebrow__label {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4E978F;
+    }
+
+    .v2-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(24px, 2.6vw, 32px);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: #1a1a1a;
+      margin: 0 0 28px;
+      max-width: 1100px;
+    }
+    .v2-lead {
+      font-size: 19px; line-height: 1.6;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0 0 36px;
+      max-width: 1100px;
+    }
+    .v2-lead em { font-style: normal; color: #1a1a1a; font-weight: 500; }
+    .v2-lead strong { color: #1a1a1a; font-weight: 600; }
+    .v2-lead a { color: #357E77; }
+
+    .v2-body {
+      font-size: 18px; line-height: 1.7;
+      color: rgba(26, 26, 26, 0.92);
+      max-width: 1100px;
+      margin: 0 0 24px;
+    }
+    .v2-body strong { color: #1a1a1a; font-weight: 600; }
+    .v2-body em { font-style: italic; color: #1a1a1a; }
+    .v2-body a { color: #357E77; }
+
+    .v2-subhead {
+      font-size: 22px; font-weight: 500;
+      color: #1a1a1a;
+      margin: 56px 0 16px;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+    }
+
+    /* ── PULL QUOTE — sans italic at headline scale, reads as the question
+       version of the headline below it ── */
+    .v2-quote-wrap { margin: 0 0 24px; max-width: 1100px; }
+    .v2-quote {
+      font-family: 'Manrope', sans-serif;
+      font-style: italic;
+      font-size: clamp(24px, 2.6vw, 32px);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: rgba(26, 26, 26, 0.55);
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    /* ── BRIEF BLOCK — soft tinted, no border ── */
+    .v2-brief {
+      background: linear-gradient(155deg, #E3F1EF 0%, #CFE7E4 100%);
+      border-radius: 22px;
+      padding: 28px 36px;
+      margin: 24px 0 40px;
+      max-width: 1100px;
+    }
+    .v2-brief__eyebrow {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(42, 97, 92, 0.95);
+      font-weight: 600;
+      margin: 0 0 12px;
+    }
+    .v2-brief p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+    }
+    .v2-brief p:last-child { margin-bottom: 0; }
+    .v2-brief strong { font-weight: 600; }
+    .v2-brief a { color: #357E77; }
+
+    /* ── BRIEF OUTLINE — vibrant green outline + filled "NOTE" pill ── */
+    .v2-brief--outline {
+      background: transparent;
+      border: 1.5px solid #357E77;
+      border-radius: 16px;
+      padding: 32px 32px 28px;
+      position: relative;
+      margin-top: 40px;
+    }
+    .v2-brief--outline .v2-brief__eyebrow {
+      position: absolute;
+      top: -12px;
+      left: 22px;
+      background: #357E77;
+      padding: 5px 16px;
+      margin: 0;
+      border: 1.5px solid #357E77;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .v2-brief--outline p:not(.v2-brief__eyebrow) {
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(26, 26, 26, 0.92);
+    }
+
+    /* ── BIGSHOT — large supporting image ── */
+    .v2-bigshot { margin: 24px 0 32px; }
+    .v2-bigshot__title {
+      font-size: 22px; font-weight: 600;
+      margin: 0 0 8px; letter-spacing: -0.01em;
+    }
+    .v2-bigshot__sub {
+      font-size: 16px;
+      color: rgba(26, 26, 26, 0.7);
+      margin: 0 0 18px;
+      max-width: 1000px;
+      line-height: 1.55;
+    }
+    .v2-bigshot__media {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #EFF6F5;
+      border: 1px solid rgba(53, 126, 119, 0.10);
+    }
+    .v2-bigshot__media img { width: 100%; display: block; }
+
+    /* ── PROBLEM HERO — text left, saved-places map screenshot right ── */
+    .v2-problemhero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.62fr) minmax(0, 0.9fr);
+      gap: 48px;
+      align-items: stretch;
+      max-width: 1100px;
+      margin: 0 0 40px;
+    }
+    .v2-problemhero__text { min-width: 0; display: flex; flex-direction: column; }
+    .v2-problemhero__text .v2-headline { max-width: none; }
+    .v2-problemhero__text .v2-lead { max-width: none; margin-bottom: 44px; }
+    .v2-problemhero__text .v2-brief { margin: 0; max-width: none; }
+    .v2-problemhero__media {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #EFF6F5;
+      border: 1px solid rgba(53, 126, 119, 0.12);
+      aspect-ratio: 4 / 5;
+    }
+    .v2-problemhero__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Phone mockup: transparent corners, so fit (never crop) with no card frame */
+    .v2-problemhero__media--phone {
+      background: none; border: none; border-radius: 0; overflow: visible;
+      aspect-ratio: auto;
+      position: relative; min-height: 0;
+    }
+    /* Absolute fill so the phone's tall intrinsic height never drives the
+       row; it's clamped to the text column's height, then contained. */
+    .v2-problemhero__media--phone img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; max-width: 100%;
+      object-fit: contain; object-position: center;
+    }
+    @media (max-width: 860px) {
+      .v2-problemhero { grid-template-columns: 1fr; gap: 24px; }
+      .v2-problemhero__media--phone { position: static; }
+      .v2-problemhero__media--phone img { position: static; height: auto; max-height: 520px; margin: 0 auto; display: block; }
+    }
+
+    /* ── BRIEF TABLE — problem / solution / use cases / constraints ── */
+    .v2-brieftable {
+      position: relative;
+      max-width: 1100px;
+      margin: 24px 0 32px;
+      border: 1px solid rgba(40, 90, 92, 0.42);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    /* One continuous gradient down the whole left column, not per-row */
+    .v2-brieftable::before {
+      content: "";
+      position: absolute; top: 0; bottom: 0; left: 0; width: 184px;
+      background: linear-gradient(135deg, #D3EBF1 0%, #D6E7F4 52%, #DEE6F8 100%);
+      z-index: 0;
+    }
+    .v2-brieftable__row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 184px 1fr;
+      border-top: 1px solid rgba(40, 90, 92, 0.42);
+    }
+    .v2-brieftable__row:first-child { border-top: none; }
+    .v2-brieftable__label {
+      background: transparent;
+      padding: 22px 24px;
+      font-size: 21px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      border-right: 1px solid rgba(40, 90, 92, 0.42);
+    }
+    .v2-brieftable__body {
+      background: #fff;
+      padding: 22px 26px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(26, 26, 26, 0.9);
+    }
+    .v2-brieftable__body p { margin: 0 0 12px; }
+    .v2-brieftable__body p:last-child { margin-bottom: 0; }
+    .v2-brieftable__body strong { font-weight: 700; color: #1a1a1a; }
+    .v2-brieftable__body ul,
+    .v2-brieftable__body ol { margin: 10px 0 12px; padding-left: 22px; }
+    .v2-brieftable__body li { margin: 0 0 5px; }
+    .v2-brieftable__body ul li { list-style: disc; }
+    .v2-brieftable__body ol li { list-style: decimal; }
+    @media (max-width: 720px) {
+      .v2-brieftable::before { display: none; }
+      .v2-brieftable__row { grid-template-columns: 1fr; }
+      .v2-brieftable__label { background: linear-gradient(135deg, #D3EBF1 0%, #DEE6F8 100%); border-right: none; border-bottom: 1px solid rgba(40, 90, 92, 0.42); padding: 16px 22px; }
+    }
+
+    /* ── DESIGN — hero mockup + detail crops (placeholders until assets land) ── */
+    .v2-designhero { margin: 24px 0 24px; max-width: 1100px; aspect-ratio: 2 / 1; border-radius: 18px; overflow: hidden; }
+    .v2-designhero img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    /* All three crops in one compact row, sharing a uniform height; each keeps
+       its natural width (the reasoning crop is landscape, the others portrait). */
+    .v2-crops-row {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      margin: 0 0 40px;
+      max-width: 1100px;
+    }
+    /* Each crop's flex-grow equals its image aspect ratio, with a matching
+       media aspect-ratio, so the three share one uniform height that scales
+       with the row width while keeping their true proportions. */
+    .v2-crop { margin: 0; display: flex; flex-direction: column; min-width: 0; }
+    .v2-crop__media {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #F1F3F5;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+    }
+    .v2-crop__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .v2-crop--card { flex: 793 1 0; }
+    .v2-crop--tags { flex: 859 1 0; }
+    .v2-crop--new  { flex: 985 1 0; }
+    .v2-crop--card .v2-crop__media { aspect-ratio: 860 / 1084; }
+    .v2-crop--tags .v2-crop__media { aspect-ratio: 734 / 854; }
+    .v2-crop--new  .v2-crop__media { aspect-ratio: 1392 / 1413; }
+    .v2-crop__label {
+      font-size: 16px; line-height: 1.55;
+      color: rgba(26, 26, 26, 0.66);
+      margin: 16px 0 0;
+    }
+    .v2-crop__label-title {
+      display: block;
+      font-size: 18px; font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 5px;
+      letter-spacing: -0.01em;
+    }
+    .v2-crop__label strong { color: #1a1a1a; font-weight: 600; }
+    @media (max-width: 720px) {
+      .v2-crops-row { flex-direction: column; }
+    }
+
+    /* ── ENTRY FLOW — phone recording beside a User/Assistant exchange,
+       each wrapped in a horizontal box ── */
+    .v2-flow {
+      margin: 0 0 48px;
+      border: 1px solid rgba(40, 90, 92, 0.42);
+      border-radius: 22px;
+      padding: 36px;
+      background: #ffffff;
+    }
+    .v2-flow__inner {
+      display: grid;
+      grid-template-columns: 40fr 60fr;
+      gap: 36px;
+      align-items: stretch;
+    }
+    .v2-flow--reverse .v2-flow__inner { grid-template-columns: 60fr 40fr; }
+    .v2-flow--reverse .v2-flow__video { order: 2; }
+    .v2-flow--reverse .v2-flow__body { order: 1; }
+    /* Divider line between the video and the exchange, centered in the gap */
+    .v2-flow:not(.v2-flow--reverse) .v2-flow__body {
+      border-left: 1px solid rgba(53, 126, 119, 0.28);
+      padding-left: 36px;
+    }
+    .v2-flow--reverse .v2-flow__body {
+      border-right: 1px solid rgba(53, 126, 119, 0.28);
+      padding-right: 36px;
+    }
+
+    /* The phone renders at a fixed height so all three flows match, no matter
+       how tall the exchange table beside it is. The column still stretches
+       (align-items: stretch) so the divider spans full height; the phone is
+       simply centered within it. */
+    .v2-flow__video {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .v2-flow__video video {
+      height: 520px;
+      width: auto;
+      max-width: 100%;
+      border-radius: 14px;
+      display: block;
+      background: #1a1a1a;
+      box-shadow: 0 10px 28px rgba(42, 97, 92, 0.12);
+    }
+
+    /* Flow 1's prototype video full-bleeds the left panel: flush to the box's
+       top / left / bottom edges and up to the divider on the right, at 40% width.
+       The video is absolutely positioned in a container that breaks out of the
+       36px box padding, so it fills no matter how tall the exchange beside it is. */
+    .v2-flow--proto { overflow: hidden; }
+    /* Equalize the three prototype flow boxes to the tallest (desktop). */
+    .v2-flow--proto .v2-flow__inner { column-gap: 0; min-height: 446px; }
+    /* More breathing room between the divider and the exchange text on
+       whichever side it sits, so it isn't tighter than the outer edge. */
+    .v2-flow--proto:not(.v2-flow--reverse) .v2-flow__body { padding-left: 52px; }
+    .v2-flow--proto.v2-flow--reverse .v2-flow__body { padding-right: 52px; }
+    .v2-flow--proto .v2-flow__video {
+      display: block;
+      position: relative;
+      align-self: stretch;
+      aspect-ratio: 1080 / 1374;
+    }
+    /* Video bleeds toward the box's outer edge: left for normal, right for reverse. */
+    .v2-flow--proto:not(.v2-flow--reverse) .v2-flow__video { margin: -36px 0 -36px -36px; }
+    .v2-flow--proto.v2-flow--reverse .v2-flow__video { margin: -36px -36px -36px 0; }
+    .v2-flow--proto .v2-flow__video video {
+      position: absolute;
       inset: 0;
-      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
-      z-index: 99999;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.30s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Zoom into the centered phone so its UI is easier to read; the
+         container's overflow: hidden clips the enlarged edges. Each flow sets
+         its own --proto-zoom inline since the recordings are framed differently. */
+      transform: scale(var(--proto-zoom, 1.08));
+      border-radius: 0;
+      box-shadow: none;
+      margin: 0;
     }
-    .page-transition-overlay.is-loaded { opacity: 0 !important; }
-    /* Case card styling inlined so the white panel paints before
-       style.css loads. Without this, slow mobile loads briefly show
-       case-study text directly on the gradient (FOUC). */
-    .case-card { background: #F8FBFD; border-radius: 32px; box-shadow: 0 24px 60px rgba(20, 40, 70, 0.12), 0 8px 24px rgba(20, 40, 70, 0.06); position: relative; z-index: 10; flex: 1; max-width: 1280px; }
-    /* case-shell flex layout inlined too so the card has proper context
-       at first paint on iOS Safari, which can render before style.css
-       is fully applied. */
-    .case-shell { display: flex; align-items: flex-start; gap: 28px; max-width: 1500px; margin: 130px auto 60px; padding: 0 60px; }
-    @media (max-width: 1200px) { .case-shell { flex-direction: column; padding: 0 32px; max-width: 1280px; margin: 110px auto 60px; } }
-    @media (max-width: 700px) { .case-shell { padding: 0 16px; margin: 80px auto 40px; } .case-card { border-radius: 24px; } }
+
+    .v2-flow__title {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+      color: #1a1a1a;
+    }
+    .v2-flow__desc {
+      font-size: 18px; line-height: 1.6;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0 0 22px;
+      max-width: 620px;
+    }
+    .v2-flow__desc strong { font-weight: 600; color: #1a1a1a; }
+
+    /* User → Assistant exchange table — vibrant green grid + filled header */
+    .v2-exchange {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #357E77;
+      border: 1.5px solid #357E77;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      max-width: 640px;
+    }
+    .v2-exchange__head,
+    .v2-exchange__row {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 1px;
+    }
+    .v2-exchange__head span {
+      background: #357E77;
+      padding: 11px 16px;
+      font-size: 13px;
+      letter-spacing: 0.01em;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .v2-exchange__user,
+    .v2-exchange__ai {
+      background: #ffffff;
+      padding: 14px 18px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .v2-exchange__user { color: rgba(26, 26, 26, 0.72); }
+    .v2-exchange__ai { color: #1a1a1a; }
+    .v2-exchange__ai strong { font-weight: 600; }
+
+    /* ── 3-UP FEATURE CARDS (core design moves) ── */
+    .v2-features-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 36px 0 40px;
+      max-width: 1200px;
+    }
+    .v2-feature {
+      border-radius: 22px;
+      color: #1a1a1a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 26px 28px 28px;
+      min-height: 220px;
+    }
+    /* Card 1 — the anchor move: deep Maps green with white text. */
+    .v2-feature--familiar {
+      background: linear-gradient(155deg, #357E77 0%, #2A615C 100%);
+      color: #ffffff;
+    }
+    .v2-feature--familiar .v2-feature__title { color: #ffffff; }
+    .v2-feature--familiar .v2-feature__desc  { color: rgba(255, 255, 255, 0.84); }
+    .v2-feature--familiar .v2-feature__num   { color: rgba(255, 255, 255, 0.6); }
+
+    /* Card 2 — medium sage. */
+    .v2-feature--chips { background: linear-gradient(155deg, #BCDDD8 0%, #A6CFC9 100%); }
+    /* Card 3 — light mist. */
+    .v2-feature--cards { background: linear-gradient(155deg, #E3F1EF 0%, #D6EBE8 100%); }
+
+    .v2-feature__num {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.16em;
+      color: rgba(26, 26, 26, 0.45);
+      margin-bottom: 8px;
+    }
+    .v2-feature__title {
+      font-size: 22px; font-weight: 600;
+      margin: 0 0 12px;
+      letter-spacing: -0.005em;
+    }
+    .v2-feature__desc {
+      font-size: 15px; line-height: 1.55;
+      color: rgba(26, 26, 26, 0.74);
+      margin: 0;
+    }
+    .v2-feature__desc strong { color: inherit; font-weight: 600; }
+
+    /* ── RESEARCH DIAGRAM — investigations lead to insights, paired by row ── */
+    .f-grid {
+      --f-accent: #2E9B8F;
+      --f-accent-deep: #1F6E64;
+      /* Investigations use the Gemini hero blend; insights use Lagoon for contrast. */
+      --f-inv-bg: linear-gradient(120deg, #E7F5EA 0%, #DFF1E4 35%, #E6F1D3 65%, #E0EFF2 100%);
+      --f-ins-bg: linear-gradient(135deg, #E4F5F1 0%, #DDF0F2 55%, #E3EEF6 100%);
+      --f-line: rgba(46,155,143,0.16);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas:
+        "hl .   hr"
+        "i1 arr n1"
+        "i2 arr n2"
+        "i3 arr n3"
+        "i4 arr n4";
+      column-gap: 20px;
+      row-gap: 12px;
+      align-items: stretch;
+      margin: 20px 0 32px;
+      max-width: 1100px;
+    }
+    .f-head-l { grid-area: hl; }
+    .f-head-r { grid-area: hr; }
+    .f-head {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 18px; letter-spacing: -0.01em;
+      color: #1a1a1a; margin: 0;
+    }
+    .f-arrow-wrap { grid-area: arr; align-self: center; justify-self: center; color: var(--f-accent); }
+    .f-arrow-wrap svg { display: block; width: 32px; height: 32px; }
+    .f-i1 { grid-area: i1; } .f-i2 { grid-area: i2; } .f-i3 { grid-area: i3; } .f-i4 { grid-area: i4; }
+    .f-n1 { grid-area: n1; } .f-n2 { grid-area: n2; } .f-n3 { grid-area: n3; } .f-n4 { grid-area: n4; }
+    .f-inv {
+      background: var(--f-inv-bg); border: 1px solid var(--f-line);
+      border-radius: 12px; padding: 14px 17px;
+    }
+    .f-inv__label { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 0 0 4px; }
+    .f-inv__text { font-size: 13.5px; line-height: 1.5; color: #1a1a1a; margin: 0; }
+    .f-ins {
+      background: var(--f-ins-bg); border: 1px solid var(--f-line);
+      border-radius: 12px; padding: 14px 17px;
+    }
+    .f-ins__title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 0 0 4px; }
+    .f-ins__text { font-size: 13.5px; line-height: 1.5; color: #1a1a1a; margin: 0; }
+
+    /* ── IMAGE PAIR — two figures side by side ── */
+    .v2-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 32px;
+      max-width: 1100px;
+    }
+    .v2-pair--wide { max-width: 100%; grid-template-columns: 1fr; gap: 24px; }
+    /* Frames share the sketch photo's aspect ratio, so both are equal height and
+       neither is cropped (object-fit: contain). The sketch fills its frame exactly;
+       the diagram gets thin side margins that blend into its own light background. */
+    .v2-pair figure { margin: 0; position: relative; aspect-ratio: 1500 / 1092; }
+    .v2-pair img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+      display: block;
+      background: #F5F5F5;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    /* Hover hint that the images expand via the lightbox (hover devices only). */
+    @media (hover: hover) {
+      .v2-pair figure::after {
+        content: "Click to expand";
+        position: absolute;
+        bottom: 12px; left: 50%;
+        transform: translateX(-50%) translateY(6px);
+        background: rgba(26, 26, 26, 0.82);
+        color: #fff;
+        font-family: 'Manrope', sans-serif;
+        font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+        padding: 6px 14px; border-radius: 999px;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .v2-pair figure:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* ── REFLECTIONS — 2×2 soft green tiles ── */
+    .v2-reflections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 32px 0 0;
+      max-width: 1200px;
+    }
+    .v2-reflection-block {
+      border-radius: 18px;
+      border: 1px solid rgba(46, 155, 143, 0.22);
+      padding: 30px 30px 28px;
+      color: #1a1a1a;
+      box-shadow: 0 6px 22px rgba(42, 97, 92, 0.10);
+    }
+    /* Lagoon family, midway between the original wash and the deeper version. */
+    .v2-reflection-block--aurora { background: linear-gradient(135deg, #D9F0EA 0%, #D0EAEF 55%, #D9EAF3 100%); }
+    .v2-reflection-block--sage { background: linear-gradient(155deg, #BCDDD8 0%, #A6CFC9 100%); }
+    .v2-reflection-block__label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+      letter-spacing: -0.015em;
+    }
+    .v2-reflection-block__body {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0;
+      font-weight: 400;
+    }
+    .v2-reflection-block__body strong { color: #1a1a1a; font-weight: 600; }
+
+    /* ── OTHER PROJECTS ── */
+    .v2-other { margin: 100px 0 40px; }
+    .v2-other__divider {
+      height: 1px;
+      background: rgba(20, 40, 70, 0.1);
+      margin-bottom: 48px;
+    }
+    .v2-other__heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin: 0 0 32px;
+      text-align: center;
+    }
+    .v2-other__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .v2-other__card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid rgba(20, 40, 70, 0.12);
+      border-radius: 18px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(20, 40, 70, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .v2-other__card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(20, 40, 70, 0.12); }
+    @media (hover: hover) and (pointer: fine) {
+      .v2-other__card { cursor: none; }
+    }
+    .v2-other__card-media {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #f0f0f0;
+      overflow: hidden;
+      display: block;
+    }
+    .v2-other__card-media video,
+    .v2-other__card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .v2-other__card-body { padding: 18px 22px 22px; }
+    /* Other Projects eyebrow stays neutral (powder blue) — the section
+       is project-agnostic so the case study's brand color does not bleed in. */
+    .v2-other__card-label {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #888; font-weight: 600; margin-bottom: 8px;
+    }
+    .v2-other__card-title { font-size: 17px; font-weight: 600; margin: 0 0 6px; }
+    .v2-other__card-desc {
+      font-size: 14px; line-height: 1.5;
+      color: rgba(26, 26, 26, 0.7); margin: 0;
+    }
+
+    /* ── PAGE-END GRADIENT + FOOTER PETALS ── */
+    .v2-page-end {
+      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
+      padding: 58px 0 0;
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .v2-page-end__petals {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .v2-page-end > .footer-minimal { position: relative; z-index: 1; }
+
+    .v2-page-end::before,
+    .v2-page-end::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .v2-page-end::before {
+      width: 220px; height: 220px;
+      background: rgba(255, 220, 235, 0.6);
+      top: -60px; left: 15%;
+    }
+    .v2-page-end::after {
+      width: 180px; height: 180px;
+      background: rgba(255, 240, 220, 0.6);
+      bottom: 40px; right: 18%;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .v2-shell { grid-template-columns: 1fr; gap: 32px; padding: 0 28px; }
+      .v2-toc { position: static; max-height: none; }
+      .v2-features-3 { grid-template-columns: 1fr; }
+      .f-grid { display: flex; flex-direction: column; gap: 10px; }
+      .f-arrow-wrap { transform: rotate(90deg); margin: 2px auto; }
+      .v2-flow__inner,
+      .v2-flow--reverse .v2-flow__inner,
+      .v2-flow--proto .v2-flow__inner { grid-template-columns: 1fr; }
+      .v2-flow--reverse .v2-flow__video,
+      .v2-flow--reverse .v2-flow__body { order: 0; }
+      .v2-flow .v2-flow__body { border-left: none; border-right: none; padding-left: 0; padding-right: 0; }
+      /* Stacked: video returns to normal flow, capped so it isn't huge */
+      .v2-flow__video { position: static; }
+      .v2-flow__video video { position: static; transform: none; height: auto; width: 100%; max-width: 300px; margin: 0 auto; }
+      /* Prototype flow returns to a normal stacked block on small screens */
+      .v2-flow--proto { overflow: visible; }
+      .v2-flow--proto:not(.v2-flow--reverse) .v2-flow__video,
+      .v2-flow--proto.v2-flow--reverse .v2-flow__video { position: static; margin: 0; aspect-ratio: auto; align-self: auto; }
+      .v2-flow--proto .v2-flow__inner { min-height: 0; }
+      .v2-flow--proto .v2-flow__video video { position: static; height: auto; width: 100%; max-width: 100%; object-fit: contain; transform: none; }
+      .v2-other__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .v2-hero__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+      .v2-reflections { grid-template-columns: 1fr; }
+      .v2-pair { grid-template-columns: 1fr; }
+      .v2-brief { padding: 24px; }
+      .v2-other__grid { grid-template-columns: 1fr; }
+      .v2-exchange__head,
+      .v2-exchange__row { grid-template-columns: 1fr 1.2fr; }
+    }
   </style>
-  <link rel="stylesheet" href="style.css?v=97">
 </head>
-<body class="case-study-page case-study-page--gmaps">
-
-  <!-- Page transition overlay, covers screen at first paint, fades out via JS -->
-  <div class="page-transition-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#B8D4EC 0%,#B0CCE8 25%,#A8C4E4 50%,#BED0E8 75%,#D4A0BC 100%);z-index:99999;pointer-events:none;opacity:1"></div>
-
-  <!-- Floral background layer -->
-  <div class="bg-layer" id="bgLayer"></div>
+<body class="case-v2 case-v2--gmaps">
 
   <!-- Navigation -->
   <nav class="nav">
@@ -84,394 +907,420 @@
     </div>
   </nav>
 
-  <!-- Case study shell: TOC | card | spacer -->
-  <div class="case-shell">
+  <!-- MAIN -->
+  <div class="v2-shell">
 
-    <aside class="case-toc">
-      <div class="case-toc__header">Contents</div>
-      <a class="case-toc__item case-toc__item--active" href="#problem">Problem</a>
-      <a class="case-toc__item" href="#solution">Solution</a>
-      <a class="case-toc__item" href="#process">Process</a>
-      <a class="case-toc__item" href="#reflections">Reflections</a>
+    <aside class="v2-toc">
+      <div class="v2-toc__list">
+        <a class="v2-toc__link v2-toc__link--active" href="#problem">Problem</a>
+        <a class="v2-toc__link" href="#solution">Solution</a>
+        <a class="v2-toc__link" href="#process">Process</a>
+        <a class="v2-toc__link" href="#reflections">Reflections</a>
+      </div>
     </aside>
 
-    <main class="case-card">
+    <main class="v2-main">
 
-      <!-- Hero: text left, image right -->
-      <header class="case-hero">
-        <div class="case-hero__text">
-          <h1 class="case-hero__title">AI Assistant for Google Maps</h1>
-          <p class="case-hero__glance">
-            <span class="case-hero__glance-label">At a glance</span>
-            A personal exploration of how an AI assistant could live inside Google Maps to help users <em>decide where to go</em> using <em>saved lists, reviews, and real-time context</em>.
-          </p>
-          <div class="case-hero__meta">
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Role</div>
-              <div class="case-hero__meta-value">Product Designer</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Timeline</div>
-              <div class="case-hero__meta-value">4 weeks</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Industry</div>
-              <div class="case-hero__meta-value">Technology</div>
-            </div>
-            <div class="case-hero__meta-item">
-              <div class="case-hero__meta-label">Tools</div>
-              <div class="case-hero__meta-value">Figma</div>
-            </div>
+      <!-- HERO -->
+      <header class="v2-hero">
+        <h1 class="v2-hero__title">AI Assistant for Google Maps</h1>
+        <p class="v2-hero__glance">
+          A personal exploration of how an AI assistant could live inside Google Maps to help users <strong>decide where to go</strong>, using <strong>saved lists, reviews, and real-time context</strong>.
+        </p>
+        <div class="v2-hero__meta">
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Role</div>
+            <div class="v2-hero__meta-value">Product Designer</div>
           </div>
-          <a href="#solution" class="case-hero__jump">
-            <span class="case-hero__jump-arrow">↓</span>
-            Jump to solution
-          </a>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Timeline</div>
+            <div class="v2-hero__meta-value">Jan 2026, 4 weeks</div>
+          </div>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Industry</div>
+            <div class="v2-hero__meta-value">Technology</div>
+          </div>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Tools</div>
+            <div class="v2-hero__meta-value">Figma</div>
+          </div>
         </div>
-        <video class="case-hero__image" autoplay loop muted playsinline preload="metadata" poster="images/googlemaps/mockup-googlemaps-hero-poster.jpg" aria-label="Google Maps AI Assistant mockup showing chat and recommendation screens">
-          <source src="images/googlemaps/googlemaps-hero.mp4?v=3" type="video/mp4">
-        </video>
+        <div class="v2-hero__media">
+          <video autoplay loop muted playsinline preload="metadata" poster="images/googlemaps/mockup-googlemaps-hero-poster.jpg?v=4" aria-label="Google Maps AI Assistant mockup showing chat and recommendation screens">
+            <source src="images/googlemaps/googlemaps-hero.mp4?v=4" type="video/mp4">
+          </video>
+        </div>
       </header>
 
-      <!-- Body -->
-      <div class="case-body">
-        <div class="case-content">
-
-          <!-- THE PROBLEM -->
-          <h2 id="problem">Problem</h2>
-          <p>Living in New York City, I rely on <strong>Google Maps' saved lists</strong> to keep track of places I want to try, organized by category (cafes, food, bookstores, and so on). Over time, those lists grew into <strong>hundreds of saved places</strong>, and instead of helping me decide where to go, they started <strong>creating decision fatigue</strong>. I'd scroll through long lists, forget why I saved certain places, and still end up manually checking reviews, ratings, and distance before deciding.</p>
-          <div class="problem-grid">
-            <div class="problem-grid__left">
-              <span class="problem-grid__eyebrow">This led me to ask</span>
-              <blockquote class="case-pullquote">"What if Google Maps had an AI assistant that could help me decide where to go in the moment?"</blockquote>
-            </div>
-            <div class="problem-grid__right">
-              <p>Through a mix of <strong>AI interaction testing, Maps interface analysis, user conversations, and competitive review</strong>, four core insights emerged:</p>
-              <ul>
-                <li><strong>Decision fatigue inside saved lists:</strong> Users see walls of saved places with no way to compare across them.</li>
-                <li><strong>Discovery, not decision-making:</strong> Maps surfaces new places well but doesn't help users choose between multiple saved ones.</li>
-                <li><strong>Forgotten saves:</strong> Users save places, then forget why. Newer saves quickly bury older ones.</li>
-                <li><strong>Untapped opportunity:</strong> Saved lists could anchor a more contextual, explainable AI experience.</li>
-              </ul>
-            </div>
-          </div>
-          <img src="images/googlemaps/problem-solution.webp" alt="Problem statement, solution, use cases, and constraints overview" class="case-image" loading="lazy" decoding="async">
-
-          <div class="case-callout">
-            <strong>Note:</strong> After completing this project, <a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener">Google introduced "Ask Maps,"</a> an AI assistant within Google Maps that supports natural language queries and personalized recommendations. This project explores a similar problem space, with a focus on saved lists and explainable decision-making.
-          </div>
-
-          <!-- THE SOLUTION -->
-          <h2 id="solution">Solution</h2>
-          <p>An AI assistant inside Google Maps that helps users make faster, more confident decisions about where to go. The assistant supports <strong>three distinct entry flows</strong> that meet users where they already are in Maps and converge into the same AI experience.</p>
-
-          <div class="case-study-flow-row">
-            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
-              <source src="images/googlemaps/flow-general.mp4" type="video/mp4">
-            </video>
-            <div class="case-study-flow-row__text">
-              <h3>Flow 1: General Query</h3>
-              <p>From the main Maps screen, with a general topic in mind but no specific place picked yet.</p>
-              <div class="case-flow-exchange">
-                <div class="case-flow-exchange__head">
-                  <span>User</span>
-                  <span>Assistant</span>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Taps the AI assistant</div>
-                  <div class="case-flow-exchange__ai">Shows <strong>contextual prompts</strong> based on time and location</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Types "Asian cuisine restaurants nearby"</div>
-                  <div class="case-flow-exchange__ai">Returns <strong>recommendation cards</strong> with rating, distance, and a review summary</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Scans the cards</div>
-                  <div class="case-flow-exchange__ai">Highlights a <strong>top pick</strong> with reasoning for why it's the best match</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="case-study-flow-row">
-            <div class="case-study-flow-row__text">
-              <h3>Flow 2: Saved Lists</h3>
-              <p>The user wants somewhere to study and eat, with a few saved lists that could help.</p>
-              <div class="case-flow-exchange">
-                <div class="case-flow-exchange__head">
-                  <span>User</span>
-                  <span>Assistant</span>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Taps the AI assistant from the saved lists screen</div>
-                  <div class="case-flow-exchange__ai">Prompts the user to <strong>select which lists to search across</strong></div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Selects multiple saved lists</div>
-                  <div class="case-flow-exchange__ai"><strong>Compares places across multiple lists at once</strong> and surfaces the best matches</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Asks a follow-up question</div>
-                  <div class="case-flow-exchange__ai">Refines results and narrows down to a final pick</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Decides which places to visit</div>
-                  <div class="case-flow-exchange__ai">Pulls together an <strong>itinerary with stops in Maps</strong>, ready to navigate</div>
-                </div>
-              </div>
-            </div>
-            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
-              <source src="images/googlemaps/flow-saved-lists.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="case-study-flow-row">
-            <video class="case-study-flow-row__video" autoplay loop muted playsinline controls preload="metadata">
-              <source src="images/googlemaps/flow-specific-list.mp4" type="video/mp4">
-            </video>
-            <div class="case-study-flow-row__text">
-              <h3>Flow 3: Specific Saved List</h3>
-              <p>Already inside a saved list, looking to narrow down within it. This flow shows how the AI can <strong>sort through list tags</strong> within a saved list to surface the right pick.</p>
-              <div class="case-flow-exchange">
-                <div class="case-flow-exchange__head">
-                  <span>User</span>
-                  <span>Assistant</span>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Taps the AI assistant from inside a saved list</div>
-                  <div class="case-flow-exchange__ai">List is already in context, so the user can ask immediately, no cold start</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Asks "cafes I've never been to"</div>
-                  <div class="case-flow-exchange__ai"><strong>Filters by list tags</strong> to surface matching places</div>
-                </div>
-                <div class="case-flow-exchange__row">
-                  <div class="case-flow-exchange__user">Reviews the results</div>
-                  <div class="case-flow-exchange__ai">Highlights top picks from the filtered set</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h3>Three core design moves</h3>
-          <p>Across all three flows, three design decisions shaped how the assistant feels native to Maps:</p>
-
-          <div class="feature-row">
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">01</div>
-                <div class="feature-card__title">Familiar UI, new capability</div>
-              </div>
-              <div class="feature-card__desc">A dedicated chat screen modeled after <strong>Gemini's conversational UI</strong>, with Maps' card styles, iconography, and palette so the assistant feels native, not bolted on.</div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">02</div>
-                <div class="feature-card__title">List chips in the chat</div>
-              </div>
-              <div class="feature-card__desc">Selected saved lists appear as <strong>chips inside the text input</strong>, keeping the AI's search context visible throughout a multi-turn conversation, no scrolling back.</div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">03</div>
-                <div class="feature-card__title">Recommendation cards</div>
-              </div>
-              <div class="feature-card__desc">At-a-glance cards with <strong>name, rating, distance, and an AI summary from reviews</strong>, so users can evaluate and decide without leaving the conversation.</div>
-            </div>
-          </div>
-
-          <div class="case-callout">
-            <span class="case-callout__title">Why it works:</span> Each flow shares the same core pattern, <strong>ask, refine, recommend, act</strong>, but the starting context shapes what the AI asks first and how recommendations are framed.
-          </div>
-
-          <!-- PROCESS -->
-          <h2 id="process">Process</h2>
-
-          <h3><span class="stage-prefix">Research:</span> AI patterns, Maps analysis, and user insights</h3>
-          <p>I started from a personal pain point and grounded it in <strong>four parallel investigations</strong>, focusing on what users do today and where AI could plug in.</p>
-          <div class="case-research-grid">
-            <div class="case-research-card">
-              <div class="case-research-card__head">
-                <span class="case-research-card__num">01</span>
-                <div class="case-research-card__area">AI Interaction Patterns</div>
-              </div>
-              <div class="case-research-card__action">Tested ChatGPT, Claude, and Gemini with real-world queries (e.g., "quiet caf&eacute; with Wi-Fi", "lunch in Soho").</div>
-              <div class="case-research-card__insight">AI is strong at generating options, but <strong>lacks structured, actionable outputs</strong> for quick decisions.</div>
-            </div>
-            <div class="case-research-card">
-              <div class="case-research-card__head">
-                <span class="case-research-card__num">02</span>
-                <div class="case-research-card__area">Google Maps Analysis</div>
-              </div>
-              <div class="case-research-card__action">Analyzed Maps UI, search flow, place details, and saved lists.</div>
-              <div class="case-research-card__insight">Maps supports discovery well, but <strong>not decision-making across multiple saved places</strong>.</div>
-            </div>
-            <div class="case-research-card">
-              <div class="case-research-card__head">
-                <span class="case-research-card__num">03</span>
-                <div class="case-research-card__area">User Insights</div>
-              </div>
-              <div class="case-research-card__action">Spoke with friends and peers who frequently use Google Maps and the saved lists feature.</div>
-              <div class="case-research-card__insight">Users <strong>forget why they saved places</strong>, and <strong>newer saves bury older ones</strong>.</div>
-            </div>
-            <div class="case-research-card">
-              <div class="case-research-card__head">
-                <span class="case-research-card__num">04</span>
-                <div class="case-research-card__area">Competitive Insight</div>
-              </div>
-              <div class="case-research-card__action">Reviewed Google Maps' experimental AI feature for Local Guides (2024).</div>
-              <div class="case-research-card__insight">Early AI features exist, but lack <strong>deep integration with saved lists</strong> and explainability.</div>
-            </div>
-          </div>
-          <p>Synthesizing the findings, the goal became designing an AI assistant that supports <strong>contextual, explainable decision-making</strong> using saved lists, reviews, and real-time user needs.</p>
-
-          <h3><span class="stage-prefix">Ideation:</span> Entry flows, user flow diagrams, and lo-fi sketches</h3>
-          <p>Research showed that <strong>users don't start a decision the same way every time</strong>. To support this, I mapped <strong>three distinct entry flows</strong>, each meeting users where they already are in Maps, with no new navigation patterns required. From there, I drew flow diagrams and lo-fi sketches to make sure the conversation pattern, <strong>ask, refine, recommend, act</strong>, held up across all three entry points.</p>
-          <div class="case-flow-list">
-            <div class="case-flow-list__item">
-              <span class="case-flow-list__num">01</span>
-              <div>
-                <h4 class="case-flow-list__title">General Query (Main Maps screen)</h4>
-                <p class="case-flow-list__desc">Open-ended exploration with no specific place in mind. The AI button lives on the main Maps screen, <strong>lowering the barrier to first use</strong>.</p>
-              </div>
-            </div>
-            <div class="case-flow-list__item">
-              <span class="case-flow-list__num">02</span>
-              <div>
-                <h4 class="case-flow-list__title">Saved Lists screen</h4>
-                <p class="case-flow-list__desc">Multiple saved lists, not sure which has what they need. Where <strong>decision fatigue is highest</strong>, and the AI bridges the gap across lists.</p>
-              </div>
-            </div>
-            <div class="case-flow-list__item">
-              <span class="case-flow-list__num">03</span>
-              <div>
-                <h4 class="case-flow-list__title">Inside a Saved List</h4>
-                <p class="case-flow-list__desc">Already in a list, narrowing down. The <strong>most context-rich entry point</strong>, the AI knows the list scope and can refine immediately.</p>
-              </div>
-            </div>
-          </div>
-          <div class="case-image-pair">
-            <img src="images/googlemaps/user-flows.png" alt="User flow diagrams showing General Query Flow, Saved List Flow, and Specific Saved List Flow" loading="lazy" decoding="async">
-            <img src="images/googlemaps/lofi-sketches.jpg" alt="Hand-drawn lo-fi wireframe drafts and brainstorming notes" loading="lazy" decoding="async">
-          </div>
-
-          <h3><span class="stage-prefix">Design:</span> Hi-fi prototype</h3>
-          <p>With the flows validated, I moved into <strong>Figma</strong> to build the hi-fi designs and an interactive prototype. The goal was to make the assistant <strong>feel like it belongs inside Google Maps</strong>: borrowing existing card styles, iconography, and palette throughout, so the chat reads as a Maps capability rather than a separate product.</p>
-          <img src="images/googlemaps/hifi-screens.png" alt="Hi-fi screens showing all three flows: General Query, Saved Lists Query, and Specific Saved List Query" class="case-image" loading="lazy" decoding="async">
-
-          <!-- REFLECTIONS -->
-          <h2 id="reflections">Reflections</h2>
-          <div class="reflections-grid">
-            <div class="reflection-card">
-              <h3>Learnings</h3>
-              <p>This project pushed me to think deeply about <strong>how AI-powered features actually work</strong>, not just how they look, but how a conversational assistant should respond, surface information, and guide decisions. I also learned a lot about <strong>integrating AI into familiar UI patterns</strong> so the experience feels native, not like a separate product.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>Challenges</h3>
-              <p>The biggest challenge was finding the right <strong>balance between useful information and simplicity</strong>. I wanted recommendation cards to be rich enough to help users decide, but not so dense that they felt overwhelming. The same tension came up with explainability, <strong>how much reasoning is helpful</strong> versus how much just adds clutter.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>If I had more time</h3>
-              <p>I'd expand the assistant beyond single decisions to <strong>full trip planning</strong>, going from "where should I eat tonight" to "plan my day in Tokyo using my Japan saved list." I'd also flesh out <strong>chat history, the ability to edit queries after submitting</strong>, and other interaction refinements.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>Takeaway</h3>
-              <p>Conversational AI could help Maps evolve from a <strong>navigation tool into a decision assistant</strong>, one that doesn't just show you where things are, but helps you decide where to go. Google's release of <strong>Ask Maps</strong> validated that this is a real problem space worth designing for.</p>
-            </div>
-          </div>
-
+      <!-- PROBLEM -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="problem">
+          <span class="v2-eyebrow__num">01</span>
+          <span class="v2-eyebrow__label">Problem</span>
         </div>
-      </div>
+        <div class="v2-problemhero">
+          <div class="v2-problemhero__text">
+            <h2 class="v2-headline">I had hundreds of saved places, and no easy way to pick one.</h2>
+            <p class="v2-lead">Living in New York City, I rely on <strong>Google Maps' saved lists</strong> to track places I want to try, sorted by category: cafes, food, bookstores, etc. But as those lists grew, they started <strong>creating decision fatigue</strong>. I'd scroll through them, forget why I saved a place, and still check reviews, ratings, and distance by hand before deciding where to go.</p>
+            <div class="v2-brief v2-brief--outline">
+              <p class="v2-brief__eyebrow">Note</p>
+              <p>After completing this project, <a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener"><strong>Google introduced "Ask Maps,"</strong></a> an AI assistant within Google Maps that supports natural language queries and personalized recommendations. This project explores a similar problem space, with a focus on saved lists and explainable decision-making.</p>
+            </div>
+          </div>
+          <div class="v2-problemhero__media v2-problemhero__media--phone">
+            <img src="images/googlemaps/nyc-saved-map-phone.webp" alt="Google Maps on a phone showing hundreds of saved places pinned across New York City" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </section>
 
-      <!-- Other Projects -->
-      <section class="case-more-projects">
-        <h2 class="case-more-projects__heading">Other Projects</h2>
-        <div class="case-more-projects__grid">
-          <a href="/phia" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/phia/mockup-phia.jpg" aria-label="">
-              <source src="images/phia/phia-card.mp4?v=1" type="video/mp4">
-            </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Designathon</div>
-              <h3 class="case-more-projects__title">Phia x Design Meetup: Designathon Finalist</h3>
-              <p class="case-more-projects__desc">Designed for Phia, an AI-powered fashion shopping app, as a designathon finalist with work from the semifinals and finals.</p>
+      <!-- SOLUTION -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="solution">
+          <span class="v2-eyebrow__num">02</span>
+          <span class="v2-eyebrow__label">Solution</span>
+        </div>
+        <h2 class="v2-headline">An AI assistant that meets users wherever they are in Maps.</h2>
+        <p class="v2-lead">It helps users make faster, more confident decisions about where to go. The assistant opens from <strong>three places in Maps</strong>: the <strong>main Maps screen</strong>, the <strong>saved-lists screen</strong>, and <strong>inside a single saved list</strong>.</p>
+
+        <!-- Flow 1: video left, exchange right -->
+        <div class="v2-flow v2-flow--proto">
+          <div class="v2-flow__inner">
+            <div class="v2-flow__video">
+              <video autoplay loop muted playsinline preload="metadata">
+                <source src="images/googlemaps/flow1-prototype.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-flow__body">
+              <h3 class="v2-flow__title">Flow 1: Open-Ended Discovery</h3>
+              <p class="v2-flow__desc">Opens from the <strong>main Maps screen</strong>, when the user has a general idea in mind but hasn't picked a place yet.</p>
+              <div class="v2-exchange">
+                <div class="v2-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Taps the AI assistant</div>
+                  <div class="v2-exchange__ai">Shows <strong>contextual prompts</strong> based on time and location</div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Types "Asian cuisine restaurants nearby"</div>
+                  <div class="v2-exchange__ai">Returns <strong>recommendation cards</strong> with rating, distance, and a review summary</div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Scans the cards</div>
+                  <div class="v2-exchange__ai">Highlights a <strong>top pick</strong> with reasoning for why it's the best match</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow 2: text left, video right -->
+        <div class="v2-flow v2-flow--reverse v2-flow--proto" style="--proto-zoom: 1.08;">
+          <div class="v2-flow__inner">
+            <div class="v2-flow__video">
+              <video autoplay loop muted playsinline preload="metadata">
+                <source src="images/googlemaps/flow2-prototype.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-flow__body">
+              <h3 class="v2-flow__title">Flow 2: Cross-List Comparison</h3>
+              <p class="v2-flow__desc">Opens from the <strong>saved-lists screen</strong>, when the user wants to decide across several lists at once.</p>
+              <div class="v2-exchange">
+                <div class="v2-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Taps the AI assistant from the saved lists screen</div>
+                  <div class="v2-exchange__ai">Prompts the user to <strong>select which lists to search across</strong></div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Selects multiple saved lists</div>
+                  <div class="v2-exchange__ai"><strong>Compares places across multiple lists at once</strong> and surfaces the best matches</div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Decides which places to visit</div>
+                  <div class="v2-exchange__ai">Pulls together an <strong>itinerary with stops in Maps</strong>, ready to navigate</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow 3: video left, exchange right -->
+        <div class="v2-flow v2-flow--proto" style="--proto-zoom: 1.08;">
+          <div class="v2-flow__inner">
+            <div class="v2-flow__video">
+              <video autoplay loop muted playsinline preload="metadata">
+                <source src="images/googlemaps/flow3-prototype.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-flow__body">
+              <h3 class="v2-flow__title">Flow 3: In-List Refinement</h3>
+              <p class="v2-flow__desc">Opens from inside <strong>a single saved list</strong>, when the user wants to narrow down a place within it.</p>
+              <div class="v2-exchange">
+                <div class="v2-exchange__head">
+                  <span>User</span>
+                  <span>Assistant</span>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Taps the AI assistant from inside a saved list</div>
+                  <div class="v2-exchange__ai">Opens with that <strong>list already loaded</strong>, so the user can ask right away</div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Asks "cafes I've never been to"</div>
+                  <div class="v2-exchange__ai"><strong>Filters by list tags</strong> to surface matching places</div>
+                </div>
+                <div class="v2-exchange__row">
+                  <div class="v2-exchange__user">Reviews the results</div>
+                  <div class="v2-exchange__ai">Highlights <strong>top picks</strong> from the filtered set</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- PROCESS -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="process">
+          <span class="v2-eyebrow__num">03</span>
+          <span class="v2-eyebrow__label">Process</span>
+        </div>
+
+        <h3 class="v2-subhead">Framing the Project</h3>
+        <p class="v2-body">Before designing any screens, I mapped out the problem, solution, use cases, and constraints to define what this project needed to do.</p>
+        <div class="v2-brieftable">
+          <div class="v2-brieftable__row">
+            <div class="v2-brieftable__label">Problem</div>
+            <div class="v2-brieftable__body">
+              <p>Google Maps excels at discovery and navigation, but it <strong>does not adequately support contextual decision-making.</strong></p>
+              <p>Saved lists grow over time, often leading to <strong>decision paralysis</strong>. Users may forget why they saved a place. Reviews contain valuable insights but require manual scanning. Filtering places by situational needs such as work-friendly, open now, or not busy is difficult.</p>
+              <p>As a result, <strong>users usually manually search, scan, and compare to decide where to go.</strong></p>
+            </div>
+          </div>
+          <div class="v2-brieftable__row">
+            <div class="v2-brieftable__label">Solution</div>
+            <div class="v2-brieftable__body">
+              <p>An <strong>AI assistant embedded in Google Maps</strong> that can:</p>
+              <ul>
+                <li><strong>Analyze saved lists</strong></li>
+                <li><strong>Understand general queries</strong></li>
+                <li><strong>Filter based on situational needs</strong></li>
+                <li><strong>Provide explainable recommendations</strong></li>
+              </ul>
+              <p>The assistant helps users answer questions like: <strong>"Help me decide where to go right now based on my context and preferences."</strong> Users will find better, personalized choices faster with <strong>reduced decision time to pick a place.</strong></p>
+            </div>
+          </div>
+          <div class="v2-brieftable__row">
+            <div class="v2-brieftable__label">Define Use Cases</div>
+            <div class="v2-brieftable__body">
+              <ol>
+                <li><strong>General Request</strong> - Example: "What Asian cuisine restaurants are nearby?"</li>
+                <li><strong>Saved Lists Recommendation</strong> - Example: "From my nyc cafes list and restaurants life, plan a morning working from a cafe and a lunch in Soho after."</li>
+                <li><strong>Specific Saved Lists Recommendation</strong> - Example: "From my nyc cafes lists, what are places I have never been to with Asian-inspired drinks?"</li>
+              </ol>
+              <p>Including Conversational Refinement, like "closer to the subway", "has outdoor seating", "vegetarian-friendly", etc.</p>
+            </div>
+          </div>
+          <div class="v2-brieftable__row">
+            <div class="v2-brieftable__label">Constraints</div>
+            <div class="v2-brieftable__body">
+              <p>Constraints in this project include <strong>ambiguous data from reviews, privacy and data access for the AI assistant, and finding the right balance of AI assistance with manual browsing.</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="v2-subhead">Research</h3>
+        <p class="v2-body">I grounded the project in four parallel investigations, each pointing to a pattern worth designing for:</p>
+        <div class="f-grid">
+          <div class="f-head-l"><p class="f-head">Four areas I explored</p></div>
+          <div class="f-inv f-i1"><p class="f-inv__label">Conversations with users</p><p class="f-inv__text">I talked with friends and peers who rely on saved lists to understand how they actually decide where to go.</p></div>
+          <div class="f-inv f-i2"><p class="f-inv__label">The current Maps experience</p><p class="f-inv__text">I walked through Maps' search, place details, and saved lists to map out how the app works today.</p></div>
+          <div class="f-inv f-i3"><p class="f-inv__label">AI assistants</p><p class="f-inv__text">I tested how ChatGPT, Claude, and Gemini answer real-world questions about where to go.</p></div>
+          <div class="f-inv f-i4"><p class="f-inv__label">Google's AI experiments</p><p class="f-inv__text">I reviewed Google's early AI features for Local Guides to see what was already being explored.</p></div>
+          <div class="f-arrow-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></div>
+          <div class="f-head-r"><p class="f-head">Four patterns that surfaced</p></div>
+          <div class="f-ins f-n1"><p class="f-ins__title">Decision fatigue in saved lists</p><p class="f-ins__text">Saved lists grow fast, and with no easy way to compare places, choosing one gets overwhelming.</p></div>
+          <div class="f-ins f-n2"><p class="f-ins__title">Maps is built for discovery, not decisions</p><p class="f-ins__text">It's great at surfacing new places, but not at choosing between the ones already saved.</p></div>
+          <div class="f-ins f-n3"><p class="f-ins__title">Saved lists already reflect taste</p><p class="f-ins__text">The places people save say a lot about what they like, a signal an AI could build on.</p></div>
+          <div class="f-ins f-n4"><p class="f-ins__title">Old saves get buried</p><p class="f-ins__text">People save a place, then forget why. Newer saves pile on top, and the old ones disappear.</p></div>
+        </div>
+
+        <h3 class="v2-subhead">Ideation</h3>
+        <p class="v2-body">Based on the research, I created <strong>three flows</strong>, each with a different entry point into the assistant. I mapped them out as <strong>user flows</strong>, then sketched <strong>lo-fi wireframes</strong> to get the ideas down quickly before moving into design.</p>
+        <div class="v2-pair">
+          <figure>
+            <img src="images/googlemaps/user-flows.png" alt="User flow diagrams showing General Query Flow, Saved List Flow, and Specific Saved List Flow" loading="lazy" decoding="async">
+          </figure>
+          <figure>
+            <img src="images/googlemaps/lofi-sketches.jpg" alt="Hand-drawn lo-fi wireframe drafts and brainstorming notes" loading="lazy" decoding="async">
+          </figure>
+        </div>
+
+        <h3 class="v2-subhead">Design</h3>
+        <p class="v2-body">With the flows validated, I moved into <strong>Figma</strong> to build the hi-fi screens and an interactive prototype. The goal was to make the assistant <strong>feel like it belongs inside Google Maps</strong>, borrowing existing card styles, iconography, and palette so the chat reads as a Maps capability rather than a separate product.</p>
+
+        <!-- Hero mockup -->
+        <div class="v2-designhero">
+          <img src="images/googlemaps/mockup-hero.webp" alt="Four Google Maps assistant screens: entry with contextual prompts, finding places, cafe recommendations with cards, and a route preview" loading="lazy" decoding="async">
+        </div>
+
+        <!-- Detail crops: one compact row, uniform height -->
+        <div class="v2-crops-row">
+          <figure class="v2-crop v2-crop--tags">
+            <div class="v2-crop__media"><img src="images/googlemaps/crop-tags.webp?v=5" alt="A prompt to select one or more saved lists to explore, with nyc cafes and nyc restaurants selected" loading="lazy" decoding="async"></div>
+            <figcaption class="v2-crop__label"><span class="v2-crop__label-title">Multi-list search</span>Selected lists appear as chips in the input, showing which are active.</figcaption>
+          </figure>
+          <figure class="v2-crop v2-crop--card">
+            <div class="v2-crop__media"><img src="images/googlemaps/crop-card.webp?v=2" alt="A recommendation card for Now or Never Cafe with rating, distance, hours, and an AI summary" loading="lazy" decoding="async"></div>
+            <figcaption class="v2-crop__label"><span class="v2-crop__label-title">Maps-inspired cards</span>Each result card mirrors Maps' UI, with a short AI summary.</figcaption>
+          </figure>
+          <figure class="v2-crop v2-crop--new">
+            <div class="v2-crop__media"><img src="images/googlemaps/crop-route.webp?v=4" alt="A route preview in the chat with two stops, The Lost Draft and Little Ruby's Soho, mapped from your location" loading="lazy" decoding="async"></div>
+            <figcaption class="v2-crop__label"><span class="v2-crop__label-title">Route preview</span>A chat request with several stops pulls together a route preview card.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- REFLECTIONS -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="reflections">
+          <span class="v2-eyebrow__num">04</span>
+          <span class="v2-eyebrow__label">Reflections</span>
+        </div>
+        <h2 class="v2-headline">Designing an AI feature meant designing how it behaves, not just how it looks.</h2>
+
+        <div class="v2-reflections">
+          <div class="v2-reflection-block v2-reflection-block--aurora">
+            <div class="v2-reflection-block__label">Learnings</div>
+            <p class="v2-reflection-block__body">I came in thinking about what an AI feature looks like, and left thinking about <strong>how it behaves</strong>: how it responds, surfaces information, and <strong>guides decisions</strong> inside a familiar UI.</p>
+          </div>
+          <div class="v2-reflection-block v2-reflection-block--aurora">
+            <div class="v2-reflection-block__label">Challenges</div>
+            <p class="v2-reflection-block__body">Figuring out <strong>what to leave out</strong> was tough. I kept wanting to pack more into each card, but <strong>denser doesn't mean more useful</strong>, and the harder call was frequently what to cut.</p>
+          </div>
+          <div class="v2-reflection-block v2-reflection-block--aurora">
+            <div class="v2-reflection-block__label">If I had more time</div>
+            <p class="v2-reflection-block__body">I'd extend the assistant from single decisions to <strong>full trip planning</strong>, like "plan my day in Tokyo with my saved list." I'd also build out <strong>chat history and editable queries</strong>.</p>
+          </div>
+          <div class="v2-reflection-block v2-reflection-block--aurora">
+            <div class="v2-reflection-block__label">Takeaway</div>
+            <p class="v2-reflection-block__body">It was fun to design for <strong>a need I actually have</strong>, and exciting to see <strong>what AI can look like showing up inside an app I frequently use</strong>. I think this is just the beginning of where AI will appear in everyday apps.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- OTHER PROJECTS -->
+      <section class="v2-other">
+        <div class="v2-other__divider"></div>
+        <h2 class="v2-other__heading">Other Projects</h2>
+        <div class="v2-other__grid">
+          <a href="/phia" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/phia/mockup-phia.jpg">
+                <source src="images/phia/phia-card.mp4?v=1" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Designathon</div>
+              <h3 class="v2-other__card-title">Phia x Design Meetup: Designathon Finalist</h3>
+              <p class="v2-other__card-desc">Designed for Phia, an AI-powered fashion shopping app, as a designathon finalist.</p>
             </div>
           </a>
-          <a href="/yammii" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/yammii/mockup-yammii.jpg" aria-label="">
-              <source src="images/yammii/yammii-card.mp4?v=1" type="video/mp4">
-            </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Case study</div>
-              <h3 class="case-more-projects__title">Yammii: Online Order Revamp</h3>
-              <p class="case-more-projects__desc">Simplified and modernized Yammii's mobile order flow to create a more visually engaging and faster experience.</p>
+          <a href="/yammii" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/yammii/mockup-yammii.jpg">
+                <source src="images/yammii/yammii-card.mp4?v=2" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Case study</div>
+              <h3 class="v2-other__card-title">Yammii: Restaurant Online Order Revamp</h3>
+              <p class="v2-other__card-desc">Simplified and modernized Yammii's mobile order flow for a faster, more engaging experience.</p>
             </div>
           </a>
-          <a href="/hemi" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi_skygarden.jpg" aria-label="">
-              <source src="images/hemi/hemi-card.mp4?v=2" type="video/mp4">
-            </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Case study</div>
-              <h3 class="case-more-projects__title">Hemi: A Personal Reflection Journal</h3>
-              <p class="case-more-projects__desc">Designing and building a digital journal in Claude Code, from a paper planner sketch to a fully deployed web app.</p>
+          <a href="/hemi" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi_skygarden.jpg?v=2">
+                <source src="images/hemi/hemi-card.mp4?v=5" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Case study</div>
+              <h3 class="v2-other__card-title">Hemi: A Personal Reflection Journal</h3>
+              <p class="v2-other__card-desc">Designing and building a digital journal in Claude Code, from a paper planner sketch to a fully deployed web app.</p>
             </div>
           </a>
         </div>
       </section>
 
     </main>
-
-    <div class="case-shell__spacer" aria-hidden="true"></div>
   </div>
 
-  <!-- Footer (matches home page minimal style) -->
-  <footer class="footer-minimal">
-    <div class="footer-minimal__divider"></div>
-    <div class="footer-minimal__content">
-      <span class="footer-minimal__links">
-        <a href="/">Home</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/#projects">Projects</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/fun">Fun</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/about">About me</a>
-      </span>
-      <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
-    </div>
-  </footer>
+  <div class="v2-page-end">
+    <div class="v2-page-end__petals" id="footerPetals"></div>
+    <footer class="footer-minimal">
+      <div class="footer-minimal__divider"></div>
+      <div class="footer-minimal__content">
+        <span class="footer-minimal__links">
+          <a href="/">Home</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/#projects">Projects</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/fun">Fun</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/about">About me</a>
+        </span>
+        <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
+      </div>
+    </footer>
+  </div>
 
   <!-- Pill cursor for project card hover -->
   <div class="pill-cursor" id="pillCursor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View project</div>
 
-  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
-  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
-  <script src="smooth-scroll.js"></script>
-  <script src="reveal.js?v=5"></script>
   <script>
-    // Drifting bokeh petals on the bg layer (same style as home page)
+    // Nav background fades in once the user scrolls past 20px.
     (function() {
-      var bgLayer = document.getElementById('bgLayer');
-      if (!bgLayer) return;
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      var ticking = false;
+      function update() {
+        if (window.scrollY > 20) nav.classList.add('nav--scrolled');
+        else nav.classList.remove('nav--scrolled');
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+      update();
+    })();
+
+    // Drifting petals inside the footer gradient band only.
+    (function() {
+      var layer = document.getElementById('footerPetals');
+      if (!layer) return;
       var bokehColors = [
         'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
         'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
         'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
         'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
-        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))'
       ];
-      for (var i = 0; i < 12; i++) {
+      for (var i = 0; i < 6; i++) {
         var p = document.createElement('div');
         p.className = 'bg-petal';
-        var size = 30 + Math.random() * 45;
-        var blur = 2 + Math.random() * 6;
+        var size = 28 + Math.random() * 42;
+        var blur = 2 + Math.random() * 5;
         var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
-        var top = Math.random() * 85;
-        var delay = -(Math.random() * 30);
-        var dur = 10 + Math.random() * 8;
+        var top = Math.random() * 75;
+        var delay = -(Math.random() * 24);
+        var dur = 11 + Math.random() * 8;
         var opacity = 0.5 + Math.random() * 0.4;
-        var driftY = -40 + Math.random() * 80;
+        var driftY = -30 + Math.random() * 70;
         var rot = Math.random() * 360;
         p.style.cssText =
           'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
@@ -481,96 +1330,16 @@
           'filter:blur(' + blur + 'px);' +
           '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
           'animation:petalDrift ' + dur + 's ' + delay + 's infinite linear;';
-        bgLayer.appendChild(p);
+        layer.appendChild(p);
       }
     })();
 
-    // Smooth scroll + active TOC tracking (immediate on click)
-    (function() {
-      var tocItems = document.querySelectorAll('.case-toc__item');
-      var allLinks = document.querySelectorAll('.case-toc__item, .case-hero__jump');
-      var tocIds = Array.prototype.map.call(tocItems, function(item) {
-        return item.getAttribute('href').slice(1);
-      });
-      var sections = Array.prototype.filter.call(
-        document.querySelectorAll('.case-content [id]'),
-        function(el) { return tocIds.indexOf(el.id) !== -1; }
-      );
-      var allIdEls = Array.prototype.slice.call(
-        document.querySelectorAll('.case-content [id]')
-      );
-      var lockedToClick = false;
-
-      function setActive(id) {
-        tocItems.forEach(function(link) {
-          var linkId = link.getAttribute('href').slice(1);
-          link.classList.toggle('case-toc__item--active', linkId === id);
-        });
-      }
-
-      function findParentTocId(id) {
-        if (tocIds.indexOf(id) !== -1) return id;
-        var idx = -1;
-        for (var i = 0; i < allIdEls.length; i++) {
-          if (allIdEls[i].id === id) { idx = i; break; }
-        }
-        if (idx === -1) return null;
-        for (var j = idx; j >= 0; j--) {
-          if (tocIds.indexOf(allIdEls[j].id) !== -1) return allIdEls[j].id;
-        }
-        return null;
-      }
-
-      function applyCurrent() {
-        if (!sections.length) return;
-        var current = sections[0];
-        for (var i = 0; i < sections.length; i++) {
-          if (sections[i].getBoundingClientRect().top <= 140) current = sections[i];
-        }
-        if (current) setActive(current.id);
-      }
-
-      allLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          var href = this.getAttribute('href');
-          if (!href || !href.startsWith('#')) return;
-          e.preventDefault();
-          var id = href.slice(1);
-          var parentId = findParentTocId(id);
-          if (parentId) {
-            setActive(parentId);
-            lockedToClick = true;
-          }
-          var target = document.getElementById(id);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-
-      function unlockOnUserScroll() { lockedToClick = false; }
-      window.addEventListener('wheel', unlockOnUserScroll, { passive: true });
-      window.addEventListener('touchstart', unlockOnUserScroll, { passive: true });
-      window.addEventListener('keydown', function(e) {
-        var k = e.key;
-        if (k === 'ArrowUp' || k === 'ArrowDown' || k === 'PageUp' ||
-            k === 'PageDown' || k === 'Home' || k === 'End' || k === ' ') {
-          unlockOnUserScroll();
-        }
-      });
-
-      var ticking = false;
-      function onScroll() {
-        if (lockedToClick || ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () { applyCurrent(); ticking = false; });
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      applyCurrent();
-    })();
-
-    // Cursor sparkle trail, only on hover devices, only outside the card
+    // Cursor sparkle trail, scoped to the footer gradient band only so the
+    // editorial white body stays clean.
     (function() {
       if (!window.matchMedia('(hover: hover)').matches) return;
-      var card = document.querySelector('.case-card');
+      var endBand = document.querySelector('.v2-page-end');
+      if (!endBand) return;
       var POOL_SIZE = 30;
       var pool = [];
       for (var i = 0; i < POOL_SIZE; i++) {
@@ -583,11 +1352,9 @@
       var idx = 0;
       var lastTime = 0;
       document.addEventListener('mousemove', function(e) {
-        if (card) {
-          var rect = card.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right &&
-              e.clientY >= rect.top && e.clientY <= rect.bottom) return;
-        }
+        var rect = endBand.getBoundingClientRect();
+        if (e.clientX < rect.left || e.clientX > rect.right ||
+            e.clientY < rect.top  || e.clientY > rect.bottom) return;
         var now = performance.now();
         if (now - lastTime < 25) return;
         lastTime = now;
@@ -598,35 +1365,36 @@
         dot.style.width = size + 'px';
         dot.style.height = size + 'px';
         dot.style.left = (e.clientX + (-5 + Math.random() * 10)) + 'px';
-        dot.style.top = (e.clientY + (-5 + Math.random() * 10)) + 'px';
+        dot.style.top  = (e.clientY + (-5 + Math.random() * 10)) + 'px';
         dot.offsetHeight;
         dot.style.animation = 'trailFade 0.5s ease-out forwards';
       }, { passive: true });
     })();
 
-    // Click sparkle burst, matches home page exactly
+    // Click sparkle burst, also scoped to the footer gradient band only.
     (function() {
-      var sparkColors = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
-
-      function spawnSparkles(x, y) {
+      var endBand = document.querySelector('.v2-page-end');
+      if (!endBand) return;
+      var sparkColors = [
+        'rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)',
+        'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'
+      ];
+      function spawn(x, y) {
         for (var c = 0; c < 7; c++) {
           var spark = document.createElement('div');
           spark.className = 'click-sparkle';
           var angle = (c / 7) * Math.PI * 2 + (Math.random() * 0.4);
-          var dist = 35 + Math.random() * 55;
-          var size = 10 + Math.random() * 12;
+          var dist  = 35 + Math.random() * 55;
+          var size  = 10 + Math.random() * 12;
           var color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
           var dx = Math.cos(angle) * dist;
           var dy = Math.sin(angle) * dist;
-
           spark.style.left = (x - size / 2) + 'px';
-          spark.style.top = (y - size / 2) + 'px';
-          spark.style.width = size + 'px';
+          spark.style.top  = (y - size / 2) + 'px';
+          spark.style.width  = size + 'px';
           spark.style.height = size + 'px';
           spark.style.background = color;
-
           document.body.appendChild(spark);
-
           spark.animate(
             [
               { opacity: 1, transform: 'translate(0,0) scale(1)' },
@@ -634,18 +1402,17 @@
             ],
             { duration: 1200, easing: 'ease-out', fill: 'forwards' }
           );
-
           (function(s) {
-            setTimeout(function() {
-              if (s && s.parentNode) s.parentNode.removeChild(s);
-            }, 1300);
+            setTimeout(function() { if (s && s.parentNode) s.parentNode.removeChild(s); }, 1300);
           })(spark);
         }
       }
-
       document.addEventListener('click', function(e) {
-        if (e.target.closest('.case-card, a, button, input, select, textarea, .case-toc, video')) return;
-        spawnSparkles(e.clientX, e.clientY);
+        var rect = endBand.getBoundingClientRect();
+        if (e.clientX < rect.left || e.clientX > rect.right ||
+            e.clientY < rect.top  || e.clientY > rect.bottom) return;
+        if (e.target.closest('a, button, input, select, textarea')) return;
+        spawn(e.clientX, e.clientY);
       });
     })();
 
@@ -657,7 +1424,7 @@
         if (pill.parentNode) pill.parentNode.removeChild(pill);
         return;
       }
-      var cards = document.querySelectorAll('.case-more-projects__card');
+      var cards = document.querySelectorAll('.v2-other__card');
       var visible = false;
 
       document.addEventListener('mousemove', function(e) {
@@ -679,5 +1446,29 @@
       });
     })();
   </script>
+
+  <script>
+    (function() {
+      var tocLinks = document.querySelectorAll('.v2-toc__link');
+      var sections = Array.prototype.map.call(tocLinks, function(link) {
+        var id = link.getAttribute('href').slice(1);
+        return { id: id, el: document.getElementById(id), link: link };
+      }).filter(function(s) { return s.el; });
+
+      function update() {
+        var scrollPos = window.scrollY + 160;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].el.offsetTop <= scrollPos) current = sections[i];
+        }
+        sections.forEach(function(s) {
+          s.link.classList.toggle('v2-toc__link--active', s === current);
+        });
+      }
+      window.addEventListener('scroll', update);
+      update();
+    })();
+  </script>
+  <script src="lightbox.js?v=5"></script>
 </body>
 </html>

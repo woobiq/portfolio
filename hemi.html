@@ -4,65 +4,764 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hemi: A Personal Reflection Journal · Ruby Qian Portfolio</title>
-  <meta name="description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
   <link rel="icon" type="image/png" href="favicon-v2.png">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rubyqian.com/hemi">
-  <meta property="og:title" content="Hemi: A Personal Reflection Journal · Ruby Qian Portfolio">
-  <meta property="og:description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
-  <meta property="og:image" content="https://rubyqian.com/images/og-image-v2.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Ruby Qian — product designer based in New York City">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Hemi: A Personal Reflection Journal · Ruby Qian Portfolio">
-  <meta name="twitter:description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
-  <meta name="twitter:image" content="https://rubyqian.com/images/og-image-v2.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
-  <!-- Critical first-paint styles, mask the brief moment before style.css loads -->
+  <link rel="stylesheet" href="style.css?v=98">
   <style>
-    html {
-      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) fixed;
+    body.case-v2 {
+      background: #ffffff;
+      margin: 0;
+      font-family: 'Manrope', sans-serif;
+      color: #1a1a1a;
     }
-    body.case-study-page { background: transparent; margin: 0; }
-    .page-transition-overlay {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
-      z-index: 99999;
+    body.case-v2 .bg-layer { display: none; }
+    body.case-v2 .page-transition-overlay { background: #ffffff; }
+
+    /* The nav pill is frosted glass, which has nothing to blur over the
+       white editorial page, so it blends in. Drop the (invisible white)
+       border and lift it with a soft neutral shadow so it floats as a
+       crisp pill above the page — no edge color to fight the warm palette. */
+    body.case-v2 .nav:not(.nav--scrolled) .nav__links {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: transparent;
+      padding: 4px 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+    body.case-v2 .nav:not(.nav--scrolled) .nav__link { padding: 6px 14px; }
+
+    /* ── MAIN SHELL ── */
+    .v2-shell {
+      margin: 110px auto 80px;
+      /* Left and right padding pull the whole block in from the screen
+         edges to condense the content column. Right padding scales with
+         viewport (120→240px) so content keeps clear of the edge. */
+      padding: 0 clamp(120px, 9vw, 240px) 0 72px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 80px;
+    }
+
+    /* TOC */
+    .v2-toc {
+      position: sticky;
+      top: 100px;
+      align-self: start;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+    .v2-toc__list { display: flex; flex-direction: column; gap: 10px; }
+    .v2-toc__link {
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(20, 40, 70, 0.5);
+      text-decoration: none;
+      padding: 2px 0;
+      transition: color 0.2s;
+    }
+    .v2-toc__link:hover { color: #1a1a1a; }
+    .v2-toc__link--active { color: #1a1a1a; font-weight: 600; }
+    .v2-toc__divider {
+      height: 1px;
+      background: rgba(20, 40, 70, 0.1);
+      margin: 24px 0 18px;
+    }
+    .v2-toc__cta {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #5b8eb3;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s, transform 0.2s;
+      padding: 2px 0;
+      letter-spacing: -0.005em;
+    }
+    .v2-toc__cta:hover {
+      color: #1a1a1a;
+      transform: translateX(2px);
+    }
+    .v2-toc__cta-arrow {
+      font-size: 13px;
+    }
+
+    /* Main content — left-anchored, fills the grid cell.
+       No max-width or auto-margin: content sits next to the TOC and
+       extends to the right padding of the shell, matching the
+       editorial layout used in the reference case studies. Inner text
+       blocks keep their own max-widths for line-length comfort. */
+    .v2-main {
+      width: 100%;
+      /* Cap the content column so blocks don't sprawl past the reading
+         width on wide monitors, and center it within its grid column so
+         the leftover space is balanced on both sides. */
+      max-width: 1200px;
+      margin: 0 auto;
+      color: #1a1a1a;
+    }
+
+    /* ── HERO ── */
+    .v2-hero { margin-bottom: 112px; }
+    .v2-hero__title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(36px, 4.2vw, 56px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: #1a1a1a;
+      margin: 0 0 44px;
+      white-space: nowrap;
+    }
+    .v2-hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px 80px;
+      margin-bottom: 40px;
+    }
+    .v2-hero__meta-item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .v2-hero__meta-label {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #5b8eb3; font-weight: 600;
+    }
+    .v2-hero__meta-value {
+      font-size: 14px;
+      color: #1a1a1a;
+      font-weight: 500;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    /* Buttons under meta */
+    .v2-hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .v2-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.2s, background 0.2s;
+      border: 1px solid rgba(20, 40, 70, 0.16);
+      color: #1a1a1a;
+      background: #fff;
+    }
+    .v2-btn:hover { background: rgba(91, 142, 179, 0.08); transform: translateY(-1px); }
+    .v2-btn--solid { background: #5b8eb3; color: #fff; border-color: #5b8eb3; }
+    .v2-btn--solid:hover { background: #4a7da3; color: #fff; }
+
+    .v2-hero__media {
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .v2-hero__media video {
+      width: 100%; display: block;
+      /* Match the hemi-hero.mp4 dimensions (1920×1086 — the full frame
+         from the master, including the bottom control bar). */
+      aspect-ratio: 1920 / 1086;
+      object-fit: cover;
+    }
+
+    /* ── SECTIONS ── */
+    .v2-section { margin-bottom: 112px; }
+    .v2-section:last-child { margin-bottom: 0; }
+
+    /* Eyebrow — no dash. Serif italic number + bold uppercase label */
+    .v2-eyebrow {
+      display: flex;
+      align-items: baseline;
+      gap: 22px;
+      margin: 0 0 28px;
+      /* Offset anchor jumps below the 80px fixed nav so the section
+         eyebrow stays visible when a TOC link is clicked. */
+      scroll-margin-top: 112px;
+    }
+    .v2-eyebrow__num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      font-weight: 500;
+      color: #5b8eb3;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .v2-eyebrow__label {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5b8eb3;
+    }
+
+    .v2-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(24px, 2.6vw, 32px);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: #1a1a1a;
+      margin: 0 0 28px;
+      max-width: 1100px;
+    }
+    .v2-lead {
+      font-size: 19px; line-height: 1.6;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0 0 36px;
+      max-width: 1100px;
+    }
+    /* Single framing line — what this case study is about. Sits
+       between the section eyebrow and the headline so readers get a
+       quick "what is Hemi" before the narrative starts. Editorial
+       "deck" style — same Manrope family as the rest of the page,
+       just larger and lighter than body. */
+    .v2-hero__glance {
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: rgba(26, 26, 26, 0.75);
+      letter-spacing: -0.005em;
+      margin: 0 0 40px;
+      max-width: 800px;
+    }
+    .v2-hero__glance a { color: #5b8eb3; text-decoration: none; }
+    .v2-hero__glance a:hover { text-decoration: underline; }
+    .v2-hero__glance strong { color: #1a1a1a; font-weight: 600; }
+    .v2-hero__glance em { font-style: italic; color: #1a1a1a; }
+    .v2-lead em { font-style: normal; color: #1a1a1a; font-weight: 500; }
+    .v2-lead strong { color: #1a1a1a; font-weight: 600; }
+    .v2-lead a { color: #5b8eb3; }
+
+    .v2-body {
+      font-size: 18px; line-height: 1.7;
+      color: rgba(26, 26, 26, 0.92);
+      max-width: 1100px;
+      margin: 0 0 24px;
+    }
+    .v2-body strong { color: #1a1a1a; font-weight: 600; }
+    .v2-body a { color: #5b8eb3; }
+
+    .v2-subhead {
+      font-size: 26px; font-weight: 500;
+      line-height: 1.2;
+      color: #1a1a1a;
+      margin: 56px 0 20px;
+      letter-spacing: -0.015em;
+      max-width: 900px;
+    }
+    /* "Setting the Vision" is a subhead sitting right after the eyebrow —
+       drop the big top margin so it stays close to the section label. */
+    .v2-eyebrow + .v2-subhead { margin-top: 0; }
+
+    /* Key-features label + bold emphasis inside feature captions */
+    .v2-feat-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      margin: 48px 0 24px;
+    }
+    .v2-bigshot__sub strong { color: #1a1a1a; font-weight: 600; }
+
+    /* Origin row — text LEFT (wider), image RIGHT (slimmer so the
+       portrait photo keeps more of its natural aspect ratio) */
+    .v2-row {
+      display: grid;
+      grid-template-columns: 60fr 40fr;
+      gap: 48px;
+      align-items: center;
+      margin: 24px 0 16px;
+    }
+    .v2-row__text { font-size: 19px; line-height: 1.7; color: rgba(26, 26, 26, 0.92); }
+    .v2-row__text p { margin: 0 0 20px; }
+    .v2-row__text p:last-child { margin-bottom: 0; }
+    .v2-row__text strong { color: #1a1a1a; font-weight: 600; }
+    .v2-row__img-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    /* Image keeps its natural aspect ratio (no crop) — the column width
+       sets its size and the height follows. */
+    .v2-row__img {
+      width: 100%; height: auto; display: block;
+    }
+
+    /* Tinted brief box inside the origin row — hemi powder blue.
+       Conventional diagonal gradient through true blues:
+       airy light → bright cyan → deep blue → teal-cyan. */
+    .v2-brief {
+      background: linear-gradient(150deg, #E9F4FB 0%, #CDEAF1 32%, #B2D8EB 64%, #C3E3EC 100%);
+      border-radius: 18px;
+      padding: 24px 28px;
+      margin: 24px 0 0;
+    }
+    .v2-brief p {
+      font-size: 19px;
+      line-height: 1.7;
+      color: #1a1a1a;
+      margin: 0 0 16px;
+    }
+    .v2-brief p:last-child { margin-bottom: 0; }
+    .v2-brief strong { font-weight: 600; }
+
+    /* Book spread visualization */
+    .v2-spread {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #FCFAF4;
+      border: 1px solid rgba(20, 40, 70, 0.07);
+      border-radius: 6px;
+      box-shadow:
+        0 1px 2px rgba(20, 40, 70, 0.04),
+        0 18px 50px rgba(20, 40, 70, 0.08);
+      margin: 36px 0 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .v2-spread::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(20, 40, 70, 0.12);
+      transform: translateX(-0.5px);
+      box-shadow: 0 0 18px rgba(20, 40, 70, 0.10);
+    }
+    .v2-spread__page {
+      padding: 44px 44px 48px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .v2-spread__eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(91, 142, 179, 0.85);
+      margin: 0;
+    }
+    .v2-spread__title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #1a1a1a;
+      margin: 0 0 8px;
+    }
+    .v2-spread__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .v2-spread__list li {
+      font-size: 16px;
+      line-height: 1.5;
+      color: rgba(26, 26, 26, 0.82);
+      padding-left: 18px;
+      position: relative;
+    }
+    .v2-spread__list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(91, 142, 179, 0.5);
+    }
+    .v2-spread__caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(26, 26, 26, 0.55);
+      text-align: center;
+      margin: 8px 0 0;
+    }
+
+    /* Feature cards — number sits right next to/above title (no big gap) */
+    .v2-features {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 36px 0 56px;
+    }
+    .v2-feature {
+      border-radius: 20px;
+      color: #1a1a1a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .v2-feature--monthly { background: linear-gradient(155deg, #FDF6EC 0%, #F2E2CC 100%); }
+    .v2-feature--sky     { background: linear-gradient(155deg, #EAF1F8 0%, #CFDEEB 100%); }
+    .v2-feature--wrapped { background: linear-gradient(155deg, #F4EAF2 0%, #E0D2DC 100%); }
+    /* Top media area — short autoplay loop showing the feature in motion */
+    .v2-feature__media {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+    }
+    .v2-feature__media video,
+    .v2-feature__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Text block below the media */
+    .v2-feature__body {
+      padding: 22px 24px 26px;
+    }
+    .v2-feature__num {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.16em;
+      color: rgba(26, 26, 26, 0.45);
+      margin-bottom: 6px;
+    }
+    .v2-feature__title {
+      font-size: 22px; font-weight: 600;
+      margin: 0 0 8px;
+      letter-spacing: -0.005em;
+    }
+    .v2-feature__desc {
+      font-size: 14px; line-height: 1.55;
+      color: rgba(26, 26, 26, 0.7);
+      margin: 0;
+    }
+
+    /* Big-image features */
+    .v2-bigshot { margin: 64px 0 0; }
+    /* First feature hugs the Key Features label (groups them); the
+       following features get the slightly larger 64px gap above. */
+    .v2-feat-label + .v2-bigshot { margin-top: 28px; }
+    .v2-bigshot__title {
+      font-size: 26px; font-weight: 600;
+      margin: 0 0 16px; letter-spacing: -0.01em;
+    }
+    .v2-bigshot__sub {
+      font-size: 17px;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0 0 22px;
+      max-width: 1000px;
+      line-height: 1.7;
+    }
+    .v2-bigshot__media { border-radius: 16px; overflow: hidden; position: relative; }
+    .v2-bigshot__media img,
+    .v2-bigshot__media video { width: 100%; display: block; }
+
+    .v2-figure {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(26, 26, 26, 0.6);
+      margin: 12px 0 0;
+    }
+
+    /* Sky pair */
+    .v2-pair {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin: 22px 0 0;
+    }
+    .v2-pair figure { margin: 0; }
+    .v2-pair img { width: 100%; border-radius: 14px; display: block; }
+    .v2-pair figcaption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(26, 26, 26, 0.6);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Vibe block — heights auto-match */
+    .v2-vibe {
+      display: grid;
+      grid-template-columns: 0.65fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+      margin: 36px 0 0;
+    }
+    .v2-vibe__quote {
+      background: linear-gradient(155deg, #F1E8E1 0%, #E1D7E5 50%, #D9E5E8 100%);
+      border-radius: 20px;
+      padding: 36px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .v2-vibe__quote-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(42, 53, 64, 0.55);
+      font-weight: 600;
+      margin: 0;
+    }
+    .v2-vibe__quote h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(42px, 3.8vw, 52px);
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      margin: 0;
+      /* Cap the text width (em-based, so it tracks the font size) so the
+         line wraps to three lines: "What I wanted / Hemi to feel / like…" */
+      max-width: 6em;
+      color: #2a3540;
+    }
+    .v2-vibe__quote-sub {
+      font-size: 14px;
+      color: rgba(42, 53, 64, 0.7);
+      line-height: 1.5;
+      margin: 0;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+    }
+    /* Subtle decorative dot */
+    .v2-vibe__quote::after {
+      content: '';
+      position: absolute;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+      top: -30px;
+      right: -30px;
       pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.30s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .page-transition-overlay.is-loaded { opacity: 0 !important; }
-    /* Case card styling inlined so the white panel paints before
-       style.css loads. Without this, slow mobile loads briefly show
-       case-study text directly on the gradient (FOUC). */
-    .case-card { background: #F8FBFD; border-radius: 32px; box-shadow: 0 24px 60px rgba(20, 40, 70, 0.12), 0 8px 24px rgba(20, 40, 70, 0.06); position: relative; z-index: 10; flex: 1; max-width: 1280px; }
-    /* case-shell flex layout inlined too so the card has proper context
-       at first paint on iOS Safari, which can render before style.css
-       is fully applied. */
-    .case-shell { display: flex; align-items: flex-start; gap: 28px; max-width: 1500px; margin: 130px auto 60px; padding: 0 60px; }
-    @media (max-width: 1200px) { .case-shell { flex-direction: column; padding: 0 32px; max-width: 1280px; margin: 110px auto 60px; } }
-    @media (max-width: 700px) { .case-shell { padding: 0 16px; margin: 80px auto 40px; } .case-card { border-radius: 24px; } }
+    .v2-vibe__list { display: flex; flex-direction: column; gap: 16px; }
+    .v2-vibe__item {
+      border-radius: 14px;
+      padding: 18px 28px;
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      font-size: 16px; line-height: 1.5;
+      color: rgba(26, 26, 26, 0.62);
+    }
+    .v2-vibe__item--1 { background: #FBF4E6; }
+    .v2-vibe__item--2 { background: #EBE5F2; }
+    .v2-vibe__item--3 { background: #E6EEE1; }
+    .v2-vibe__item--4 { background: #E1EBF3; }
+    .v2-vibe__item strong { font-weight: 600; color: #1a1a1a; }
+
+    /* Demo video — cream backgrounds throughout so no black ever flashes */
+    .v2-demo {
+      border-radius: 20px;
+      overflow: hidden;
+      background: #ffffff;
+      margin: 24px 0 16px;
+      position: relative;
+      /* Hairline outline so the light demo doesn't blend into the
+         white page background. No drop shadow. */
+      border: 1px solid rgba(20, 40, 70, 0.14);
+    }
+    .v2-demo video {
+      width: 100%;
+      display: block;
+      background: #ffffff;
+    }
+    /* Optional sound toggle overlaid on the demo video */
+    .v2-demo__sound {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px 8px 12px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(20, 40, 70, 0.5);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .v2-demo__sound:hover { background: rgba(20, 40, 70, 0.7); transform: translateY(-1px); }
+    .v2-demo__sound-icon { flex-shrink: 0; }
+
+    /* Reflections — gentle 2x2 cards, refined */
+    .v2-reflections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 32px 0 0;
+    }
+    /* Reflection tiles in Hemi's powder blue — soft monochrome fade,
+       calm and on-brand. Dark body text, deeper-blue labels. */
+    .v2-reflection-block {
+      background: linear-gradient(150deg, #E9F4FB 0%, #CDEAF1 32%, #B2D8EB 64%, #C3E3EC 100%);
+      border-radius: 18px;
+      padding: 30px 30px 28px;
+      color: #1a1a1a;
+      box-shadow: 0 6px 22px rgba(44, 77, 110, 0.08);
+    }
+    .v2-reflection-block__label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+      letter-spacing: -0.015em;
+    }
+    .v2-reflection-block__body {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(26, 26, 26, 0.88);
+      margin: 0;
+      font-weight: 400;
+    }
+    .v2-reflection-block__body strong { color: #1a1a1a; font-weight: 600; }
+
+    /* ── OTHER PROJECTS — sits inside the main content column ── */
+    .v2-other {
+      margin: 100px 0 40px;
+    }
+    .v2-other__divider {
+      height: 1px;
+      background: rgba(20, 40, 70, 0.1);
+      margin-bottom: 48px;
+    }
+    .v2-other__heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin: 0 0 32px;
+      text-align: center;
+    }
+    .v2-other__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .v2-other__card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid rgba(20, 40, 70, 0.12);
+      border-radius: 18px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(20, 40, 70, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .v2-other__card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(20, 40, 70, 0.12); }
+    /* Hide native cursor on the cards so the pill-cursor reads as the only cursor. */
+    @media (hover: hover) and (pointer: fine) {
+      .v2-other__card { cursor: none; }
+    }
+    /* Media wrapper so any per-card transforms get clipped to the media area
+       and don't bleed into the card body. */
+    .v2-other__card-media {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #f0f0f0;
+      overflow: hidden;
+      display: block;
+    }
+    .v2-other__card-media video,
+    .v2-other__card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .v2-other__card-body { padding: 18px 22px 22px; }
+    .v2-other__card-label {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #888; font-weight: 600; margin-bottom: 8px;
+    }
+    .v2-other__card-title { font-size: 17px; font-weight: 600; margin: 0 0 6px; }
+    .v2-other__card-desc {
+      font-size: 14px; line-height: 1.5;
+      color: rgba(26, 26, 26, 0.7); margin: 0;
+    }
+
+    /* Page-end gradient — matches homepage, lets the existing footer-minimal style apply naturally */
+    .v2-page-end {
+      background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%);
+      padding: 58px 0 0;
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Petals confined to the footer gradient band. petalDrift translates
+       across 100vw, and v2-page-end spans full width, so petals enter
+       from the left and exit on the right inside the gradient strip. */
+    .v2-page-end__petals {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .v2-page-end > .footer-minimal { position: relative; z-index: 1; }
+    .v2-page-end::before,
+    .v2-page-end::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .v2-page-end::before {
+      width: 220px; height: 220px;
+      background: rgba(255, 220, 235, 0.6);
+      top: -60px; left: 15%;
+    }
+    .v2-page-end::after {
+      width: 180px; height: 180px;
+      background: rgba(255, 240, 220, 0.6);
+      bottom: 40px; right: 18%;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .v2-shell { grid-template-columns: 1fr; gap: 32px; padding: 0 28px; }
+      .v2-toc { position: static; max-height: none; }
+      .v2-other__grid { grid-template-columns: 1fr 1fr; }
+      .v2-hero__title { white-space: normal; }
+    }
+    @media (max-width: 720px) {
+      .v2-hero__meta { grid-template-columns: 1fr 1fr; }
+      .v2-features, .v2-row, .v2-pair, .v2-reflections, .v2-vibe { grid-template-columns: 1fr; }
+      .v2-reflection-block { grid-template-columns: 1fr; gap: 8px; }
+      .v2-vibe__quote { min-height: 200px; padding: 30px 26px; }
+      .v2-other__grid { grid-template-columns: 1fr; }
+    }
   </style>
-  <link rel="stylesheet" href="style.css?v=97">
 </head>
-<body class="case-study-page hemi-page">
+<body class="case-v2 case-v2--hemi">
 
-  <!-- Page transition overlay, covers screen at first paint, fades out via JS -->
-  <div class="page-transition-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#B8D4EC 0%,#B0CCE8 25%,#A8C4E4 50%,#BED0E8 75%,#D4A0BC 100%);z-index:99999;pointer-events:none;opacity:1"></div>
-
-  <!-- Floral background layer -->
-  <div class="bg-layer" id="bgLayer"></div>
-
-  <!-- Navigation -->
   <nav class="nav">
     <div class="nav__inner">
       <a href="/" class="nav__logo">
@@ -84,279 +783,301 @@
     </div>
   </nav>
 
-  <!-- Case study shell: TOC | card | spacer -->
-  <div class="case-shell">
+  <!-- MAIN -->
+  <div class="v2-shell">
 
-    <aside class="case-toc">
-      <div class="case-toc__header">Contents</div>
-      <a class="case-toc__item case-toc__item--active" href="#origin">Origin</a>
-      <a class="case-toc__item" href="#outcome">Outcome</a>
-      <a class="case-toc__item" href="#process">Process</a>
-      <a class="case-toc__item" href="#reflections">Reflections</a>
+    <aside class="v2-toc">
+      <div class="v2-toc__list">
+        <a class="v2-toc__link v2-toc__link--active" href="#origin">Origin</a>
+        <a class="v2-toc__link" href="#outcome">Outcome</a>
+        <a class="v2-toc__link" href="#process">Process</a>
+        <a class="v2-toc__link" href="#reflections">Reflections</a>
+      </div>
+      <div class="v2-toc__divider"></div>
+      <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener" class="v2-toc__cta">
+        Visit site<span class="v2-toc__cta-arrow">↗</span>
+      </a>
     </aside>
 
-    <main class="case-card">
+    <main class="v2-main">
 
-      <!-- Hero: title spans, then text + video side-by-side -->
-      <header class="case-hero">
-        <h1 class="case-hero__title">Hemi: A Personal Reflection Journal</h1>
-        <div class="case-hero__intro-row">
-          <div class="case-hero__text">
-            <p class="case-hero__glance">
-              <span class="case-hero__glance-label">At a glance</span>
-              A personal product I designed and built end-to-end using <em>Claude Code</em>: a <em>digital reflection journal</em> that pairs <em>structured tracking</em> on the left page with <em>expressive content</em> on the right.
-            </p>
-            <div class="case-hero__meta">
-              <div class="case-hero__meta-item">
-                <div class="case-hero__meta-label">Role</div>
-                <div class="case-hero__meta-value">Creator &amp; Product Designer</div>
-              </div>
-              <div class="case-hero__meta-item">
-                <div class="case-hero__meta-label">Timeline</div>
-                <div class="case-hero__meta-value">3 weeks</div>
-              </div>
-              <div class="case-hero__meta-item">
-                <div class="case-hero__meta-label">Category</div>
-                <div class="case-hero__meta-value">Personal / Lifestyle</div>
-              </div>
-              <div class="case-hero__meta-item">
-                <div class="case-hero__meta-label">Built with</div>
-                <div class="case-hero__meta-value">Claude Code</div>
-              </div>
-            </div>
+      <!-- HERO -->
+      <header class="v2-hero">
+        <h1 class="v2-hero__title">Hemi: A Personal Reflection Journal</h1>
+        <p class="v2-hero__glance">Hemi is a digital reflection journal I <strong>designed and built end-to-end</strong> in Claude Code.</p>
+        <div class="v2-hero__meta">
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Timeline</div>
+            <div class="v2-hero__meta-value">Feb 2026, 3 weeks</div>
           </div>
-          <div class="case-hero__visual">
-            <video class="case-hero__image" autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi_skygarden.jpg" aria-label="Hemi sky garden view with floating journals in a dreamy cloud scene">
-              <source src="images/hemi/hemi-card.mp4?v=2" type="video/mp4">
-            </video>
-            <div class="case-hero__actions">
-              <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener" class="case-hero__jump case-hero__jump--solid">
-                <span class="case-hero__jump-arrow">↗</span>
-                Visit site
-              </a>
-              <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener" class="case-hero__jump">
-                <span class="case-hero__jump-arrow">↗</span>
-                Visit demo
-              </a>
-              <a href="#outcome" class="case-hero__jump">
-                <span class="case-hero__jump-arrow">↓</span>
-                Jump to outcome
-              </a>
-            </div>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Role</div>
+            <div class="v2-hero__meta-value">Designer &amp; Creator</div>
           </div>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Built with</div>
+            <div class="v2-hero__meta-value">Claude Code</div>
+          </div>
+          <div class="v2-hero__meta-item">
+            <div class="v2-hero__meta-label">Category</div>
+            <div class="v2-hero__meta-value">Lifestyle</div>
+          </div>
+        </div>
+        <div class="v2-hero__media">
+          <video autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi-hero-poster.jpg">
+            <source src="images/hemi/hemi-hero.mp4?v=1" type="video/mp4">
+          </video>
         </div>
       </header>
 
-      <!-- Body -->
-      <div class="case-body">
-        <div class="case-content">
-
-          <!-- ORIGIN -->
-          <h2 id="origin">Origin</h2>
-          <div class="case-study-intro-row">
-            <div class="case-study-intro-text">
-              <p>Hemi started from a real personal frustration: <strong>my monthly reflections were scattered across too many places</strong>, a Hobonichi planner, a Notion doc, social media posts. The turning point was a hand-drawn spread in my planner: a structured page on the left with goals and statistics, and a creative page on the right with a quote of the month, favorite memories, what I was listening to and watching, and reflections on what I was letting go and bringing in.</p>
-              <p>That sketch became the blueprint for Hemi: <strong>a digital version I could fill in quickly, access from anywhere, and use to pull insights over time.</strong> I designed and directed the entire build through vibe coding, using AI (Claude Code) to translate my vision into a working, deployed product.</p>
-            </div>
-            <img src="images/hemi/planner-spread.jpg" alt="Hand-drawn Hobonichi planner spread that inspired Hemi" class="case-study-intro-img" loading="lazy" decoding="async">
-          </div>
-
-          <!-- OUTCOME -->
-          <h2 id="outcome">Outcome</h2>
-          <p>Hemi is live at <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener">hemi.rubyqian.com</a> with a pre-filled demo at <a href="https://hemi.rubyqian.com/demo" target="_blank" rel="noopener">hemi.rubyqian.com/demo</a>. Everything runs locally in the browser with no accounts required by default; users can optionally <strong>sign in with Google to sync across devices</strong>. Hemi is intentionally <strong>designed for desktop</strong>, the two-page spread mirrors the physical journal that inspired it. I've been using it throughout 2026, and it's become a real part of my monthly routine.</p>
-
-          <h3>Hemi in motion</h3>
-          <div style="border-radius: 16px; overflow: hidden; background: #1a1a1a; margin: 24px 0 40px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
-            <video id="hemi-demo" controls muted preload="metadata" style="width: 100%; display: block;">
-              <source src="images/hemi/hemi_demo.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <p class="case-study-demo-note">Three features anchor the experience. All shown with sample data.</p>
-
-          <div class="feature-row">
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">01</div>
-                <div class="feature-card__title">Monthly Spreads</div>
-              </div>
-              <div class="feature-card__desc">A <strong>two-page spread</strong> per month, structured tracking on the left, expressive content (quotes, photos, songs) on the right.</div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">02</div>
-                <div class="feature-card__title">Sky Garden</div>
-              </div>
-              <div class="feature-card__desc">An alternative home view where journals float in a <strong>live sky scene</strong> that shifts with time of day, season, and wind speed.</div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-card__head">
-                <div class="feature-card__num">03</div>
-                <div class="feature-card__title">Hemi Wrapped</div>
-              </div>
-              <div class="feature-card__desc">A <strong>read-only year recap</strong> that compiles themes, top songs, memories, and color timelines from all 12 months.</div>
-            </div>
-          </div>
-
-          <h3>Monthly Spreads</h3>
-          <p>The heart of Hemi. Content is <strong>fixed-size like real paper</strong>, so there's no scrolling, which encourages intentional editing over endless journaling. One of my favorite details is the <strong>Spotify embed</strong>: each month has a song of the month that you can play directly in the journal, because music is such a big part of how I remember a period of time.</p>
-          <img src="images/hemi/monthly-spread.webp" alt="Monthly spread showing structured tracking on the left and expressive content on the right" class="case-image" loading="lazy" decoding="async">
-
-          <h3>Sky Garden</h3>
-          <p>Journals float in a <strong>sky scene</strong> with watercolor clouds, falling petals, and twinkling sparkles. A live sky mode shifts based on time of day, from soft morning light to a moonlit night sky with four-pointed stars and shooting stars. Users can also <strong>choose the season</strong>, which changes the flowers and elements drifting across the sky, and <strong>adjust the wind speed</strong>.</p>
-          <div class="case-study-sky-pair">
-            <figure class="case-study-sky-figure">
-              <img src="images/hemi/sky-day.png" alt="Spring daytime sky garden view" class="case-image" loading="lazy" decoding="async">
-              <figcaption>Day Time · Spring Season</figcaption>
-            </figure>
-            <figure class="case-study-sky-figure">
-              <img src="images/hemi/sky-night.png" alt="Summer nighttime sky garden view" class="case-image" loading="lazy" decoding="async">
-              <figcaption>Night Time · Summer Season</figcaption>
-            </figure>
-          </div>
-
-          <h3>Hemi Wrapped</h3>
-          <p>Inspired by Spotify Wrapped, Hemi automatically compiles insights from all 12 months into a <strong>read-only year recap</strong>: recurring themes, a timeline of month-by-month colors, top songs across the year pulled from each month's Spotify embed, favorite memories, and a summary of what you let go of and brought in.</p>
-          <img src="images/hemi/hemi-wrapped.webp" alt="Hemi Wrapped year recap showing stats, songs, and memories" class="case-image" loading="lazy" decoding="async">
-
-          <!-- PROCESS -->
-          <h2 id="process">Process</h2>
-
-          <h3><span class="stage-prefix">Vision:</span> Muji-inspired Japanese minimalism</h3>
-          <p>I knew exactly what I wanted Hemi to feel like: <strong>muji-inspired Japanese minimalism.</strong> Quiet, warm, analog. Everything lowercase. Muted pastels. Generous whitespace. No harsh edges or aggressive UI patterns.</p>
-          <ul>
-            <li><strong>Quiet over loud:</strong> Muted colors, thin borders, small type.</li>
-            <li><strong>Analog warmth:</strong> Linen textures, wooden shelf planks, page-flip shadows.</li>
-            <li><strong>Color as mood:</strong> Each month gets its own color that tints the entire spread.</li>
-            <li><strong>Soft transitions always:</strong> Every element fades in and out gently.</li>
-          </ul>
-          <p>The app is built around the metaphor of a <strong>physical bookshelf</strong>: a shelf of journals, one for each year. You pull a book off the shelf, flip to a month, and land on a two-page spread. My original vision was more immersive, a full library scene with a window and couch, but I realized that would be hard to execute well through vibe coding, and <strong>simplifying to just shelf planks and book spines was the stronger choice</strong>. Cleaner, more minimal, more aligned with the muji aesthetic.</p>
-
-          <h3><span class="stage-prefix">Vibe coding:</span> Designing through conversation</h3>
-          <div class="case-split">
-            <div class="case-split__text">
-              <p>Vibe coding means building software by describing what you want in natural language and having AI write the code. This wasn't "AI generated the app." It was a deeply collaborative process where I <strong>directed every design decision through conversation.</strong></p>
-              <p>The <strong>3D page-flip transition</strong> is a good example. The first version was clunky: pages flashing incorrectly, wrong pages showing mid-flip, stiff animation. Getting it to feel like smoothly turning a page in a real book took many rounds of design feedback until it finally felt right.</p>
-            </div>
-            <div class="case-split__media">
-              <img src="images/hemi/hemi-vibe-coding-process.png" alt="Vibe coding process diagram showing the iterative design-to-code workflow" class="case-split__image" loading="lazy" decoding="async">
-            </div>
-          </div>
-
-          <!-- REFLECTIONS -->
-          <h2 id="reflections">Reflections</h2>
-          <div class="reflections-grid">
-            <div class="reflection-card">
-              <h3>Learnings</h3>
-              <p><strong>Clear prompting is everything.</strong> The more precisely I could describe what I wanted upfront (the aesthetic, the layout, the feel), the faster and better the results were. Vibe coding works best when you and the AI are fully on the same page before building starts. Once that foundation was set, it let me focus on <strong>product thinking over implementation</strong>.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>Challenges</h3>
-              <p><strong>Communicating visual intent without technical vocabulary.</strong> I couldn't say "reduce the border-radius to 8px," so I'd say "make it feel less rounded" or "this looks too bubbly." Some things took many rounds to get right, like the <strong>3D page-flip transition</strong>. Over time, I developed a shared language with the AI that made iteration faster, but translating a feeling into words was always the hardest part.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>What's next</h3>
-              <p>Currently expanding Hemi with new journal types, including a <strong>travel journal</strong> and a <strong>cafe journal</strong>, and working on making the experience responsive across screen sizes.</p>
-            </div>
-            <div class="reflection-card">
-              <h3>Takeaway</h3>
-              <p>Vibe coding doesn't replace design thinking, it amplifies it. The clearer the design intent, the faster a real, deployed product can come to life.</p>
-            </div>
-          </div>
-
+      <!-- ORIGIN -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="origin">
+          <span class="v2-eyebrow__num">01</span>
+<span class="v2-eyebrow__label">Origin</span>
         </div>
-      </div>
+        <h2 class="v2-headline">My monthly reflections were scattered across too many places. A Hobonichi planner, a Notion doc, a collection of social media posts.</h2>
 
-      <!-- Other Projects -->
-      <section class="case-more-projects">
-        <h2 class="case-more-projects__heading">Other Projects</h2>
-        <div class="case-more-projects__grid">
-          <a href="/phia" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/phia/mockup-phia.jpg" aria-label="">
-              <source src="images/phia/phia-card.mp4?v=1" type="video/mp4">
+        <div class="v2-row">
+          <div class="v2-row__text">
+            <p>Nothing pulled them together until one day, <strong>I sketched a journal spread by hand.</strong></p>
+            <p>Within the spread, the left page held <strong>structure</strong>: goals, statistics, the metrics I wanted to remember; while the right page held <strong>expression</strong>: a quote of the month, favorite memories, what I was listening to or watching.</p>
+            <div class="v2-brief">
+              <p><strong>That sketch became the blueprint for Hemi</strong>: a digital version I can fill in, access from anywhere, and use to pull insights from over time.</p>
+              <p><strong>Hemi is short for hemisphere</strong>. The brain's left hemisphere is analytical and logical while the right is intuitive and creative, mirroring the left and right sides of the spread.</p>
+            </div>
+          </div>
+          <div class="v2-row__img-wrap">
+            <img src="images/hemi/planner-spread.jpg" alt="Hand-drawn Hobonichi planner spread that inspired Hemi" class="v2-row__img" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </section>
+
+      <!-- OUTCOME -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="outcome">
+          <span class="v2-eyebrow__num">02</span>
+<span class="v2-eyebrow__label">Outcome</span>
+        </div>
+        <h2 class="v2-headline">A digital journal that consolidates my monthly reflections into one place.</h2>
+        <p class="v2-lead"><strong>Hemi is live at <a href="https://hemi.rubyqian.com" target="_blank" rel="noopener">hemi.rubyqian.com</a>.</strong> It's desktop-first, with two-page spreads laid out like a real paper planner. Users can optionally sign in with Google to sync data across devices. I've been using it throughout 2026, and it's become a real part of my monthly routine.</p>
+
+        <div class="v2-demo">
+          <video id="hemi-demo" autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi-demo-poster.jpg?v=3">
+            <source src="images/hemi/hemi_demo_cropped.mp4?v=3" type="video/mp4">
+          </video>
+          <button class="v2-demo__sound" id="hemiDemoSound" type="button" aria-label="Unmute video" aria-pressed="false">
+            <svg class="v2-demo__sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+            <span class="v2-demo__sound-label">Sound off</span>
+          </button>
+        </div>
+        <p class="v2-feat-label">Key Features</p>
+
+        <div class="v2-bigshot">
+          <h3 class="v2-bigshot__title">Monthly Spreads</h3>
+          <p class="v2-bigshot__sub">A <strong>two-page spread</strong> for each month, with structure on the left and expression on the right. One of my favorite details is the <strong>Spotify embed</strong>: each month has a song of the month that you can play directly in the journal, because music is such a big part of how I remember a period of time.</p>
+          <div class="v2-bigshot__media">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/hemi/monthly-spread-poster.jpg?v=2" aria-label="A monthly spread in Hemi showing structure on the left and expression on the right">
+              <source src="images/hemi/monthly-spread.mp4?v=2" type="video/mp4">
             </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Designathon</div>
-              <h3 class="case-more-projects__title">Phia x Design Meetup: Designathon Finalist</h3>
-              <p class="case-more-projects__desc">Designed for Phia, an AI-powered fashion shopping app, as a designathon finalist with work from the semifinals and finals.</p>
+          </div>
+        </div>
+
+        <div class="v2-bigshot">
+          <h3 class="v2-bigshot__title">Sky Garden</h3>
+          <p class="v2-bigshot__sub">An <strong>alternate home view</strong> where your <strong>journals float in a live sky</strong>. It shifts with the time of day, the season, and the wind. Clouds and petals drift by, the light moves from morning to a starry night, and you can <strong>change the season or wind speed</strong> to set the mood.</p>
+          <div class="v2-bigshot__media">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/hemi/sky-garden-poster.jpg?v=2" aria-label="Sky Garden live sky view with floating journals">
+              <source src="images/hemi/sky-garden.mp4?v=2" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <div class="v2-bigshot">
+          <h3 class="v2-bigshot__title">Hemi Wrapped</h3>
+          <p class="v2-bigshot__sub">Inspired by Spotify Wrapped, Hemi automatically compiles insights from all 12 months into a <strong>read-only year recap</strong>: a timeline of month-by-month colors and themes, top songs across the year pulled from each month's Spotify embed, favorite memories and quotes, total metric stats, and a summary of what you let go of and brought in.</p>
+          <div class="v2-bigshot__media">
+            <video id="hemi-wrapped-video" autoplay loop muted playsinline preload="metadata" poster="images/hemi/hemi-wrapped-poster.jpg" aria-label="Hemi Wrapped year-end recap">
+              <source src="images/hemi/hemi-wrapped.mp4?v=1" type="video/mp4">
+            </video>
+            <button class="v2-demo__sound" id="hemiWrappedSound" type="button" aria-label="Unmute video" aria-pressed="false">
+              <svg class="v2-demo__sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+              <span class="v2-demo__sound-label">Sound off</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="process">
+          <span class="v2-eyebrow__num">03</span>
+<span class="v2-eyebrow__label">Process</span>
+        </div>
+        <h2 class="v2-subhead">Setting the Vision</h2>
+        <p class="v2-lead">I wanted Hemi to feel like <strong>muji-inspired Japanese minimalism</strong>, focusing on a <strong>quiet, warm, analog</strong> vibe. Everything lowercase, with muted pastels and no harsh edges / aggressive UI patterns.</p>
+
+        <div class="v2-vibe">
+          <div class="v2-vibe__quote">
+            <h3>What I wanted Hemi to feel like…</h3>
+          </div>
+          <div class="v2-vibe__list">
+            <div class="v2-vibe__item v2-vibe__item--1">
+              <span><strong>Quiet over loud:</strong> muted colors, thin hairline borders, and lowercase type</span>
+            </div>
+            <div class="v2-vibe__item v2-vibe__item--2">
+              <span><strong>Analog warmth:</strong> linen textures, wooden shelves, and gentle page-flip shadows</span>
+            </div>
+            <div class="v2-vibe__item v2-vibe__item--3">
+              <span><strong>Color as mood:</strong> each month gets its own color, softly tinting the whole spread</span>
+            </div>
+            <div class="v2-vibe__item v2-vibe__item--4">
+              <span><strong>Soft transitions:</strong> every element fades in and out gently, easing into place</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="v2-subhead">Designing through Conversation</h3>
+        <p class="v2-body">I built Hemi through <strong>vibe coding</strong>: I started by pulling together a prompt with Claude, then built it out and iterated from there. This was a deeply collaborative process with Claude Code where I <strong>directed every design decision</strong>.</p>
+        <p class="v2-body">One of the trickiest parts was the <strong>3D page-flip transition</strong>. The first version was clunky: pages flashing incorrectly, wrong pages showing mid-flip, and stiff animation. Getting it to feel like smoothly turning a page in a real book took many rounds of design feedback before it felt right.</p>
+      </section>
+
+      <!-- REFLECTIONS -->
+      <section class="v2-section">
+        <div class="v2-eyebrow" id="reflections">
+          <span class="v2-eyebrow__num">04</span>
+<span class="v2-eyebrow__label">Reflections</span>
+        </div>
+        <h2 class="v2-headline">Vibe coding shortens the path from an idea to a shipped reality.</h2>
+
+        <div class="v2-reflections">
+          <div class="v2-reflection-block">
+            <div class="v2-reflection-block__label">Learnings</div>
+            <p class="v2-reflection-block__body"><strong>Clear prompting is everything.</strong> The more precisely I could describe the aesthetic, layout, and feel upfront, the faster and better the results came back.</p>
+          </div>
+          <div class="v2-reflection-block">
+            <div class="v2-reflection-block__label">Challenges</div>
+            <p class="v2-reflection-block__body">The real challenge was ensuring I had <strong>the right vocabulary to communicate with Claude</strong>, and making sure we were <strong>on the same page</strong> and working from the same vision.</p>
+          </div>
+          <div class="v2-reflection-block">
+            <div class="v2-reflection-block__label">What's next</div>
+            <p class="v2-reflection-block__body">Expanding Hemi with new journal types like a <strong>travel journal</strong> and a <strong>cafe journal</strong>, plus responsive layouts across screen sizes.</p>
+          </div>
+          <div class="v2-reflection-block">
+            <div class="v2-reflection-block__label">Takeaway</div>
+            <p class="v2-reflection-block__body">The clearer the design intent, the faster a real, deployed product can come to life.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- OTHER PROJECTS: inside the main column so TOC + CTAs stay visible -->
+      <section class="v2-other">
+        <div class="v2-other__divider"></div>
+        <h2 class="v2-other__heading">Other Projects</h2>
+        <div class="v2-other__grid">
+          <a href="/phia" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/phia/mockup-phia.jpg">
+                <source src="images/phia/phia-card.mp4?v=1" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Designathon</div>
+              <h3 class="v2-other__card-title">Phia x Design Meetup: Designathon Finalist</h3>
+              <p class="v2-other__card-desc">Designed for Phia, an AI-powered fashion shopping app, as a designathon finalist.</p>
             </div>
           </a>
-          <a href="/googlemaps" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/googlemaps/mockup-googlemaps.webp" aria-label="">
-              <source src="images/googlemaps/googlemaps-card.mp4?v=3" type="video/mp4">
-            </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Concept project</div>
-              <h3 class="case-more-projects__title">AI Assistant for Google Maps</h3>
-              <p class="case-more-projects__desc">Designed an AI assistant for place discovery in Google Maps to help reduce decision fatigue.</p>
+          <a href="/googlemaps" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/googlemaps/mockup-googlemaps.webp">
+                <source src="images/googlemaps/googlemaps-card.mp4?v=3" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Concept project</div>
+              <h3 class="v2-other__card-title">AI Assistant for Google Maps</h3>
+              <p class="v2-other__card-desc">An AI assistant for place discovery in Google Maps to help reduce decision fatigue.</p>
             </div>
           </a>
-          <a href="/yammii" class="case-more-projects__card">
-            <video autoplay loop muted playsinline preload="metadata" poster="images/yammii/mockup-yammii.jpg" aria-label="">
-              <source src="images/yammii/yammii-card.mp4?v=1" type="video/mp4">
-            </video>
-            <div class="case-more-projects__body">
-              <div class="case-more-projects__label">Case study</div>
-              <h3 class="case-more-projects__title">Yammii: Online Order Revamp</h3>
-              <p class="case-more-projects__desc">Simplified and modernized Yammii's mobile order flow to create a more visually engaging and faster experience.</p>
+          <a href="/yammii" class="v2-other__card">
+            <div class="v2-other__card-media">
+              <video autoplay loop muted playsinline preload="metadata" poster="images/yammii/mockup-yammii.jpg">
+                <source src="images/yammii/yammii-card.mp4?v=1" type="video/mp4">
+              </video>
+            </div>
+            <div class="v2-other__card-body">
+              <div class="v2-other__card-label">Case study</div>
+              <h3 class="v2-other__card-title">Yammii: Restaurant Online Order Revamp</h3>
+              <p class="v2-other__card-desc">Simplified and modernized Yammii's mobile order flow.</p>
             </div>
           </a>
         </div>
       </section>
 
     </main>
-
-    <div class="case-shell__spacer" aria-hidden="true"></div>
   </div>
 
-  <!-- Footer (matches home page minimal style) -->
-  <footer class="footer-minimal">
-    <div class="footer-minimal__divider"></div>
-    <div class="footer-minimal__content">
-      <span class="footer-minimal__links">
-        <a href="/">Home</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/#projects">Projects</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/fun">Fun</a>
-        <span class="footer-minimal__dot">·</span>
-        <a href="/about">About me</a>
-      </span>
-      <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
-    </div>
-  </footer>
+  <div class="v2-page-end">
+    <div class="v2-page-end__petals" id="footerPetals"></div>
+    <footer class="footer-minimal">
+      <div class="footer-minimal__divider"></div>
+      <div class="footer-minimal__content">
+        <span class="footer-minimal__links">
+          <a href="/">Home</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/#projects">Projects</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/fun">Fun</a>
+          <span class="footer-minimal__dot">·</span>
+          <a href="/about">About me</a>
+        </span>
+        <span class="footer-minimal__copyright">© 2026 Ruby Qian</span>
+      </div>
+    </footer>
+  </div>
 
   <!-- Pill cursor for project card hover -->
   <div class="pill-cursor" id="pillCursor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View project</div>
 
-  <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
-  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
-  <script src="smooth-scroll.js"></script>
-  <script src="reveal.js?v=5"></script>
   <script>
-    // Drifting bokeh petals on the bg layer (same style as home page)
+    // Nav background fades in once the user scrolls past 20px.
     (function() {
-      var bgLayer = document.getElementById('bgLayer');
-      if (!bgLayer) return;
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      var ticking = false;
+      function update() {
+        if (window.scrollY > 20) nav.classList.add('nav--scrolled');
+        else nav.classList.remove('nav--scrolled');
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+      update();
+    })();
+
+    // Drifting petals inside the footer gradient band only.
+    (function() {
+      var layer = document.getElementById('footerPetals');
+      if (!layer) return;
       var bokehColors = [
         'radial-gradient(ellipse at 40% 30%, rgba(248,180,200,0.9), rgba(240,160,185,0.3))',
         'radial-gradient(ellipse at 40% 30%, rgba(255,210,225,0.8), rgba(248,190,210,0.2))',
         'radial-gradient(ellipse at 40% 30%, rgba(255,235,240,0.85), rgba(255,220,235,0.25))',
         'radial-gradient(ellipse at 40% 30%, rgba(240,200,220,0.7), rgba(230,180,200,0.2))',
-        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))',
+        'radial-gradient(ellipse at 40% 30%, rgba(255,245,248,0.8), rgba(255,235,240,0.3))'
       ];
-      for (var i = 0; i < 12; i++) {
+      for (var i = 0; i < 6; i++) {
         var p = document.createElement('div');
         p.className = 'bg-petal';
-        var size = 30 + Math.random() * 45;
-        var blur = 2 + Math.random() * 6;
+        var size = 28 + Math.random() * 42;
+        var blur = 2 + Math.random() * 5;
         var color = bokehColors[Math.floor(Math.random() * bokehColors.length)];
-        var top = Math.random() * 85;
-        var delay = -(Math.random() * 30);
-        var dur = 10 + Math.random() * 8;
+        var top = Math.random() * 75;
+        var delay = -(Math.random() * 24);
+        var dur = 11 + Math.random() * 8;
         var opacity = 0.5 + Math.random() * 0.4;
-        var driftY = -40 + Math.random() * 80;
+        var driftY = -30 + Math.random() * 70;
         var rot = Math.random() * 360;
         p.style.cssText =
           'width:' + size + 'px;height:' + (size * 1.4) + 'px;' +
@@ -366,96 +1087,16 @@
           'filter:blur(' + blur + 'px);' +
           '--p-opacity:' + opacity + ';--p-driftY:' + driftY + 'px;--p-rot:' + rot + 'deg;' +
           'animation:petalDrift ' + dur + 's ' + delay + 's infinite linear;';
-        bgLayer.appendChild(p);
+        layer.appendChild(p);
       }
     })();
 
-    // Smooth scroll + active TOC tracking (immediate on click)
-    (function() {
-      var tocItems = document.querySelectorAll('.case-toc__item');
-      var allLinks = document.querySelectorAll('.case-toc__item, .case-hero__jump');
-      var tocIds = Array.prototype.map.call(tocItems, function(item) {
-        return item.getAttribute('href').slice(1);
-      });
-      var sections = Array.prototype.filter.call(
-        document.querySelectorAll('.case-content [id]'),
-        function(el) { return tocIds.indexOf(el.id) !== -1; }
-      );
-      var allIdEls = Array.prototype.slice.call(
-        document.querySelectorAll('.case-content [id]')
-      );
-      var lockedToClick = false;
-
-      function setActive(id) {
-        tocItems.forEach(function(link) {
-          var linkId = link.getAttribute('href').slice(1);
-          link.classList.toggle('case-toc__item--active', linkId === id);
-        });
-      }
-
-      function findParentTocId(id) {
-        if (tocIds.indexOf(id) !== -1) return id;
-        var idx = -1;
-        for (var i = 0; i < allIdEls.length; i++) {
-          if (allIdEls[i].id === id) { idx = i; break; }
-        }
-        if (idx === -1) return null;
-        for (var j = idx; j >= 0; j--) {
-          if (tocIds.indexOf(allIdEls[j].id) !== -1) return allIdEls[j].id;
-        }
-        return null;
-      }
-
-      function applyCurrent() {
-        if (!sections.length) return;
-        var current = sections[0];
-        for (var i = 0; i < sections.length; i++) {
-          if (sections[i].getBoundingClientRect().top <= 140) current = sections[i];
-        }
-        if (current) setActive(current.id);
-      }
-
-      allLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          var href = this.getAttribute('href');
-          if (!href || !href.startsWith('#')) return;
-          e.preventDefault();
-          var id = href.slice(1);
-          var parentId = findParentTocId(id);
-          if (parentId) {
-            setActive(parentId);
-            lockedToClick = true;
-          }
-          var target = document.getElementById(id);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-
-      function unlockOnUserScroll() { lockedToClick = false; }
-      window.addEventListener('wheel', unlockOnUserScroll, { passive: true });
-      window.addEventListener('touchstart', unlockOnUserScroll, { passive: true });
-      window.addEventListener('keydown', function(e) {
-        var k = e.key;
-        if (k === 'ArrowUp' || k === 'ArrowDown' || k === 'PageUp' ||
-            k === 'PageDown' || k === 'Home' || k === 'End' || k === ' ') {
-          unlockOnUserScroll();
-        }
-      });
-
-      var ticking = false;
-      function onScroll() {
-        if (lockedToClick || ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () { applyCurrent(); ticking = false; });
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      applyCurrent();
-    })();
-
-    // Cursor sparkle trail, only on hover devices, only outside the card
+    // Cursor sparkle trail, scoped to the footer gradient band only so the
+    // editorial white body stays clean.
     (function() {
       if (!window.matchMedia('(hover: hover)').matches) return;
-      var card = document.querySelector('.case-card');
+      var endBand = document.querySelector('.v2-page-end');
+      if (!endBand) return;
       var POOL_SIZE = 30;
       var pool = [];
       for (var i = 0; i < POOL_SIZE; i++) {
@@ -468,11 +1109,9 @@
       var idx = 0;
       var lastTime = 0;
       document.addEventListener('mousemove', function(e) {
-        if (card) {
-          var rect = card.getBoundingClientRect();
-          if (e.clientX >= rect.left && e.clientX <= rect.right &&
-              e.clientY >= rect.top && e.clientY <= rect.bottom) return;
-        }
+        var rect = endBand.getBoundingClientRect();
+        if (e.clientX < rect.left || e.clientX > rect.right ||
+            e.clientY < rect.top  || e.clientY > rect.bottom) return;
         var now = performance.now();
         if (now - lastTime < 25) return;
         lastTime = now;
@@ -483,35 +1122,36 @@
         dot.style.width = size + 'px';
         dot.style.height = size + 'px';
         dot.style.left = (e.clientX + (-5 + Math.random() * 10)) + 'px';
-        dot.style.top = (e.clientY + (-5 + Math.random() * 10)) + 'px';
+        dot.style.top  = (e.clientY + (-5 + Math.random() * 10)) + 'px';
         dot.offsetHeight;
         dot.style.animation = 'trailFade 0.5s ease-out forwards';
       }, { passive: true });
     })();
 
-    // Click sparkle burst, matches home page exactly
+    // Click sparkle burst, also scoped to the footer gradient band only.
     (function() {
-      var sparkColors = ['rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)', 'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'];
-
-      function spawnSparkles(x, y) {
+      var endBand = document.querySelector('.v2-page-end');
+      if (!endBand) return;
+      var sparkColors = [
+        'rgba(255,255,255,1)', 'rgba(255,240,248,1)', 'rgba(255,255,255,1)',
+        'rgba(255,230,242,1)', 'rgba(255,255,255,1)', 'rgba(255,245,250,1)'
+      ];
+      function spawn(x, y) {
         for (var c = 0; c < 7; c++) {
           var spark = document.createElement('div');
           spark.className = 'click-sparkle';
           var angle = (c / 7) * Math.PI * 2 + (Math.random() * 0.4);
-          var dist = 35 + Math.random() * 55;
-          var size = 10 + Math.random() * 12;
+          var dist  = 35 + Math.random() * 55;
+          var size  = 10 + Math.random() * 12;
           var color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
           var dx = Math.cos(angle) * dist;
           var dy = Math.sin(angle) * dist;
-
           spark.style.left = (x - size / 2) + 'px';
-          spark.style.top = (y - size / 2) + 'px';
-          spark.style.width = size + 'px';
+          spark.style.top  = (y - size / 2) + 'px';
+          spark.style.width  = size + 'px';
           spark.style.height = size + 'px';
           spark.style.background = color;
-
           document.body.appendChild(spark);
-
           spark.animate(
             [
               { opacity: 1, transform: 'translate(0,0) scale(1)' },
@@ -519,18 +1159,17 @@
             ],
             { duration: 1200, easing: 'ease-out', fill: 'forwards' }
           );
-
           (function(s) {
-            setTimeout(function() {
-              if (s && s.parentNode) s.parentNode.removeChild(s);
-            }, 1300);
+            setTimeout(function() { if (s && s.parentNode) s.parentNode.removeChild(s); }, 1300);
           })(spark);
         }
       }
-
       document.addEventListener('click', function(e) {
-        if (e.target.closest('.case-card, a, button, input, select, textarea, .case-toc, video')) return;
-        spawnSparkles(e.clientX, e.clientY);
+        var rect = endBand.getBoundingClientRect();
+        if (e.clientX < rect.left || e.clientX > rect.right ||
+            e.clientY < rect.top  || e.clientY > rect.bottom) return;
+        if (e.target.closest('a, button, input, select, textarea')) return;
+        spawn(e.clientX, e.clientY);
       });
     })();
 
@@ -542,7 +1181,7 @@
         if (pill.parentNode) pill.parentNode.removeChild(pill);
         return;
       }
-      var cards = document.querySelectorAll('.case-more-projects__card');
+      var cards = document.querySelectorAll('.v2-other__card');
       var visible = false;
 
       document.addEventListener('mousemove', function(e) {
@@ -563,22 +1202,70 @@
         });
       });
     })();
+  </script>
 
-    // Hemi demo video, autoplay when scrolled into view
+  <script>
     (function() {
-      var video = document.getElementById('hemi-demo');
-      if (!video) return;
-      var playObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            video.play().catch(function(){});
-          } else if (!video.paused) {
-            video.pause();
-          }
+      var tocLinks = document.querySelectorAll('.v2-toc__link');
+      var sections = Array.prototype.map.call(tocLinks, function(link) {
+        var id = link.getAttribute('href').slice(1);
+        return { id: id, el: document.getElementById(id), link: link };
+      }).filter(function(s) { return s.el; });
+
+      function update() {
+        var scrollPos = window.scrollY + 160;
+        var current = sections[0];
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].el.offsetTop <= scrollPos) current = sections[i];
+        }
+        sections.forEach(function(s) {
+          s.link.classList.toggle('v2-toc__link--active', s === current);
         });
-      }, { threshold: 0.4 });
-      playObserver.observe(video);
+      }
+      window.addEventListener('scroll', update);
+      update();
     })();
   </script>
+
+  <script>
+    // Outcome videos: optional sound toggle (autoplay stays muted).
+    // Unmuting one video mutes the other so two tracks never overlap.
+    (function() {
+      var ICON_OFF = '<path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/>';
+      var ICON_ON = '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+      var items = [];
+      function render(it) {
+        var on = !it.v.muted;
+        it.label.textContent = on ? 'Sound on' : 'Sound off';
+        it.icon.innerHTML = on ? ICON_ON : ICON_OFF;
+        it.btn.setAttribute('aria-pressed', String(on));
+        it.btn.setAttribute('aria-label', on ? 'Mute video' : 'Unmute video');
+      }
+      function setup(videoId, btnId) {
+        var v = document.getElementById(videoId);
+        var btn = document.getElementById(btnId);
+        if (!v || !btn) return;
+        var it = { v: v, btn: btn, label: btn.querySelector('.v2-demo__sound-label'), icon: btn.querySelector('.v2-demo__sound-icon') };
+        items.push(it);
+        btn.addEventListener('click', function() {
+          if (v.muted) {
+            items.forEach(function(other) {
+              if (other.v !== v && !other.v.muted) { other.v.muted = true; render(other); }
+            });
+            v.muted = false;
+            v.volume = 1;
+            var p = v.play();
+            if (p && p.catch) p.catch(function() {});
+          } else {
+            v.muted = true;
+          }
+          render(it);
+        });
+      }
+      setup('hemi-demo', 'hemiDemoSound');
+      setup('hemi-wrapped-video', 'hemiWrappedSound');
+    })();
+  </script>
+  <script src="lightbox.js?v=5"></script>
 </body>
 </html>
