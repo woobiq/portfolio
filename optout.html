@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics opt-out — Ruby Qian</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon-v2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8FBFD;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #4a4a4a;
+    --soft: #7a8894;
+    --accent: #5a9ec9;
+    --accent-hover: #4a8db8;
+    --accent-light: #e1f0fa;
+    --border: #dce6ee;
+    --good: #4c9a6a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(170deg, #D8EAF5, #F8FBFD 55%);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    max-width: 480px;
+    width: 100%;
+    padding: 40px 38px 34px;
+    box-shadow: 0 18px 50px rgba(90, 158, 201, 0.14);
+    text-align: center;
+  }
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 7px 15px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .status-dot .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .status--counted { background: var(--accent-light); color: var(--accent-hover); }
+  .status--counted .dot { background: var(--accent); }
+  .status--excluded { background: #e5f3ec; color: var(--good); }
+  .status--excluded .dot { background: var(--good); }
+
+  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 12px; text-wrap: balance; }
+  p { font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0 auto 14px; max-width: 40ch; }
+  .headline { font-size: 16px; color: var(--ink); font-weight: 600; }
+
+  .btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 26px;
+    border-radius: 999px;
+    margin-top: 12px;
+    transition: background 0.25s ease, transform 0.1s ease;
+    width: 100%;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn--exclude { background: var(--accent); color: #fff; }
+  .btn--exclude:hover { background: var(--accent-hover); }
+  .btn--enable { background: #fff; color: var(--accent-hover); border: 1.5px solid var(--accent); }
+  .btn--enable:hover { background: var(--accent-light); }
+  .btn:focus-visible { outline: 3px solid rgba(90,158,201,0.45); outline-offset: 2px; }
+
+  .home { display: inline-block; margin-top: 24px; font-size: 13px; color: var(--soft); text-decoration: none; }
+  .home:hover { color: var(--accent-hover); }
+  .fineprint { font-size: 12px; color: var(--soft); margin-top: 20px; line-height: 1.5; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div id="status" class="status-dot"></div>
+    <h1 id="title"></h1>
+    <p id="body"></p>
+    <button id="toggle" class="btn"></button>
+    <div class="fineprint" id="note"></div>
+    <a class="home" href="/">← Back to rubyqian.com</a>
+  </main>
+
+  <script>
+    var KEY = "umami.disabled";
+    function isExcluded() { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
+
+    function render() {
+      var excluded = isExcluded();
+      var status = document.getElementById("status");
+      var title  = document.getElementById("title");
+      var body   = document.getElementById("body");
+      var btn    = document.getElementById("toggle");
+      var note   = document.getElementById("note");
+
+      if (excluded) {
+        status.className = "status-dot status--excluded";
+        status.innerHTML = '<span class="dot"></span> Your visits are NOT counted';
+        title.textContent = "You're excluded on this browser";
+        body.innerHTML = '<span class="headline">Nice.</span> Your own visits to rubyqian.com won’t show up in your analytics from this browser anymore.';
+        btn.className = "btn btn--enable";
+        btn.textContent = "Start counting my visits again";
+        note.textContent = "Do this once on each browser and device you use (phone + laptop).";
+      } else {
+        status.className = "status-dot status--counted";
+        status.innerHTML = '<span class="dot"></span> Your visits are currently counted';
+        title.textContent = "Hide your own visits";
+        body.innerHTML = 'Right now, every time <b>you</b> open your portfolio it counts as a visit. Tap below to leave yourself out of your own numbers.';
+        btn.className = "btn btn--exclude";
+        btn.textContent = "Don’t count my visits";
+        note.textContent = "This only affects this browser on this device — repeat it on your phone and any other browser you use.";
+      }
+    }
+
+    document.getElementById("toggle").addEventListener("click", function () {
+      try {
+        if (isExcluded()) { localStorage.removeItem(KEY); }
+        else { localStorage.setItem(KEY, "1"); }
+      } catch (e) {
+        alert("Your browser is blocking local storage, so this can’t be saved. Try disabling private/incognito mode.");
+      }
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
