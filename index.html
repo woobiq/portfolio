@@ -460,9 +460,9 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
   .cta-btn-glass {
-    background: rgba(255,255,255,0.2);
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.35);
+    background: #ffffff;
+    color: #1a1a1a;
+    border: none;
     padding: 14px 28px;
     border-radius: 12px;
     font-size: 15px;
@@ -471,16 +471,11 @@
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    text-shadow: 0 1px 6px rgba(20,40,70,0.2);
     cursor: pointer;
   }
   .cta-btn-glass:hover {
-    background: rgba(255,255,255,0.35);
-    border-color: rgba(255,255,255,0.5);
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
   /* ── Petal burst from tulips ── */
@@ -613,6 +608,89 @@
     .trail-sparkle { display: none; }
     .wind-control { display: none; }
   }
+
+  /* ── Connect bunny (sprite mascot, right side of CTA) ────────────────
+     Idle loop, eyes follow cursor (gaze), waves on hover, hops on click
+     in the direction it faces (turning around at the play-area edges).
+     All strips share a 176px box so animations swap without resize. */
+  /* Play area = the whole space between the text and the right page padding.
+     Right edge sits at var(--page-padding) so the bunny's right margin mirrors
+     the text's left margin. Left edge clears the text (which ends ~620px).
+     The bunny rests at the right and hops left into this space. */
+  /* Push the CTA text further right and enlarge it a touch. */
+  #ctaSection .cta { margin-left: 60px; max-width: 720px; }
+  #ctaSection .cta__heading { font-size: clamp(42px, 5vw, 60px); }
+  #ctaSection .cta__text { font-size: clamp(18px, 1.6vw, 22px); max-width: 720px; }
+  /* Play area spans from just past the text (left) to the screen edge (right),
+     so the bunny has lots of room to roam. It still RESTS pulled in from the
+     edge (set in JS); the wide stage only defines how far it can hop. */
+  .cta-bunny-stage {
+    position: absolute;
+    left: 750px;
+    right: 0;
+    bottom: 66px;
+    height: 280px;
+    z-index: 2;
+    pointer-events: none;   /* only the bunny itself is interactive */
+  }
+  /* Visualize the play area: add ?bunnyzone to the URL. */
+  .cta-bunny-stage.show-zone {
+    outline: 2px dashed rgba(216, 64, 96, 0.7);
+    background: rgba(216, 64, 96, 0.06);
+  }
+  .cta-bunny {
+    position: absolute; bottom: 0; left: 0;   /* JS moves this */
+    width: 280px; height: 280px;
+    cursor: pointer;
+    pointer-events: auto;
+    image-rendering: auto;
+    -webkit-user-select: none; user-select: none;
+    will-change: left;
+    /* Promote to its own GPU layer so the scaled sprite rasterizes once and
+       stays stable between frames — reduces the shimmering/"crawling" edges. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    --flip: 1;   /* 1 = facing native, -1 = mirrored (see .flipped) */
+  }
+  /* Wave/jump/gaze animate background-position, so this transform applies.
+     The idle float animates transform, so it reads --flip instead (below). */
+  .cta-bunny.flipped { transform: scaleX(-1) translateZ(0); --flip: -1; }
+  .cta-bunny.anim-idle {
+    /* Idle = a single clean frame that gently FLOATS (leaning into the wings),
+       instead of the flipbook breathing. One un-cut image + a CSS transform, so
+       it's perfectly smooth — no line-boil, no seams. */
+    background: url(images/bunny/bunny-idle.png?v=18) 0 0 / auto 100% no-repeat;
+    background-position-x: 0;   /* freeze on frame 0 */
+    transform-origin: 50% 60%;
+    animation: bunnyFloat 4.4s ease-in-out infinite;
+  }
+  /* Vertical float with a tiny tilt. Rotation re-samples the thin outline (a
+     little shimmer), so it's kept very small (±0.4°) for float character while
+     staying nearly as crisp as a pure translation. */
+  @keyframes bunnyFloat {
+    0%, 100% { transform: translateY(0) rotate(-0.4deg) scaleX(var(--flip)); }
+    50%      { transform: translateY(-11px) rotate(0.4deg) scaleX(var(--flip)); }
+  }
+  .cta-bunny.anim-waving {
+    background: url(images/bunny/bunny-waving.png?v=20) 0 0 / auto 100% no-repeat;
+    animation: bunnyWave 0.72s steps(4) infinite;
+  }
+  @keyframes bunnyWave { to { background-position-x: -1120px; } }   /* 4 × 280 */
+  .cta-bunny.anim-jumping {
+    background: url(images/bunny/bunny-jumping.png?v=25) 0 0 / auto 100% no-repeat;
+    animation: bunnyJump 0.85s steps(7) infinite;
+  }
+  @keyframes bunnyJump { to { background-position-x: -1960px; } }   /* 7 × 280 */
+  .cta-bunny.anim-gaze {
+    background: url(images/bunny/bunny-gaze.png?v=17) 0 0 / 800% 100% no-repeat;
+  }
+  /* Give the mascot room on the right; hide where the section gets tight
+     (below this the bunny would crowd the text). */
+  @media (max-width: 1240px) { .cta-bunny-stage { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-bunny.anim-idle, .cta-bunny.anim-waving, .cta-bunny.anim-jumping { animation: none; }
+  }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="4914145c-c374-437e-93cd-9d1956723c0a"></script>
@@ -731,6 +809,11 @@
         LinkedIn
       </a>
     </div>
+  </div>
+  <!-- Interactive bunny mascot — right-anchored so its right margin mirrors
+       the text's left margin (both = page padding). -->
+  <div class="cta-bunny-stage" id="ctaBunnyStage" aria-hidden="true">
+    <div class="cta-bunny anim-idle" id="ctaBunny"></div>
   </div>
 </section>
 
@@ -884,7 +967,7 @@
   /* ════════════════════════════════════
      Fade-in on scroll
   ════════════════════════════════════ */
-  var fadeEls = document.querySelectorAll('.projects__heading, .project-card, .cta');
+  var fadeEls = document.querySelectorAll('.projects__heading, .project-card, .cta, .cta-bunny-stage');
   fadeEls.forEach(function(el, i) {
     el.style.opacity = '0';
     el.style.transform = 'translateY(16px)';
@@ -1226,6 +1309,158 @@
     }, { passive: true });
   }
 
+})();
+</script>
+<!-- Connect bunny mascot: idle · gaze (follows cursor) · wave (hover) · hop (click) -->
+<script>
+(function(){
+  var bunny = document.getElementById('ctaBunny');
+  var stage = document.getElementById('ctaBunnyStage');
+  if (!bunny || !stage) return;
+
+  // Native facing per animation (which way the art points un-flipped).
+  var NATIVE = { idle:'left', waving:'left', jumping:'right', gaze:'right' };
+  // Gaze strip frame indices by cursor direction.
+  var GAZE = { up:1, upfwd:0, fwd:4, downfwd:7, down:5 };
+
+  var mode = 'idle';       // idle | gaze | waving | jumping
+  var facing = 'left';     // way the bunny currently faces
+  var gazeTimer = null;
+  var hovering = false;    // pointer currently over the bunny
+  // Optional: visualize the play area with ?bunnyzone in the URL.
+  if (/[?&]bunnyzone\b/.test(location.search)) stage.classList.add('show-zone');
+
+  // Horizontal play area — read live from the stage (the space between the
+  // text and the right page padding). The bunny hops between left:0 (nearest
+  // the text) and MAXX (right edge, where its margin mirrors the text's).
+  var MINX = 0, MAXX = 200, STEP = 84;   // STEP = hop distance
+  var REST_INSET = 230;    // how far the resting bunny sits in from the screen edge
+  var posX = 0;            // current left
+  var dir = -1;            // travel direction: -1 left, +1 right
+  function restX(){ return Math.max(MINX, MAXX - REST_INSET); }
+  function computeBounds(){
+    MAXX = Math.max(0, Math.round(stage.clientWidth - bunny.offsetWidth));
+    if (posX > MAXX) posX = MAXX;
+    bunny.style.left = posX + 'px';
+  }
+  computeBounds();
+  posX = restX();          // rest pulled in from the edge (can still hop to it)
+  bunny.style.left = posX + 'px';
+  window.addEventListener('resize', function(){
+    var wasResting = (Math.abs(posX - restX()) < 2);
+    computeBounds();
+    if (wasResting) { posX = restX(); bunny.style.left = posX + 'px'; }
+  });
+
+  function setAnim(name, frame){
+    bunny.className = 'cta-bunny anim-' + name;
+    bunny.classList.toggle('flipped', facing !== NATIVE[name]);
+    bunny.style.backgroundPositionX = (name === 'gaze') ? (frame/7*100) + '%' : '';
+  }
+
+  // ── Pixel-perfect hit test: only the bunny's actual drawn pixels count as
+  //    "over the bunny," not the transparent corners of its square box. ──
+  var BOX = 280;
+  var hitCanvas = document.createElement('canvas');
+  var hitCtx = hitCanvas.getContext('2d', { willReadFrequently: true });
+  var hitReady = false;
+  (function(){
+    var img = new Image();
+    img.onload = function(){
+      var fw = img.naturalHeight;                 // frame 0 = first square of the strip
+      hitCanvas.width = BOX; hitCanvas.height = BOX;
+      hitCtx.drawImage(img, 0, 0, fw, fw, 0, 0, BOX, BOX);
+      hitReady = true;
+    };
+    img.src = 'images/bunny/bunny-idle.png?v=18';
+  })();
+  function overBunny(clientX, clientY){
+    var srect = stage.getBoundingClientRect();
+    var uLeft = srect.left + parseFloat(bunny.style.left || 0);
+    var uTop  = srect.top  + (stage.clientHeight - bunny.offsetHeight);
+    var lx = clientX - uLeft, ly = clientY - uTop;         // post-transform box space
+    if (lx < -20 || ly < -20 || lx > BOX+20 || ly > BOX+20) return false;
+    if (!hitReady) return (lx >= 0 && ly >= 0 && lx <= BOX && ly <= BOX);
+    // Invert the bunny's current transform (float/flip), origin 50% 60%.
+    var M = new DOMMatrix(getComputedStyle(bunny).transform);
+    var ox = BOX*0.5, oy = BOX*0.6;
+    var F = new DOMMatrix().translateSelf(ox, oy).multiplySelf(M).translateSelf(-ox, -oy);
+    var p = F.inverse().transformPoint(new DOMPoint(lx, ly));
+    var x = Math.round(p.x), y = Math.round(p.y);
+    if (x < 0 || y < 0 || x >= BOX || y >= BOX) return false;
+    return hitCtx.getImageData(x, y, 1, 1).data[3] > 40;
+  }
+
+  // Single mousemove: handle hover (wave) first, then gaze when not over.
+  document.addEventListener('mousemove', function(e){
+    if (mode === 'jumping') return;
+    var over = overBunny(e.clientX, e.clientY);
+    if (over && !hovering){
+      hovering = true; mode = 'waving'; setAnim('waving');
+    } else if (!over && hovering){
+      hovering = false; if (mode === 'waving'){ mode = 'idle'; setAnim('idle'); }
+    }
+    if (over || mode === 'waving') return;   // over the bunny → don't gaze
+
+    // Gaze: eyes follow the cursor, fall back to idle when the mouse rests.
+    var r = bunny.getBoundingClientRect();
+    var cx = r.left + r.width/2, cy = r.top + r.height*0.35;
+    var dx = e.clientX - cx, dy = e.clientY - cy;
+    if (Math.hypot(dx, dy) < 40) return;
+    facing = dx >= 0 ? 'right' : 'left';
+    var angle = Math.atan2(-dy, Math.abs(dx)) * 180 / Math.PI, frame;
+    if      (angle >  60) frame = GAZE.up;
+    else if (angle >  20) frame = GAZE.upfwd;
+    else if (angle > -25) frame = GAZE.fwd;
+    else if (angle > -65) frame = GAZE.downfwd;
+    else                  frame = GAZE.down;
+    mode = 'gaze'; setAnim('gaze', frame);
+    clearTimeout(gazeTimer);
+    gazeTimer = setTimeout(function(){ if (mode === 'gaze'){ mode = 'idle'; setAnim('idle'); } }, 1100);
+  });
+  // Safety: if the pointer leaves the window while waving, settle to idle.
+  document.addEventListener('mouseleave', function(){
+    if (hovering){ hovering = false; if (mode === 'waving'){ mode = 'idle'; setAnim('idle'); } }
+  });
+
+  // Hop in the facing direction; turn around at the play-area edges.
+  function hop(){
+    if (mode === 'jumping') return;
+    dir = (facing === 'right') ? 1 : -1;
+    var next = posX + dir * STEP;
+    if (next > MAXX || next < MINX) { dir = -dir; next = posX + dir * STEP; } // hit edge/text -> flip
+    next = Math.max(MINX, Math.min(MAXX, next));
+    facing = dir > 0 ? 'right' : 'left';
+    var from = posX; posX = next;
+    mode = 'jumping'; setAnim('jumping');
+    // Travel ONLY during the airborne frames (3-4 of 7): still on crouch,
+    // move mid-air, still on landing. Duration matches the 0.85s sprite cycle
+    // so the hop plays exactly once with no restart mid-travel.
+    bunny.animate([
+      { left: from + 'px', offset: 0 },
+      { left: from + 'px', offset: 0.43 },
+      { left: next + 'px', offset: 0.71 },
+      { left: next + 'px', offset: 1 }
+    ], { duration: 850, easing: 'linear', fill: 'forwards' });
+    bunny.style.left = next + 'px';
+    // After landing, settle into idle. If the pointer is still on the bunny,
+    // wait a beat on idle before easing back into the wave (feels less abrupt).
+    setTimeout(function(){
+      mode = 'idle'; setAnim('idle');
+      if (hovering) {
+        setTimeout(function(){
+          if (hovering && mode === 'idle') { mode = 'waving'; setAnim('waving'); }
+        }, 1200);
+      }
+    }, 870);
+  }
+  bunny.addEventListener('click', hop);
+
+  // Ambient cue: every so often, if it's just idling and not being hovered,
+  // the bunny does a little hop on its own — invites interaction without text.
+  setInterval(function(){
+    if (mode === 'idle' && !hovering) hop();
+  }, 8000);
 })();
 </script>
 <script src="reveal.js?v=5"></script>
