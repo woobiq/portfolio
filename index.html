@@ -633,6 +633,7 @@
     font-size: clamp(20px, 2.4vw, 29px); line-height: 1.25; margin: 0 0 26px;
     text-shadow: 0 1px 10px rgba(20,40,70,0.14);
   }
+  .hi-br { display: none; }   /* forced invite break — phone only (see media query) */
   /* Contact links sit right under the invite — the "how to say hi". */
   .footer-hi__links { display: flex; gap: 26px; align-items: center; }
   .footer-hi__links a {
@@ -693,10 +694,11 @@
      text (it never hops here), so the footer isn't bottom-heavy. More top
      padding, less bottom. */
   @media (max-width: 600px) {
-    #ctaSection { padding-top: 46px; padding-bottom: 16px; }
+    #ctaSection { padding-top: 56px; padding-bottom: 16px; }
     .footer-hi { margin-bottom: 8px; }
-    .foot-bunny { width: 112px; height: 112px; }
-    .foot-bunny-stage { justify-content: flex-end; margin: -50px 0 -5px; }
+    .hi-br { display: inline; }
+    .foot-bunny { width: 120px; height: 120px; }
+    .foot-bunny-stage { justify-content: flex-end; margin: -44px 0 -16px; }
   }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
@@ -805,7 +807,7 @@
 <section class="cta-section" id="ctaSection" style="background: transparent; position: relative; overflow: hidden;">
   <div class="footer-hi">
     <p class="footer-hi__signoff">Thank you for stopping by!</p>
-    <p class="footer-hi__invite">Come say hi anytime, I'd love to hear from you.</p>
+    <p class="footer-hi__invite">Come say hi anytime, <br class="hi-br">I'd love to hear from you.</p>
     <div class="footer-hi__links">
       <a href="mailto:rubyqian1201@gmail.com">Email</a>
       <a href="https://www.linkedin.com/in/ruby-q-453635139/" target="_blank">LinkedIn</a>
