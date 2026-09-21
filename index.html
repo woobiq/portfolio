@@ -658,15 +658,22 @@
   .foot-bunny {
     position: absolute; bottom: 0; left: 0; width: 190px; height: 190px;
     cursor: pointer; pointer-events: auto;
-    background-repeat: no-repeat; background-size: auto 100%; background-position: 0 0;
-    image-rendering: auto; backface-visibility: hidden; transform: translateZ(0);
+    backface-visibility: hidden; transform: translateZ(0);
     -webkit-user-select: none; user-select: none;
   }
   .foot-bunny.flip { transform: scaleX(-1) translateZ(0); }
-  .foot-bunny.anim-idle    { background-image: url(images/bunny/bunny-idle.png?v=18); }
-  .foot-bunny.anim-waving  { background-image: url(images/bunny/bunny-waving.png?v=20); }
-  .foot-bunny.anim-jumping { background-image: url(images/bunny/bunny-jumping.png?v=25); }
-  .foot-bunny.anim-gaze    { background-image: url(images/bunny/bunny-gaze.png?v=17); background-size: 800% 100%; }
+  /* Each pose is its own always-loaded layer; state changes cross-toggle opacity
+     so there's never a blank frame while a new sprite loads/decodes. */
+  .fb-layer {
+    position: absolute; inset: 0;
+    background-repeat: no-repeat; background-size: auto 100%; background-position: 0 0;
+    image-rendering: auto; opacity: 0;
+  }
+  .fb-layer.on { opacity: 1; }
+  .fb-idle    { background-image: url(images/bunny/bunny-idle.png?v=18); }
+  .fb-waving  { background-image: url(images/bunny/bunny-waving.png?v=20); }
+  .fb-jumping { background-image: url(images/bunny/bunny-jumping.png?v=25); }
+  .fb-gaze    { background-image: url(images/bunny/bunny-gaze.png?v=17); background-size: 800% 100%; }
   /* Tablet/mobile: hide the roaming bunny; reflow the divider + copyright in-flow. */
   /* Phone & small tablet: the bunny appears but stays put (no room to hop) —
      it sits centered on the divider and waves when tapped. */
@@ -678,7 +685,7 @@
       width: 100%; height: auto; display: flex; justify-content: center;
       margin: 4px 0 -8px;   /* seat it just above the divider line */
     }
-    .foot-bunny { position: static; }
+    .foot-bunny { position: relative; }
     .footer-hi__divider { position: static; left: auto; right: auto; margin: 0 0 16px; }
     .footer-hi__copy { position: static; }
   }
@@ -797,7 +804,12 @@
   </div>
   <!-- Interactive bunny mascot — stands on the divider line, roams the right half. -->
   <div class="foot-bunny-stage" id="footBunnyStage" aria-hidden="true">
-    <div class="foot-bunny anim-idle" id="footBunny"></div>
+    <div class="foot-bunny" id="footBunny">
+      <div class="fb-layer fb-idle on"></div>
+      <div class="fb-layer fb-waving"></div>
+      <div class="fb-layer fb-jumping"></div>
+      <div class="fb-layer fb-gaze"></div>
+    </div>
   </div>
   <div class="footer-hi__divider"></div>
   <div class="footer-hi__copy">© 2026 Ruby Qian</div>
@@ -1304,37 +1316,33 @@
   function computeBounds(){ MINX=0; MAXX=Math.max(0, Math.round(stage.clientWidth - S)); }
   function restX(){ return Math.max(MINX, MAXX - 149); }   // rest pulled in from the right end
   computeBounds();
-  var posX = restX(); bunny.style.left = posX + 'px';
+  var posX = restX();
+  if (canRoam()) bunny.style.left = posX + 'px';   // mobile is flex-centered; don't offset it
   window.addEventListener('resize', function(){
+    if (!canRoam()) { bunny.style.left = ''; return; }
     var wasResting = Math.abs(posX - restX()) < 2;
     computeBounds();
     posX = wasResting ? restX() : Math.max(MINX, Math.min(MAXX, posX));
     bunny.style.left = posX + 'px';
   });
 
+  // Pose layers (all always loaded); we cross-toggle .on so swaps never flash.
+  var L = {
+    idle:    bunny.querySelector('.fb-idle'),
+    waving:  bunny.querySelector('.fb-waving'),
+    jumping: bunny.querySelector('.fb-jumping'),
+    gaze:    bunny.querySelector('.fb-gaze')
+  };
+  function show(name){ for (var k in L) L[k].classList.toggle('on', k === name); }
+  function flipFor(name){ bunny.classList.toggle('flip', facing !== NATIVE[name]); }
   function stopStrip(){ if (ft){ clearInterval(ft); ft=null; } }
-  function setStill(name){
-    stopStrip();
-    bunny.className = 'foot-bunny anim-' + name;
-    bunny.classList.toggle('flip', facing !== NATIVE[name]);
-    bunny.style.backgroundSize = 'auto 100%';
-    bunny.style.backgroundPositionX = '0px';
-  }
+  function setStill(name){ stopStrip(); flipFor(name); L[name].style.backgroundPositionX='0px'; show(name); }
   function playStrip(name, n, ms){
-    stopStrip();
-    bunny.className = 'foot-bunny anim-' + name;
-    bunny.classList.toggle('flip', facing !== NATIVE[name]);
-    bunny.style.backgroundSize = 'auto 100%';
-    var i=0; bunny.style.backgroundPositionX='0px';
-    ft = setInterval(function(){ i=(i+1)%n; bunny.style.backgroundPositionX=(-i*S)+'px'; }, ms);
+    stopStrip(); flipFor(name);
+    var layer = L[name], i=0; layer.style.backgroundPositionX='0px'; show(name);
+    ft = setInterval(function(){ i=(i+1)%n; layer.style.backgroundPositionX=(-i*S)+'px'; }, ms);
   }
-  function gaze(frame){
-    stopStrip();
-    bunny.className = 'foot-bunny anim-gaze';
-    bunny.classList.toggle('flip', facing !== NATIVE.gaze);
-    bunny.style.backgroundSize = '800% 100%';
-    bunny.style.backgroundPositionX = (frame/7*100) + '%';
-  }
+  function gaze(frame){ stopStrip(); flipFor('gaze'); L.gaze.style.backgroundPositionX=(frame/7*100)+'%'; show('gaze'); }
   function idle(){ mode='idle'; setStill('idle'); }
   function wave(){ mode='waving'; playStrip('waving',4,150); }
   idle();
