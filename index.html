@@ -689,11 +689,14 @@
     .footer-hi__divider { position: static; left: auto; right: auto; margin: 0 0 16px; }
     .footer-hi__copy { position: static; }
   }
-  /* Phone: smaller bunny, scooched to the right, tighter bottom. */
+  /* Phone: bunny scooched right and pulled up into the empty space beside the
+     text (it never hops here), so the footer isn't bottom-heavy. More top
+     padding, less bottom. */
   @media (max-width: 600px) {
-    #ctaSection { padding-bottom: 18px; }
-    .foot-bunny { width: 96px; height: 96px; }
-    .foot-bunny-stage { justify-content: flex-end; margin: 2px 0 -5px; }
+    #ctaSection { padding-top: 46px; padding-bottom: 16px; }
+    .footer-hi { margin-bottom: 8px; }
+    .foot-bunny { width: 112px; height: 112px; }
+    .foot-bunny-stage { justify-content: flex-end; margin: -50px 0 -5px; }
   }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
