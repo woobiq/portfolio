@@ -689,6 +689,12 @@
     .footer-hi__divider { position: static; left: auto; right: auto; margin: 0 0 16px; }
     .footer-hi__copy { position: static; }
   }
+  /* Phone: smaller bunny, scooched to the right, tighter bottom. */
+  @media (max-width: 600px) {
+    #ctaSection { padding-bottom: 18px; }
+    .foot-bunny { width: 96px; height: 96px; }
+    .foot-bunny-stage { justify-content: flex-end; margin: 2px 0 -5px; }
+  }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="4914145c-c374-437e-93cd-9d1956723c0a"></script>
@@ -1313,7 +1319,7 @@
   function canRoam(){ return !window.matchMedia || window.matchMedia('(min-width: 900px)').matches; }
   var S=190, STEP=60;               // sprite box size + hop distance (short hops)
   var MINX=0, MAXX=0;
-  function computeBounds(){ MINX=0; MAXX=Math.max(0, Math.round(stage.clientWidth - S)); }
+  function computeBounds(){ MINX=0; MAXX=Math.max(0, Math.round(stage.clientWidth - (bunny.offsetWidth||S))); }
   function restX(){ return Math.max(MINX, MAXX - 149); }   // rest pulled in from the right end
   computeBounds();
   var posX = restX();
@@ -1339,8 +1345,9 @@
   function setStill(name){ stopStrip(); flipFor(name); L[name].style.backgroundPositionX='0px'; show(name); }
   function playStrip(name, n, ms){
     stopStrip(); flipFor(name);
-    var layer = L[name], i=0; layer.style.backgroundPositionX='0px'; show(name);
-    ft = setInterval(function(){ i=(i+1)%n; layer.style.backgroundPositionX=(-i*S)+'px'; }, ms);
+    var layer = L[name], i=0, w = bunny.offsetWidth || S;   // step by the actual box width
+    layer.style.backgroundPositionX='0px'; show(name);
+    ft = setInterval(function(){ i=(i+1)%n; layer.style.backgroundPositionX=(-i*w)+'px'; }, ms);
   }
   function gaze(frame){ stopStrip(); flipFor('gaze'); L.gaze.style.backgroundPositionX=(frame/7*100)+'%'; show('gaze'); }
   function idle(){ mode='idle'; setStill('idle'); }
