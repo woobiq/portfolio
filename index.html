@@ -119,7 +119,10 @@
     pointer-events: none;
     z-index: 1;
     opacity: 0;
-    will-change: transform, opacity;
+    /* No persistent will-change: the transform keyframes auto-promote each petal
+       only while it animates. Forcing a permanent layer on every petal (x20 across
+       hero + footer) exhausts GPU raster memory and causes blank tiles / unpainted
+       text on some displays. */
     filter: drop-shadow(0 1px 2px rgba(232, 165, 180, 0.15));
   }
   @keyframes petalWind {
@@ -698,7 +701,7 @@
     .footer-hi { margin-bottom: 8px; }
     .hi-br { display: inline; }
     .foot-bunny { width: 128px; height: 128px; margin-right: 6px; }
-    .foot-bunny-stage { justify-content: flex-end; margin: -68px 0 -10px; }
+    .foot-bunny-stage { justify-content: flex-end; margin: -63px 0 -15px; }
   }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
