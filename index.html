@@ -443,44 +443,6 @@
     100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0); }
   }
 
-  /* ── CTA buttons ── */
-  .cta-btn-white {
-    background: #ffffff;
-    color: #1a1a1a;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-  .cta-btn-white:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-  .cta-btn-glass {
-    background: #ffffff;
-    color: #1a1a1a;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-  .cta-btn-glass:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-
   /* ── Petal burst from tulips ── */
   .burst-petal {
     position: absolute;
@@ -531,46 +493,6 @@
     color: #ffffff;
     font-weight: 500;
     text-shadow: 0 2px 10px rgba(20,40,70,0.4), 0 1px 3px rgba(20,40,70,0.25);
-  }
-  /* ── Minimal footer ── */
-  .footer-minimal {
-    padding: 0 48px 32px;
-    position: relative;
-    z-index: 5;
-  }
-  .footer-minimal__divider {
-    height: 1.5px;
-    background: rgba(255,255,255,0.45);
-    margin-bottom: 24px;
-  }
-  .footer-minimal__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer-minimal__links {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .footer-minimal__links a {
-    color: rgba(255,255,255,0.95);
-    text-shadow: 0 2px 10px rgba(20,40,70,0.35), 0 1px 3px rgba(20,40,70,0.2);
-    transition: color 0.2s;
-  }
-  .footer-minimal__links a:hover {
-    color: #ffffff;
-  }
-  .footer-minimal__dot {
-    color: rgba(255,255,255,0.5);
-  }
-  .footer-minimal__copyright {
-    font-size: 15px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.85);
-    text-shadow: 0 2px 10px rgba(20,40,70,0.3), 0 1px 3px rgba(20,40,70,0.2);
   }
 
   /* ── Cursor trail (4-pointed star) ── */
@@ -1325,6 +1247,13 @@
   var noHover = !!(window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
   // Only roam/hop on wider screens; on phone/small tablet the bunny stays put.
   function canRoam(){ return !window.matchMedia || window.matchMedia('(min-width: 900px)').matches; }
+  // Respect "reduce motion": no self-started hops (taps/clicks still work).
+  function reduceMotion(){ return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  // Only self-hop while the footer is actually on screen and the tab is visible.
+  var inView = false;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ inView = es[0].isIntersecting; }, { threshold: 0 }).observe(stage);
+  } else { inView = true; }
   var S=190, STEP=60;               // sprite box size + hop distance (short hops)
   var MINX=0, MAXX=0;
   function computeBounds(){ MINX=0; MAXX=Math.max(0, Math.round(stage.clientWidth - (bunny.offsetWidth||S))); }
@@ -1362,12 +1291,38 @@
   function wave(){ mode='waving'; playStrip('waving',4,150); }
   idle();
 
+  // Pixel hit test: only the bunny's drawn pixels count as "on the bunny",
+  // not the transparent corners of its square box (idle frame as the mask).
+  var hitCtx = null, hitFW = 0;
+  (function(){
+    var img = new Image();
+    img.onload = function(){
+      hitFW = img.naturalHeight;
+      var c = document.createElement('canvas'); c.width = hitFW; c.height = hitFW;
+      hitCtx = c.getContext('2d', { willReadFrequently: true });
+      hitCtx.drawImage(img, 0, 0, hitFW, hitFW, 0, 0, hitFW, hitFW);
+    };
+    img.src = 'images/bunny/bunny-idle.png?v=18';
+  })();
+  function overBunny(x, y){
+    var r = bunny.getBoundingClientRect();
+    if (x < r.left || x > r.right || y < r.top || y > r.bottom) return false;
+    if (!hitCtx) return true;
+    var lx = (x - r.left) / r.width, ly = (y - r.top) / r.height;
+    if (bunny.classList.contains('flip')) lx = 1 - lx;
+    var px = Math.min(hitFW - 1, Math.floor(lx * hitFW)), py = Math.min(hitFW - 1, Math.floor(ly * hitFW));
+    try { return hitCtx.getImageData(px, py, 1, 1).data[3] > 40; } catch (err) { return true; }
+  }
+
   // Hover-based behaviors (desktop / mouse only): wave on hover, gaze follows cursor.
   if (!noHover) {
-    bunny.addEventListener('mouseenter', function(){ hovering=true; if(mode==='jumping')return; wave(); });
-    bunny.addEventListener('mouseleave', function(){ hovering=false; if(mode==='waving') idle(); });
     document.addEventListener('mousemove', function(e){
-      if (hovering || mode==='waving' || mode==='jumping') return;
+      if (mode==='jumping') return;
+      var over = overBunny(e.clientX, e.clientY);
+      bunny.style.cursor = over ? 'pointer' : 'default';
+      if (over && !hovering){ hovering=true; wave(); return; }
+      if (!over && hovering){ hovering=false; if(mode==='waving') idle(); }
+      if (hovering || mode==='waving') return;
       var r=bunny.getBoundingClientRect(); var cx=r.left+r.width/2, cy=r.top+r.height*0.35;
       var dx=e.clientX-cx, dy=e.clientY-cy; if (Math.hypot(dx,dy)<36) return;
       facing = dx>=0?'right':'left';
@@ -1400,13 +1355,18 @@
   } else {
     bunny.addEventListener('click', function(e){
       e.stopPropagation();
+      if (!overBunny(e.clientX, e.clientY)) return;
       if (canRoam()) { hop(); }
       else if (mode !== 'waving' && mode !== 'jumping') { wave(); clearTimeout(waveTimer); waveTimer = setTimeout(function(){ if (mode==='waving') idle(); }, 2600); }
     });
   }
 
-  // Ambient cue: every so often, if idle and not hovered, hop on its own (roam sizes only).
-  setInterval(function(){ if(canRoam() && mode==='idle' && !hovering) hop(); }, 9000);
+  // Ambient cue: every so often, if idle and not hovered, hop on its own (roam sizes
+  // only). Skipped when off screen, when the tab is hidden, or for reduced motion.
+  setInterval(function(){
+    if (reduceMotion() || !inView || document.hidden) return;
+    if (canRoam() && mode==='idle' && !hovering) hop();
+  }, 9000);
 })();
 </script>
 <script src="reveal.js?v=5"></script>
