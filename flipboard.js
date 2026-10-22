@@ -32,7 +32,9 @@
       tiles.forEach(function (t, k) {
         var target = cells[k];
         if (reduce) { paint(t, target); return; }
-        var spins = 5 + (k % cols) % 6 + Math.floor(Math.random() * 5);
+        // sweep: every tile shuffles a while, then they settle one by one from left to right
+        var spins = opts.sweep ? (opts.sweepStart || 16) + Math.round((k % cols) * (opts.sweepStep || 2))
+                               : 5 + (k % cols) % 6 + Math.floor(Math.random() * 5);
         t.classList.add('is-spinning');
         (function spin(n) {
           if (n > 0) {

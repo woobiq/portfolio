@@ -29,7 +29,7 @@
     }
   </style>
   <link rel="stylesheet" href="style.css?v=98">
-  <link rel="stylesheet" href="flipboard.css">
+  <link rel="stylesheet" href="flipboard.css?v=6">
 <style>
   /* Body must be transparent so .bg-layer (gradient + drifting petals) shows through */
   body { background: transparent; }
@@ -263,7 +263,6 @@
   .page-card .jrow .gallery-item { height: auto !important; min-width: 0; border-radius: 12px; overflow: hidden; cursor: zoom-in; }
   .page-card .jrow .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  @media (hover: none) { .sp-info { opacity: 1; } .sp-info__text { transform: none; } }
   @media (max-width: 720px) {
     .sp-grid { grid-template-columns: 1fr; }
     .sp-info { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 60px; }
@@ -349,24 +348,31 @@
   /* Every tile gets the same edge: logos, art, animations and projects */
   .page-card .jrow .gallery-item { border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(20, 40, 70, .04), 0 10px 24px rgba(20, 40, 70, .07); }
 
-  /* ── Phones: board fits, project info sits under the video, two-column gallery ── */
+  /* ── Tablets and phones: stack the two projects so each card is big and the tabs never touch the subtitle ── */
+  @media (max-width: 1000px) {
+    .sp-grid { grid-template-columns: 1fr; row-gap: 18px; }
+    .sp-switcher { margin-top: 62px; }
+  }
+  /* ── Phones: board fits, two-column gallery, room above the Pepper tabs ── */
   @media (max-width: 720px) {
     .fun-hello { gap: 14px; }
     #funBoard { --fb-w: calc((100vw - 96px) / 21); --fb-h: calc((100vw - 96px) / 21 * 1.45); --fb-fs: calc((100vw - 96px) / 21 * 0.72); gap: 2px; }
     #funBoard .fb-t { border-radius: 3px; }
-    .sp-card { aspect-ratio: auto; display: flex; flex-direction: column; background: #fff; }
-    .sp-card video { position: relative; inset: auto; aspect-ratio: 16 / 10; height: auto; }
-    .sp-card .sp-info, .sp-card--dark .sp-info { position: static; opacity: 1; padding: 14px 16px 16px; background: #fff; color: #1a1a1a; flex-direction: column; align-items: flex-start; gap: 12px; }
-    .sp-card .sp-info__text { transform: none; }
-    .sp-card--dark .sp-info__bio { color: #4a5a66; }
-    .sp-card--dark .sp-btn { background: #1a1a1a; color: #fff; }
-    .sp-card--dark .on-light { display: block !important; }
-    .sp-card--dark .on-dark { display: none !important; }
+    .sp-grid { row-gap: 18px; }
+    .sp-switcher { margin-top: 62px; }
+    .sp-info { padding: 40px 14px 14px; gap: 10px; }
+    .sp-info__bio { font-size: 13px; }
     html[data-tabs] .sp-toggle button, html[data-tabs] .sp-toggle button[aria-pressed="true"] { padding-top: 12px; padding-bottom: 11px; }
     .page-card .jrows { display: block; columns: 2; column-gap: 12px; }
     .page-card .jrow { display: contents; }
     .page-card .jrows .gallery-item { width: 100%; height: auto !important; margin: 0 0 12px; break-inside: avoid; flex: none !important; }
   }
+
+  /* drawn arrow for "Visit site" (the ↗ character turns into an emoji on iPhone) */
+  .sp-arrow-ic { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  /* touchscreens: tap a project to show its info, tap again to open it */
+  .sp-card.is-open .sp-info { opacity: 1; }
+  .sp-card.is-open .sp-info__text { transform: none; }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="4914145c-c374-437e-93cd-9d1956723c0a"></script>
@@ -433,7 +439,7 @@
           <span class="sp-mark"><img class="on-light" src="images/fun/skyshapes-logo-dark.png" alt="Sky Shapes" height="30"><img class="on-dark" src="images/fun/skyshapes-logo-white.png" alt="" height="30"></span>
           <p class="sp-info__bio">Ever spot shapes in the clouds? Make your own from a word, a doodle, or a photo, then add it to a sky everyone shares.</p>
           </div>
-          <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+          <span class="sp-btn">Visit site <svg class="sp-arrow-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
           </div>
           </a>
         </div>
@@ -451,7 +457,7 @@
                 <span class="sp-mark sp-mark--pep"><img src="images/fun/pepper-logo.png" alt="" width="35" height="26">Pepper Log</span>
                 <p class="sp-info__bio">A shared photo and video collage of Pepper, my partner's family dog.</p>
               </div>
-              <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+              <span class="sp-btn">Visit site <svg class="sp-arrow-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
             </div>
           </a>
           <a class="sp-card sp-card--dark" data-slide href="https://pepperlog.rubyqian.com/affirmations" target="_blank" rel="noopener" hidden>
@@ -463,7 +469,7 @@
                 <span class="sp-mark sp-mark--pep"><img src="images/fun/pepper-logo.png" alt="" width="35" height="26">Pepper Affirmations</span>
                 <p class="sp-info__bio">Daily affirmations paired with a photo of Pepper. Sign up for daily texts, or flip through a book of past affirmations.</p>
               </div>
-              <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+              <span class="sp-btn">Visit site <svg class="sp-arrow-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
             </div>
           </a>
         </div>
@@ -716,7 +722,28 @@
       btns.forEach(function (b) { b.addEventListener('click', function () { show(+b.dataset.show); }); });
     });
   </script>
-  <script src="flipboard.js"></script>
+  <script>
+    // Touchscreens have no hover: first tap shows the project info, second tap opens the site
+    (function () {
+      if (!window.matchMedia('(hover: none)').matches) return;
+      var cards = [].slice.call(document.querySelectorAll('.sp-card'));
+      cards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          if (card.classList.contains('is-open')) return;          // already open: follow the link
+          e.preventDefault();
+          cards.forEach(function (c) { c.classList.remove('is-open'); });
+          card.classList.add('is-open');
+        });
+      });
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.sp-card')) cards.forEach(function (c) { c.classList.remove('is-open'); });
+      });
+      document.querySelectorAll('.sp-toggle button').forEach(function (b) {
+        b.addEventListener('click', function () { cards.forEach(function (c) { c.classList.remove('is-open'); }); });
+      });
+    })();
+  </script>
+  <script src="flipboard.js?v=6"></script>
   <script>
     var funBoard = FlipBoard(document.getElementById('funBoard'), { cols: 21, rows: 1, align: 'center', hold: 9000, lines: [
       ["dabbling on the side{cloud}"],
