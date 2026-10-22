@@ -18,9 +18,9 @@
   window.FlipBoard = function (el, opts) {
     var cols = opts.cols, rows = opts.rows || 1, lines = opts.lines, hold = opts.hold || 3800;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var timers = [], idx = 0, tiles = [];
+    var timers = [], idx = 0, tiles = [], shown = 0, manual = false;
     el.classList.add('flipboard'); el.style.setProperty('--fb-cols', cols); el.innerHTML = '';
-    var sr = document.createElement('span'); sr.className = 'fb-sr'; sr.setAttribute('aria-live', 'polite');
+    var sr = document.createElement('span'); sr.className = 'fb-sr';
     for (var i = 0; i < cols * rows; i++) { var t = document.createElement('span'); t.className = 'fb-t'; t.setAttribute('aria-hidden', 'true'); el.appendChild(t); tiles.push(t); }
     el.appendChild(sr);
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
@@ -44,12 +44,15 @@
           } else { paint(t, target); t.classList.remove('is-spinning'); if (el.__fbSettle) el.__fbSettle(t, k); }
         })(spins);
       });
-      if (!reduce && lines.length > 1) later(function () { idx = (idx + 1) % lines.length; show(lines[idx]); }, hold);
+      shown++;
+      // auto-advance, but stop after `passes` full rounds (and once someone has clicked through)
+      var more = !opts.passes || shown < lines.length * opts.passes;
+      if (!reduce && !manual && more && lines.length > 1) later(function () { idx = (idx + 1) % lines.length; show(lines[idx]); }, hold);
     }
     show(lines[0]);
     return {
       stop: function () { timers.forEach(clearTimeout); timers = []; },
-      next: function () { timers.forEach(clearTimeout); timers = []; idx = (idx + 1) % lines.length; show(lines[idx]); }
+      next: function () { manual = true; timers.forEach(clearTimeout); timers = []; idx = (idx + 1) % lines.length; show(lines[idx]); }
     };
   };
 })();
