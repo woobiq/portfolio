@@ -348,6 +348,25 @@
 
   /* Every tile gets the same edge: logos, art, animations and projects */
   .page-card .jrow .gallery-item { border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(20, 40, 70, .04), 0 10px 24px rgba(20, 40, 70, .07); }
+
+  /* ── Phones: board fits, project info sits under the video, two-column gallery ── */
+  @media (max-width: 720px) {
+    .fun-hello { gap: 14px; }
+    #funBoard { --fb-w: calc((100vw - 96px) / 21); --fb-h: calc((100vw - 96px) / 21 * 1.45); --fb-fs: calc((100vw - 96px) / 21 * 0.72); gap: 2px; }
+    #funBoard .fb-t { border-radius: 3px; }
+    .sp-card { aspect-ratio: auto; display: flex; flex-direction: column; background: #fff; }
+    .sp-card video { position: relative; inset: auto; aspect-ratio: 16 / 10; height: auto; }
+    .sp-card .sp-info, .sp-card--dark .sp-info { position: static; opacity: 1; padding: 14px 16px 16px; background: #fff; color: #1a1a1a; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .sp-card .sp-info__text { transform: none; }
+    .sp-card--dark .sp-info__bio { color: #4a5a66; }
+    .sp-card--dark .sp-btn { background: #1a1a1a; color: #fff; }
+    .sp-card--dark .on-light { display: block !important; }
+    .sp-card--dark .on-dark { display: none !important; }
+    html[data-tabs] .sp-toggle button, html[data-tabs] .sp-toggle button[aria-pressed="true"] { padding-top: 12px; padding-bottom: 11px; }
+    .page-card .jrows { display: block; columns: 2; column-gap: 12px; }
+    .page-card .jrow { display: contents; }
+    .page-card .jrows .gallery-item { width: 100%; height: auto !important; margin: 0 0 12px; break-inside: avoid; flex: none !important; }
+  }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="4914145c-c374-437e-93cd-9d1956723c0a"></script>
