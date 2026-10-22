@@ -1,0 +1,85 @@
+/* Café flip board (draft component) */
+.flipboard { display: grid; grid-template-columns: repeat(var(--fb-cols), var(--fb-w, 24px)); gap: 3px; }
+.fb-t {
+  position: relative; height: var(--fb-h, 34px); display: grid; place-items: center; border-radius: 5px;
+  background: var(--fb-tile, #fff); color: var(--fb-ink, #2f5f86);
+  font-family: 'Manrope', sans-serif; font-weight: 700; font-size: var(--fb-fs, 18px); line-height: 1;
+  box-shadow: 0 1px 2px rgba(20, 50, 80, .10), inset 0 -1px 0 rgba(20, 50, 80, .06);
+}
+.fb-t::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--fb-split, rgba(47, 95, 134, .10)); }
+.fb-ic { width: 62%; height: 62%; fill: var(--fb-doodle, #D4849A); }
+.fb-t.is-flip { animation: fbFlip .09s ease-in-out; }
+@keyframes fbFlip { 50% { transform: scaleY(.55); } }
+.fb-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .fb-t.is-flip { animation: none; } }
+
+/* Palettes: add one class to the board element */
+.fb-pastel .fb-t:nth-child(3n+1) { --fb-tile: #e4f0fa; --fb-ink: #2f5f86; --fb-doodle: #2f5f86; }
+.fb-pastel .fb-t:nth-child(3n+2) { --fb-tile: #fbe6ee; --fb-ink: #9b4a66; --fb-doodle: #9b4a66; }
+.fb-pastel .fb-t:nth-child(3n)   { --fb-tile: #fff3d6; --fb-ink: #8a6420; --fb-doodle: #c9718c; }
+.fb-rainbow .fb-t:nth-child(5n+1) { --fb-tile: #e2effa; --fb-ink: #2f5f86; --fb-doodle: #2f5f86; }
+.fb-rainbow .fb-t:nth-child(5n+2) { --fb-tile: #e2f4ec; --fb-ink: #2f6e52; --fb-doodle: #2f6e52; }
+.fb-rainbow .fb-t:nth-child(5n+3) { --fb-tile: #fff3d6; --fb-ink: #8a6420; --fb-doodle: #8a6420; }
+.fb-rainbow .fb-t:nth-child(5n+4) { --fb-tile: #ffe7da; --fb-ink: #9a5232; --fb-doodle: #9a5232; }
+.fb-rainbow .fb-t:nth-child(5n)   { --fb-tile: #fbe6ee; --fb-ink: #9b4a66; --fb-doodle: #9b4a66; }
+.fb-night .fb-t { --fb-tile: #22364a; --fb-split: rgba(0,0,0,.28); box-shadow: 0 2px 4px rgba(10,25,40,.25); }
+.fb-night .fb-t:nth-child(3n+1) { --fb-ink: #a9d3f2; --fb-doodle: #a9d3f2; }
+.fb-night .fb-t:nth-child(3n+2) { --fb-ink: #f6bfd1; --fb-doodle: #f6bfd1; }
+.fb-night .fb-t:nth-child(3n)   { --fb-ink: #ffe3a3; --fb-doodle: #ffe3a3; }
+.fb-paper .fb-t { --fb-tile: #fdf8ef; --fb-split: rgba(120,90,50,.10); box-shadow: 0 1px 2px rgba(90,60,30,.12), inset 0 -1px 0 rgba(90,60,30,.06); }
+.fb-paper .fb-t:nth-child(odd)  { --fb-ink: #2f5f86; }
+.fb-paper .fb-t:nth-child(even) { --fb-ink: #b05a78; }
+.fb-paper .fb-t { --fb-doodle: #D4849A; }
+.fb-gingham .fb-t:nth-child(odd)  { --fb-ink: #2f5f86; --fb-doodle: #2f5f86; background: linear-gradient(90deg, rgba(122,170,214,.4) 50%, transparent 50%), linear-gradient(rgba(122,170,214,.4) 50%, transparent 50%) #f2f8fd; background-size: 7px 7px; }
+.fb-gingham .fb-t:nth-child(even) { --fb-ink: #9b4a66; --fb-doodle: #9b4a66; background: linear-gradient(90deg, rgba(212,132,154,.4) 50%, transparent 50%), linear-gradient(rgba(212,132,154,.4) 50%, transparent 50%) #fdf3f6; background-size: 7px 7px; }
+.fb-sugar .fb-t:nth-child(3n+1) { --fb-tile: #cfe5f7; --fb-ink: #24527a; --fb-doodle: #24527a; }
+.fb-sugar .fb-t:nth-child(3n+2) { --fb-tile: #f8d2df; --fb-ink: #8e3a58; --fb-doodle: #8e3a58; }
+.fb-sugar .fb-t:nth-child(3n)   { --fb-tile: #ffe6a3; --fb-ink: #7a5410; --fb-doodle: #c25e80; }
+.fb-ink3 .fb-t { --fb-tile: #fff; }
+.fb-ink3 .fb-t:nth-child(3n+1) { --fb-ink: #3d7ba3; --fb-doodle: #3d7ba3; }
+.fb-ink3 .fb-t:nth-child(3n+2) { --fb-ink: #c9718c; --fb-doodle: #c9718c; }
+.fb-ink3 .fb-t:nth-child(3n)   { --fb-ink: #d29a2a; --fb-doodle: #d29a2a; }
+.fb-outline .fb-t { --fb-tile: #fff; box-shadow: none; }
+.fb-outline .fb-t:nth-child(3n+1) { --fb-ink: #2f5f86; --fb-doodle: #2f5f86; box-shadow: inset 0 0 0 2px #bcd9ef, 0 2px 0 #bcd9ef; }
+.fb-outline .fb-t:nth-child(3n+2) { --fb-ink: #9b4a66; --fb-doodle: #9b4a66; box-shadow: inset 0 0 0 2px #f3c4d4, 0 2px 0 #f3c4d4; }
+.fb-outline .fb-t:nth-child(3n)   { --fb-ink: #8a6420; --fb-doodle: #8a6420; box-shadow: inset 0 0 0 2px #f6dc9a, 0 2px 0 #f6dc9a; }
+
+/* ── Readable palettes ── */
+/* Calm: every tile white, deep ink letters, pink doodles */
+.fb-calm .fb-t { --fb-tile: #fff; --fb-ink: #1f3d57; --fb-doodle: #D4849A; box-shadow: 0 1px 2px rgba(20,50,80,.12), inset 0 0 0 1px #e3eaf0; }
+/* One tint: every tile the same soft blue */
+.fb-tint .fb-t { --fb-tile: #e7f1f9; --fb-ink: #1f3d57; --fb-doodle: #c9718c; }
+/* Flash: pastel colors only while shuffling, then settle to calm white tiles */
+.fb-flash .fb-t { --fb-tile: #fff; --fb-ink: #1f3d57; --fb-doodle: #D4849A; box-shadow: 0 1px 2px rgba(20,50,80,.12), inset 0 0 0 1px #e3eaf0; transition: background-color .35s ease; }
+.fb-flash .fb-t.is-spinning:nth-child(3n+1) { --fb-tile: #d9eaf7; }
+.fb-flash .fb-t.is-spinning:nth-child(3n+2) { --fb-tile: #f9dce6; }
+.fb-flash .fb-t.is-spinning:nth-child(3n)   { --fb-tile: #ffefc4; }
+/* Accent: calm tiles, only the doodle tile gets a color */
+.fb-accent .fb-t { --fb-tile: #fff; --fb-ink: #1f3d57; --fb-doodle: #fff; box-shadow: 0 1px 2px rgba(20,50,80,.12), inset 0 0 0 1px #e3eaf0; }
+.fb-accent .fb-t.is-icon { --fb-tile: #f3b8ca; }
+/* Night: dark tiles, white letters (highest contrast) */
+.fb-darkread .fb-t { --fb-tile: #22364a; --fb-ink: #ffffff; --fb-doodle: #f6bfd1; --fb-split: rgba(0,0,0,.28); box-shadow: 0 2px 4px rgba(10,25,40,.22); }
+
+/* ── Settled tiles that stand out more ── */
+.fb-defined .fb-t { box-shadow: 0 1px 3px rgba(20,50,80,.12), inset 0 0 0 1px #8fa4b6 !important; }
+/* Gradient boards: color is set per tile by script (see data-grad), flash still pastel while flipping */
+.fb-grad .fb-t { --fb-ink: #1f3d57; --fb-doodle: #b9567a; transition: background-color .35s ease; }
+
+/* ── Ink: black letters + thin black outline, on every board style ── */
+.fb-ink-black .fb-t { --fb-ink: #1a1a1a !important; box-shadow: 0 1px 2px rgba(0,0,0,.10), inset 0 0 0 1px #1a1a1a !important; }
+.fb-ink-black .fb-t::after { background: rgba(26,26,26,.14) !important; }
+.fb-ink-black .fb-ic { fill: #d06a8e; }
+
+/* ── Doodle colors (not just pink) ── */
+.flipboard.fb-dd-multi .fb-t[data-icon="heart"] .fb-ic  { fill: #e0708f; }
+.flipboard.fb-dd-multi .fb-t[data-icon="flower"] .fb-ic { fill: #f0a03a; }
+.flipboard.fb-dd-multi .fb-t[data-icon="cloud"] .fb-ic  { fill: #5a9ec9; }
+.flipboard.fb-dd-multi .fb-t[data-icon="star"] .fb-ic   { fill: #e8b923; }
+.flipboard.fb-dd-multi .fb-t[data-icon="bulb"] .fb-ic   { fill: #c98a0c; }
+.flipboard.fb-dd-match .fb-ic { fill: #5a9ec9; fill: oklch(from var(--fb-tile, #dcebf8) calc(l - 0.32) calc(c + 0.13) h); }
+.flipboard.fb-dd-black .fb-ic { fill: #1a1a1a; }
+
+/* ── Shuffle look for gradient boards ── */
+.fb-shuf-flash .fb-t.is-spinning:nth-child(3n+1) { --fb-tile: #cfe4f6 !important; }
+.fb-shuf-flash .fb-t.is-spinning:nth-child(3n+2) { --fb-tile: #f7d2df !important; }
+.fb-shuf-flash .fb-t.is-spinning:nth-child(3n)   { --fb-tile: #ffe9b0 !important; }

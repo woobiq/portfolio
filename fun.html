@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-tabs="white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fun · Ruby Qian Portfolio</title>
+<title>Fun · Ruby Qian Portfolio</title>
   <meta name="description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
   <link rel="icon" type="image/png" href="favicon-v2.png">
 
@@ -29,6 +29,7 @@
     }
   </style>
   <link rel="stylesheet" href="style.css?v=98">
+  <link rel="stylesheet" href="flipboard.css">
 <style>
   /* Body must be transparent so .bg-layer (gradient + drifting petals) shows through */
   body { background: transparent; }
@@ -196,9 +197,163 @@
       max-width: 100%;
     }
   }
+
+  /* ════════ Fun page ════════ */
+  .page-card .fun-header { margin-bottom: 4px; }
+
+
+  /* White from edge to edge; the site gradient only shows at the bottom, behind the footer */
+  .page-bg { background: #fff; padding: 104px 48px 40px; }
+  .page-card { background: transparent; box-shadow: none; border-radius: 0; padding: 0; max-width: 1360px; overflow: visible; }
+  .page-card .fun-header { padding: 0; margin-bottom: 8px; }
+  .page-card .fun-section { padding: 40px 0; }
+  .footer-minimal { max-width: none; margin: 40px -48px -40px; padding: 110px 96px 36px;
+    background: linear-gradient(to bottom, #fff 0%, #d3e3f2 38%, #b9cfe8 70%, #d5adc4 100%); }
+  .footer-minimal__content { max-width: 1360px; margin: 0 auto; }
+  .footer-minimal__divider { max-width: 1360px; margin-left: auto; margin-right: auto; }
+  .fun-hello { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 48px; }
+  .fun-hello .fun-header__title { margin: 0; }
+  #funBoard { --fb-w: 31px; --fb-h: 44px; --fb-fs: 23px; }
+  @media (max-width: 1100px) { #funBoard { --fb-w: 24px; --fb-h: 34px; --fb-fs: 18px; } }
+  @media (max-width: 768px) {
+    .page-bg { padding: 88px 16px 24px; }
+    .footer-minimal { margin: 24px -16px -24px; padding: 80px 24px 28px; }
+    #funBoard { --fb-w: 15px; --fb-h: 22px; --fb-fs: 12px; }
+  }
+
+  /* Subtitle + one-liners, bigger and readable */
+  .page-card .fun-header__subtitle { font-size: 19px; color: #4a5a66; margin-top: 10px; }
+  .page-card .fun-section__desc { font-size: 18px; color: #4a5a66; margin: 4px 0 22px; }
+  @media (max-width: 768px) { .page-bg { padding: 84px 16px 16px; } .page-card { padding: 16px 4px 48px; } }
+
+  /* Section headings, bigger */
+  .page-card .fun-section__title { font-size: clamp(30px, 3vw, 38px); font-weight: 500; letter-spacing: -0.02em; }
+
+  /* Side projects: two per row, video only, info fades in on hover */
+  .sp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sp-card { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; border: 1px solid #e2e2e2; background: #eef4f8; color: #1a1a1a; text-decoration: none; }
+  .sp-card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sp-card:focus-visible { outline: 2px solid #5a9ec9; outline-offset: 3px; }
+  .sp-info {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 80px 22px 20px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 18px;
+    background: linear-gradient(to top, rgba(255,255,255,.96) 0%, rgba(255,255,255,.85) 42%, rgba(255,255,255,0) 100%);
+    opacity: 0; transition: opacity .45s ease;
+  }
+  .sp-info__text { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; max-width: 440px; transform: translateY(6px); transition: transform .45s ease; }
+  .sp-card:hover .sp-info, .sp-card:focus-visible .sp-info { opacity: 1; }
+  .sp-card:hover .sp-info__text, .sp-card:focus-visible .sp-info__text { transform: none; }
+  .sp-mark { display: inline-flex; align-items: center; gap: 8px; }
+  .sp-mark img { height: 30px; width: auto; display: block; }
+  .sp-mark--pep { font-family: 'Gaegu', 'Manrope', sans-serif; font-weight: 700; font-size: 25px; line-height: 1; letter-spacing: .02em; }
+  .sp-mark--pep img { height: 27px; }
+  .sp-info__bio { margin: 0; font-size: 14px; line-height: 1.5; color: #4a5a66; }
+  .sp-btn { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 999px; background: #1a1a1a; color: #fff; }
+  .on-dark { display: none !important; }
+  /* Dark fade for the sky (Sky Shapes) */
+  .sp-card--dark .sp-info { background: linear-gradient(to top, rgba(14,24,36,.84) 0%, rgba(14,24,36,.55) 45%, rgba(14,24,36,0) 100%); color: #fff; }
+  .sp-card--dark .sp-info__bio { color: rgba(255,255,255,.88); }
+  .sp-card--dark .sp-btn { background: #fff; color: #1a1a1a; }
+  .sp-card--dark .on-light { display: none !important; }
+  .sp-card--dark .on-dark { display: block !important; }
+
+  /* Doodles: two full-width rows, each image keeps its own shape */
+  .doodle-rows { display: flex; flex-direction: column; gap: 12px; }
+  .jrow { display: flex; gap: 12px; }
+  .page-card .jrow .gallery-item { height: auto !important; min-width: 0; border-radius: 12px; overflow: hidden; cursor: zoom-in; }
+  .page-card .jrow .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  @media (hover: none) { .sp-info { opacity: 1; } .sp-info__text { transform: none; } }
+  @media (max-width: 720px) {
+    .sp-grid { grid-template-columns: 1fr; }
+    .sp-info { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 60px; }
+    .jrow { flex-wrap: wrap; }
+    .page-card .jrow .gallery-item { flex: 1 1 40% !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sp-info, .sp-info__text { transition: none; }
+  }
+
+  /* Full-width rows for logos, doodles and animations: every piece keeps its own shape */
+  .jrows { display: flex; flex-direction: column; gap: 12px; }
+  .page-card .jrow .gallery-item { height: auto !important; width: auto; }
+  .page-card .jrow .gallery-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jrows--logos .gallery-item.is-contain { background: #fff; border: 1px solid #eef2f5; }
+  .jrows--logos .gallery-item.is-contain img { object-fit: contain; padding: 16px; }
+
+  /* Footer: the site gradient with a straight top edge */
+  .footer-minimal { background: linear-gradient(160deg, #B8D4EC 0%, #B0CCE8 25%, #A8C4E4 50%, #BED0E8 75%, #D4A0BC 100%) !important; padding: 40px 96px 36px !important; }
+  @media (max-width: 768px) { .footer-minimal { padding: 32px 24px 28px !important; } }
+
+  /* ── Cohesion pass: one spacing scale (24px gaps, 64px between sections), one radius (12px), one card style ── */
+  .page-card .fun-header { margin-bottom: 16px; }
+  .fun-hello { justify-content: space-between; }
+  .page-card .fun-section { padding: 48px 0 16px; }
+  .page-card .fun-section__title { margin-bottom: 4px; }
+  .page-card .fun-section__desc { margin: 0 0 28px; }
+  .sp-grid { gap: 24px; }
+  .jrows { gap: 24px; }
+  .jrow { gap: 24px; }
+  .sp-card, .page-card .jrow .gallery-item { border-radius: 12px; }
+  .sp-card, .jrows--logos .gallery-item { border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(20, 40, 70, .04), 0 10px 24px rgba(20, 40, 70, .07); }
+  .jrows--logos .gallery-item.is-contain { border-color: #e2e2e2; }
+
+  @media (max-width: 768px) { .jrows, .jrow, .sp-grid { gap: 14px; } .fun-hello { justify-content: flex-start; } }
+
+  /* ── Frame A: your gradient page with one long, rounded white sheet from "Fun" down ── */
+  .page-bg { background: transparent; padding: 92px 24px 0; }
+  .page-card { background: #fff; border-radius: 28px; max-width: 1400px; padding: 52px 56px 64px; box-shadow: 0 8px 40px rgba(20, 40, 70, .06); }
+  .footer-minimal { background: none !important; margin: 0 auto !important; padding: 40px 48px 32px !important; max-width: 1500px; }
+  .footer-minimal__divider { background: rgba(255,255,255,.45); }
+  .footer-minimal__links a, .footer-minimal__copyright { color: rgba(255,255,255,.92); }
+  .footer-minimal__dot { color: rgba(255,255,255,.5); }
+  @media (max-width: 768px) { .page-bg { padding: 84px 10px 0; } .page-card { padding: 28px 18px 40px; border-radius: 20px; } }
+
+  /* Pepper: tabs grow out of the card's top-right edge (draft: four color themes) */
+  .sp-grid { align-items: end; }
+  .sp-switcher .sp-card[hidden] { display: none; }
+  .sp-switcher .sp-card { border-top-left-radius: 0; }
+  /* tabs rise into the empty space above the Pepper card, so both cards sit closer to the subtitle */
+  .sp-switcher { position: relative; }
+  .sp-grid { align-items: start; }
+  .sp-toggle { position: absolute; left: 0; bottom: 100%; }
+  .page-card .fun-section--first .fun-section__desc { margin-bottom: 26px; }
+  @media (max-width: 720px) { .sp-switcher { margin-top: 40px; } }
+  /* section subtitles: darker and a touch bolder so they read clearly */
+  .page-card .fun-section__desc { color: #333333; font-weight: 500; }
+  /* even spacing between every section */
+  .page-card .fun-section { padding-top: 48px; padding-bottom: 24px; }
+  .sp-toggle { align-self: stretch; display: flex; justify-content: flex-start; align-items: flex-end; gap: 4px; margin: 0; }
+  .sp-toggle button { font: inherit; font-size: 13px; font-weight: 600; border: 0; padding: 8px 16px 7px; border-radius: 10px 10px 0 0; cursor: pointer; transition: background .2s, color .2s; }
+  .sp-toggle button:focus-visible { outline: 2px solid #5a9ec9; outline-offset: 2px; }
+  /* blue: your site's powder-blue accent */
+  html[data-tabs="blue"] .sp-toggle button { background: #e6f0f8; color: #4a6a82; }
+  html[data-tabs="blue"] .sp-toggle button:hover { background: #d8e8f4; }
+  html[data-tabs="blue"] .sp-toggle button[aria-pressed="true"] { background: #5a9ec9; color: #fff; }
+  /* soft: tinted blue, deep-blue text */
+  html[data-tabs="soft"] .sp-toggle button { background: #fff; color: #5b6b78; box-shadow: inset 0 1px 0 #1a1a1a, inset 1px 0 0 #1a1a1a, inset -1px 0 0 #1a1a1a; }
+  html[data-tabs="soft"] .sp-toggle button:hover { color: #1a1a1a; background: #f4f8fb; }
+  html[data-tabs="soft"] .sp-toggle button[aria-pressed="true"] { background: #d3e6f5; color: #1a1a1a; }
+  /* white: the active tab is a white "paper" tab with an outline */
+  html[data-tabs="white"] .sp-toggle { align-items: flex-end; }
+  html[data-tabs="white"] .sp-toggle button { background: #e9edf1; color: #7a8792; font-weight: 500; padding: 6px 15px 5px; }
+  html[data-tabs="white"] .sp-toggle button:hover { background: #dfe5ea; color: #1a1a1a; }
+  html[data-tabs="white"] .sp-toggle button[aria-pressed="true"] { background: #fff; color: #1a1a1a; font-weight: 700; padding: 9px 17px 7px;
+    box-shadow: inset 0 1px 0 #1a1a1a, inset 1px 0 0 #1a1a1a, inset -1px 0 0 #1a1a1a; }
+  /* pink: your pink accent */
+  html[data-tabs="pink"] .sp-toggle button { background: #f8eff3; color: #8a6474; }
+  html[data-tabs="pink"] .sp-toggle button[aria-pressed="true"] { background: #f2c3d3; color: #6e2f47; }
+  .sp-info__bio { text-wrap: pretty; }
+
+
+  /* Every tile gets the same edge: logos, art, animations and projects */
+  .page-card .jrow .gallery-item { border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(20, 40, 70, .04), 0 10px 24px rgba(20, 40, 70, .07); }
 </style>
 <!-- Umami analytics (cookieless, privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="4914145c-c374-437e-93cd-9d1956723c0a"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="page-home no-reveal">
 
@@ -236,8 +391,64 @@
   <!-- Fun Header -->
   <section class="fun-header">
     <div class="container">
-      <h1 class="fun-header__title">Fun (✿╹◡╹)</h1>
-      <p class="fun-header__subtitle">Dabbling in creative projects on the side!</p>
+      <div class="fun-hello">
+        <h1 class="fun-header__title">Fun (✿╹◡╹)</h1>
+        <div id="funBoard" class="fb-pastel fb-ink-black fb-dd-multi"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side Projects Section -->
+  <section class="fun-section fun-section--first">
+    <div class="container">
+      <h2 class="fun-section__title">Side Projects</h2>
+      <p class="fun-section__desc">Web apps I designed and built with Claude Code.</p>
+      <div class="sp-grid">
+        <div class="sp-wrap">
+          <a class="sp-card sp-card--dark" href="https://skyshapes.ruqistudio.com/" target="_blank" rel="noopener">
+          <video autoplay loop muted playsinline preload="metadata" poster="images/fun/skyshapes-demo.jpg" aria-label="Drawing a star in Sky Shapes, watching it become a cloud, then viewing the shared sky">
+          <source src="images/fun/skyshapes-demo.mp4" type="video/mp4">
+          </video>
+          <div class="sp-info">
+          <div class="sp-info__text">
+          <span class="sp-mark"><img class="on-light" src="images/fun/skyshapes-logo-dark.png" alt="Sky Shapes" height="30"><img class="on-dark" src="images/fun/skyshapes-logo-white.png" alt="" height="30"></span>
+          <p class="sp-info__bio">Ever spot shapes in the clouds? Make your own from a word, a doodle, or a photo, then add it to a sky everyone shares.</p>
+          </div>
+          <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+        </div>
+        <div class="sp-wrap sp-switcher" data-switcher>
+          <div class="sp-toggle" role="group" aria-label="Choose which Pepper project to watch">
+            <button type="button" aria-pressed="true" data-show="0">Pepper Log</button>
+            <button type="button" aria-pressed="false" data-show="1">Pepper Affirmations</button>
+          </div>
+          <a class="sp-card sp-card--dark" data-slide href="https://pepperlog.rubyqian.com/" target="_blank" rel="noopener">
+            <video autoplay muted playsinline preload="metadata" poster="images/fun/pepperlog-demo.jpg" aria-label="Browsing Pepper Log as a canvas, a photo strip and a pile of polaroids">
+              <source src="images/fun/pepperlog-demo.mp4" type="video/mp4">
+            </video>
+            <div class="sp-info">
+              <div class="sp-info__text">
+                <span class="sp-mark sp-mark--pep"><img src="images/fun/pepper-logo.png" alt="" width="35" height="26">Pepper Log</span>
+                <p class="sp-info__bio">A shared photo and video collage of Pepper, my partner's family dog.</p>
+              </div>
+              <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
+          <a class="sp-card sp-card--dark" data-slide href="https://pepperlog.rubyqian.com/affirmations" target="_blank" rel="noopener" hidden>
+            <video muted playsinline preload="metadata" poster="images/fun/affirmations-demo.jpg" aria-label="Pepper Affirmations: today's affirmation, then flipping through the book of past mornings">
+              <source src="images/fun/affirmations-demo.mp4" type="video/mp4">
+            </video>
+            <div class="sp-info">
+              <div class="sp-info__text">
+                <span class="sp-mark sp-mark--pep"><img src="images/fun/pepper-logo.png" alt="" width="35" height="26">Pepper Affirmations</span>
+                <p class="sp-info__bio">Daily affirmations paired with a photo of Pepper. Sign up for daily texts, or flip through a book of past affirmations.</p>
+              </div>
+              <span class="sp-btn">Visit site <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -246,41 +457,44 @@
     <div class="container">
       <h2 class="fun-section__title">Logos</h2>
       <p class="fun-section__desc">Designed for myself, friends, and projects.</p>
-      <div class="gallery-grid">
-        <div class="gallery-item gallery-item--framed" data-caption="Ruby Logo Color Explorations">
-          <img src="images/fun/logo-gems.jpg" alt="Ruby logo color explorations" loading="lazy" decoding="async">
-          <span class="gallery-caption">Ruby Logo Color Explorations</span>
-        </div>
-        <div class="gallery-item" data-caption="Ruby Final Logo">
-          <img src="images/fun/logo-ruby.png" alt="Ruby final logo" loading="lazy" decoding="async">
-          <span class="gallery-caption">Ruby Final Logo</span>
-        </div>
-        <div class="gallery-item gallery-item--video" data-caption="Ruby Logo Animation">
-          <video autoplay loop muted playsinline preload="metadata">
+      <div class="jrows jrows--logos">
+        <div class="jrow">
+          <div class="gallery-item is-contain" style="flex: 1.491 1 0; aspect-ratio: 1.491;" data-caption="Ruby Logo Color Explorations">
+            <img src="images/fun/logo-gems.jpg" alt="Ruby logo color explorations" loading="lazy" decoding="async">
+            <span class="gallery-caption">Ruby Logo Color Explorations</span>
+          </div>
+          <div class="gallery-item is-contain" style="flex: 0.915 1 0; aspect-ratio: 0.915;" data-caption="Ruby Final Logo">
+            <img src="images/fun/logo-ruby.png" alt="Ruby final logo" loading="lazy" decoding="async">
+            <span class="gallery-caption">Ruby Final Logo</span>
+          </div>
+          <div class="gallery-item" style="flex: 1.0 1 0; aspect-ratio: 1.0;" data-caption="Ruby Logo Animation">
+            <video autoplay loop muted playsinline preload="metadata">
             <source src="images/fun/ruby-logo-animation.mp4" type="video/mp4">
           </video>
-          <span class="gallery-caption">Ruby Logo Animation</span>
+            <span class="gallery-caption">Ruby Logo Animation</span>
+          </div>
+          <div class="gallery-item is-contain" style="flex: 1.011 1 0; aspect-ratio: 1.011;" data-caption="Hannah Logo Color Explorations">
+            <img src="images/fun/logo-fish-colors.jpg" alt="Hannah logo color explorations" loading="lazy" decoding="async">
+            <span class="gallery-caption">Hannah Logo Color Explorations</span>
+          </div>
         </div>
-        <div class="gallery-item gallery-item--framed" data-caption="Hannah Logo Color Explorations">
-          <img src="images/fun/logo-fish-colors.jpg" alt="Hannah logo color explorations" loading="lazy" decoding="async">
-          <span class="gallery-caption">Hannah Logo Color Explorations</span>
-        </div>
-        <div class="gallery-item gallery-item--sm" data-caption="Hannah Final Logo">
-          <img src="images/fun/logo-hannah.png" alt="Hannah final logo" loading="lazy" decoding="async">
-          <span class="gallery-caption">Hannah Final Logo</span>
-        </div>
-        <div class="gallery-break"></div>
-        <div class="gallery-item gallery-item--framed" data-caption="Hokson Logo Explorations">
-          <img src="images/fun/logo-hokson-explorations.jpg" alt="Hokson logo explorations" loading="lazy" decoding="async">
-          <span class="gallery-caption">Hokson Logo Explorations</span>
-        </div>
-        <div class="gallery-item" data-caption="Hokson Final Logo">
-          <img src="images/fun/logo-hokson.jpg" alt="Hokson final logo" loading="lazy" decoding="async">
-          <span class="gallery-caption">Hokson Final Logo</span>
-        </div>
-        <div class="gallery-item" data-caption="Reborn Coffee Wine Infused Logo">
-          <img src="images/fun/logo-wine.png" alt="Reborn Coffee Wine Infused logo" loading="lazy" decoding="async">
-          <span class="gallery-caption">Reborn Coffee Wine Infused Logo</span>
+        <div class="jrow">
+          <div class="gallery-item is-contain" style="flex: 2.298 1 0; aspect-ratio: 2.298;" data-caption="Hannah Final Logo">
+            <img src="images/fun/logo-hannah.png" alt="Hannah final logo" loading="lazy" decoding="async">
+            <span class="gallery-caption">Hannah Final Logo</span>
+          </div>
+          <div class="gallery-item" style="flex: 1.011 1 0; aspect-ratio: 1.011;" data-caption="Hokson Logo Explorations">
+            <img src="images/fun/logo-hokson-explorations.jpg" alt="Hokson logo explorations" loading="lazy" decoding="async">
+            <span class="gallery-caption">Hokson Logo Explorations</span>
+          </div>
+          <div class="gallery-item" style="flex: 1.011 1 0; aspect-ratio: 1.011;" data-caption="Hokson Final Logo">
+            <img src="images/fun/logo-hokson.jpg" alt="Hokson final logo" loading="lazy" decoding="async">
+            <span class="gallery-caption">Hokson Final Logo</span>
+          </div>
+          <div class="gallery-item" style="flex: 1.068 1 0; aspect-ratio: 1.068;" data-caption="Reborn Coffee Wine Infused Logo">
+            <img src="images/fun/logo-wine.png" alt="Reborn Coffee Wine Infused logo" loading="lazy" decoding="async">
+            <span class="gallery-caption">Reborn Coffee Wine Infused Logo</span>
+          </div>
         </div>
       </div>
     </div>
@@ -289,81 +503,58 @@
   <!-- Digital Art / Doodles Section -->
   <section class="fun-section">
     <div class="container">
-      <h2 class="fun-section__title">Digital Art / Doodles</h2>
-      <p class="fun-section__desc">Procreate sketches in my own style, inspired by the world around me.</p>
-      <div class="doodles-grid">
-        <div class="doodles-tall gallery-item" data-caption="May 27, 2025">
-          <img src="images/fun/doodle-5-27.avif" alt="Digital doodle, May 27, 2025" loading="lazy" decoding="async">
+      <h2 class="fun-section__title">Art &amp; Animation</h2>
+      <p class="fun-section__desc">Procreate doodles and short animations, drawn on my iPad.</p>
+      <div class="jrows jrows--art">
+        <div class="jrow">
+          <div class="gallery-item" style="flex: 0.6 1 0; aspect-ratio: 0.6;">
+            <img src="images/fun/art-01.webp" alt="Two doodle pages: ducks, a frog and sunflowers, then a bunny, cherries and peonies" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" style="flex: 2.29 1 0; aspect-ratio: 2.29;">
+            <img src="images/fun/art-02.webp" alt="Two doodle pages: an ocean scene with a paper crane, and Winnie the Pooh with a ginkgo leaf" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" style="flex: 1.17 1 0; aspect-ratio: 1.17;">
+            <img src="images/fun/art-03.webp" alt="Doodle page with Fireboy and Watergirl, matcha and a Pochacco stamp" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" style="flex: 1.333 1 0; aspect-ratio: 1.333;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/anim-ruby.mp4" type="video/mp4"></video>
+          </div>
         </div>
-        <div class="doodles-row">
-          <div class="gallery-item" data-caption="Doodle Collection 1-12">
-            <img src="images/fun/doodles-collection-1.jpg" alt="Doodle collection 1 through 12" loading="lazy" decoding="async">
+        <div class="jrow">
+          <div class="gallery-item" style="flex: 1.23 1 0; aspect-ratio: 1.23;">
+            <img src="images/fun/art-04.webp" alt="Doodle page with marshmallows, Takis, a rainbow and Hello Kitty" loading="lazy" decoding="async">
           </div>
-          <div class="gallery-item" data-caption="April 22, 2025">
-            <img src="images/fun/doodle-4-22.avif" alt="Digital doodle, April 22, 2025" loading="lazy" decoding="async">
+          <div class="gallery-item" style="flex: 1.432 1 0; aspect-ratio: 1.432;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/flower-gif.mp4" type="video/mp4"></video>
           </div>
-          <div class="gallery-item" data-caption="May 6, 2025">
-            <img src="images/fun/doodle-5-6.avif" alt="Digital doodle, May 6, 2025" loading="lazy" decoding="async">
+          <div class="gallery-item" style="flex: 1.12 1 0; aspect-ratio: 1.12;">
+            <img src="images/fun/art-05.webp" alt="Doodle page with a cat, Mickey, a swan and a big pink flower" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" style="flex: 1.432 1 0; aspect-ratio: 1.432;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/orange.mp4" type="video/mp4"></video>
           </div>
         </div>
-        <div class="doodles-row">
-          <div class="gallery-item" data-caption="April 25, 2025">
-            <img src="images/fun/doodle-4-25.avif" alt="Digital doodle, April 25, 2025" loading="lazy" decoding="async">
+        <div class="jrow">
+          <div class="gallery-item" style="flex: 1.07 1 0; aspect-ratio: 1.07;">
+            <img src="images/fun/art-06.webp" alt="Doodle page with a sun, a moon, a boot full of flowers and a bear" loading="lazy" decoding="async">
           </div>
-          <div class="gallery-item" data-caption="March 16, 2025">
-            <img src="images/fun/doodle-3-16.avif" alt="Digital doodle, March 16, 2025" loading="lazy" decoding="async">
+          <div class="gallery-item" style="flex: 1.319 1 0; aspect-ratio: 1.319;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/balloon.mp4" type="video/mp4"></video>
           </div>
-          <div class="gallery-item" data-caption="Doodle Collection 13-24">
-            <img src="images/fun/doodles-collection-2.jpg" alt="Doodle collection 13 through 24" loading="lazy" decoding="async">
+          <div class="gallery-item" style="flex: 1.04 1 0; aspect-ratio: 1.04;">
+            <img src="images/fun/art-07.webp" alt="Doodle page with earbuds, a mouse, waves and a long-haired girl" loading="lazy" decoding="async">
+          </div>
+          <div class="gallery-item" style="flex: 1.0 1 0; aspect-ratio: 1.0;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/ruby-graduation.mp4" type="video/mp4"></video>
+          </div>
+          <div class="gallery-item" style="flex: 0.759 1 0; aspect-ratio: 0.759;">
+            <video autoplay loop muted playsinline preload="metadata"><source src="images/fun/panda-teaspoon-boba.mp4" type="video/mp4"></video>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Short Animations Section -->
-  <section class="fun-section">
-    <div class="container">
-      <h2 class="fun-section__title">Short Animations</h2>
-      <p class="fun-section__desc">Drawn in Procreate on my iPad, showcasing various moments in life.</p>
-      <div class="gallery-grid--animations">
-        <div class="animation-row animation-row--1">
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/ruby-2020.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/flower-gif.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/panda-teaspoon-boba.mp4" type="video/mp4">
-            </video>
-          </div>
-        </div>
-        <div class="animation-row animation-row--2">
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/orange.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/balloon.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="gallery-item gallery-item--animation">
-            <video autoplay loop muted playsinline preload="metadata">
-              <source src="images/fun/ruby-graduation.mp4" type="video/mp4">
-            </video>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   </div><!-- end page-card -->
 
@@ -490,6 +681,51 @@
       bgLayer.appendChild(p);
     }
   })();
+  </script>
+  <script>
+    document.querySelectorAll('[data-switcher]').forEach(function (box) {
+      var slides = [].slice.call(box.querySelectorAll('[data-slide]')), btns = [].slice.call(box.querySelectorAll('[data-show]')), cur = 0, hovering = false;
+      function show(i) {
+        cur = (i + slides.length) % slides.length;
+        slides.forEach(function (s, k) { var v = s.querySelector('video'); s.hidden = k !== cur; if (k === cur) { v.currentTime = 0; v.play().catch(function () {}); } else v.pause(); });
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === cur ? 'true' : 'false'); });
+      }
+      // when one demo finishes, the other one starts (unless you're hovering, then it replays)
+      slides.forEach(function (s) { s.querySelector('video').addEventListener('ended', function () { if (hovering) { this.currentTime = 0; this.play(); } else show(cur + 1); }); });
+      box.addEventListener('mouseenter', function () { hovering = true; });
+      box.addEventListener('mouseleave', function () { hovering = false; });
+      btns.forEach(function (b) { b.addEventListener('click', function () { show(+b.dataset.show); }); });
+    });
+  </script>
+  <script src="flipboard.js"></script>
+  <script>
+    var funBoard = FlipBoard(document.getElementById('funBoard'), { cols: 21, rows: 1, align: 'center', hold: 9000, lines: [
+      ["dabbling on the side{cloud}"],
+      ["creative side quests{heart}"],
+      ["curious little ideas{flower}"],
+      ["made with lots of joy"]
+    ] });
+    // click the board to flip to the next phrase
+    (function () {
+      var el = document.getElementById('funBoard');
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', function () { funBoard.next(); });
+    })();
+    // videos only play while they're on screen
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var vids = document.querySelectorAll('.page-card video');
+      vids.forEach(function (v) { v.removeAttribute('autoplay'); if (reduce) v.pause(); });
+      if (reduce || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var v = en.target, slide = v.closest('[data-slide]');
+          if (slide && slide.hidden) return;
+          if (en.isIntersecting) v.play().catch(function () {}); else v.pause();
+        });
+      }, { threshold: 0.35 });
+      vids.forEach(function (v) { io.observe(v); });
+    })();
   </script>
   <script src="lightbox.js?v=5"></script>
 </body>
