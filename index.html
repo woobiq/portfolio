@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ruby Qian Portfolio</title>
-<meta name="description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
+<meta name="description" content="A product designer creating playful, intuitive, and purposeful consumer experiences that users love and businesses grow from.">
 <link rel="icon" type="image/png" href="favicon-v2.png">
 
 <!-- Open Graph (iMessage, Slack, Facebook, LinkedIn) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://rubyqian.com/">
 <meta property="og:title" content="Ruby Qian Portfolio">
-<meta property="og:description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
+<meta property="og:description" content="A product designer creating playful, intuitive, and purposeful consumer experiences that users love and businesses grow from.">
 <meta property="og:image" content="https://rubyqian.com/images/og-image-v2.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -20,7 +20,7 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ruby Qian Portfolio">
-<meta name="twitter:description" content="A product designer based in New York City, designing experiences that are intuitive, refined, and purposeful.">
+<meta name="twitter:description" content="A product designer creating playful, intuitive, and purposeful consumer experiences that users love and businesses grow from.">
 <meta name="twitter:image" content="https://rubyqian.com/images/og-image-v2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -240,11 +240,15 @@
   }
   .hero__arrow {
     position: absolute;
-    bottom: 12px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Manrope', sans-serif;
-    font-size: 20px;
+    font-size: clamp(23px, 1.85vw, 28px);
+    line-height: 1;
+    padding-bottom: 0;
+    margin-top: 0;
+    letter-spacing: -0.005em;
     color: #ffffff;
     font-weight: 500;
     cursor: pointer;
@@ -252,6 +256,7 @@
     text-shadow: 0 2px 16px rgba(20, 40, 70, 0.3), 0 1px 4px rgba(20, 40, 70, 0.2), 0 0 30px rgba(20, 40, 70, 0.1);
     transition: color 0.5s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.5s ease;
   }
+  .hero__arrow-sym { display: inline-block; margin-left: 0.45em; }
   .hero__arrow:hover {
     color: #ffffff;
     transform: translateX(-50%) translateY(-3px);
@@ -414,7 +419,7 @@
     }
     /* Keep "View my projects below ↓" on a single line, lifted above the
        Calm wind toggle so even cached HTML can't have them overlap. */
-    .hero__arrow { white-space: nowrap; bottom: 32px; }
+    .hero__arrow { white-space: nowrap; bottom: 20px; }
     /* Hide wind control on phones so it doesn't overlap the arrow. */
     .wind-control { display: none; }
     .projects { padding: 80px 0 100px; }
@@ -662,10 +667,10 @@
   <div class="tulip-click-area" id="tulipClickArea"></div>
   <div class="hero__content">
     <h1 class="hero__name"><span class="name__initial">R</span>uby <span class="name__initial">Q</span>ian</h1>
-    <p class="hero__tag">A product designer based in New York City, designing experiences that are <em>intuitive, refined, and purposeful</em>.</p>
+    <p class="hero__tag">Designing <em>playful, intuitive, and purposeful</em> consumer experiences that users love and businesses grow from.</p>
   </div>
 
-  <a href="#projects" class="hero__arrow">View my projects below ↓</a>
+  <a href="#projects" class="hero__arrow">View my projects<span class="hero__arrow-sym" aria-hidden="true">&#8595;&#xFE0E;</span></a>
   <div class="wind-control" id="windControl">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
     <span id="windLabel">Calm</span>
