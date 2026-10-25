@@ -240,7 +240,7 @@
   }
   .hero__arrow {
     position: absolute;
-    bottom: 24px;
+    bottom: clamp(56px, 9vh, 96px);
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Manrope', sans-serif;
@@ -492,6 +492,8 @@
     box-shadow: 0 2px 12px rgba(20, 40, 70, 0.08);
   }
   .wind-control:hover { background: rgba(255,255,255,0.45); }
+  /* Phones: no room beside "View my projects", so the wind toy is hidden (as originally intended) */
+  @media (max-width: 600px) { .hero .wind-control { display: none; } }
   .wind-control svg { width: 16px; height: 16px; color: #ffffff; filter: drop-shadow(0 1px 6px rgba(20,40,70,0.35)); }
   .wind-control span {
     font-size: 12px;
